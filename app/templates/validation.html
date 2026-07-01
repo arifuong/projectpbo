@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Pemeriksaan Validasi Kepatuhan - Sistem Validasi RPS & BAP{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="h3 font-weight-bold text-dark mb-1">Pemeriksaan Validasi Kesesuaian</h2>
+        <p class="text-muted">Jalankan validator engine untuk membandingkan kesesuaian antara rencana silabus (RPS) dan realisasi pengajaran (BAP).</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <button type="button" class="btn btn-success px-4 py-2 font-weight-semibold rounded" id="btnRunValidation">
+            <i class="fa-solid fa-play-circle me-2"></i> Jalankan Validasi
+        </button>
+    </div>
+</div>
+
+<!-- Loading Spinner Alert (Dinamis) -->
+<div class="row d-none" id="loadingContainer">
+    <div class="col-12 mb-4">
+        <div class="card-stats text-center py-4 bg-white border border-info">
+            <div class="spinner-border text-info mb-3" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h5 class="font-weight-bold text-info">Menganalisis Kepatuhan Pembelajaran...</h5>
+            <p class="text-muted small m-0">Harap tunggu, mesin validasi sedang mengomparasi keyword BAP terhadap seluruh rencana tatap muka RPS.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Ringkasan Hasil Validasi (Dinamis setelah validasi sukses) -->
+<div class="row mb-4 d-none" id="statsContainer">
+    <div class="col-12">
+        <div class="card-stats p-3 bg-white border d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center w-75">
+                <i class="fa-solid fa-award text-success fs-3 me-3"></i>
+                <div class="w-100 me-4">
+                    <span class="font-weight-semibold text-dark d-block mb-1" id="valProgressText">Kepatuhan Terhitung: 0 dari 0 Pertemuan Sesuai</span>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar" id="valProgressBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="badge bg-light text-success border fs-6 py-2 px-3" id="valPctText">0%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Container -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table align-middle" id="validationTable">
+                    <thead>
+                        <tr class="table-light">
+                            <th style="width: 100px;">Pertemuan</th>
+                            <th>Rencana RPS (Topik)</th>
+                            <th>Realisasi BAP (Materi)</th>
+                            <th style="width: 120px;">Skor Match</th>
+                            <th style="width: 150px;">Status Kepatuhan</th>
+                            <th>Catatan Audit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="validationTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                <i class="fa-solid fa-spinner fa-spin fs-4 mb-2 d-block"></i> Memuat data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const validationTableBody = document.getElementById("validationTableBody");
+        const btnRunValidation = document.getElementById("btnRunValidation");
+        const loadingContainer = document.getElementById("loadingContainer");
+        const statsContainer = document.getElementById("statsContainer");
+        
+        const valProgressText = document.getElementById("valProgressText");
+        const valProgressBar = document.getElementById("valProgressBar");
+        const valPctText = document.getElementById("valPctText");
+
+        loadValidationData();
+
+        function loadValidationData() {
+            fetch("{{ url_for('validation.get_validation_data') }}")
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success && res.data) {
+                        renderTable(res.data);
+                    } else {
+                        validationTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">Gagal memuat data: ${res.message}</td></tr>`;
+                    }
+                })
+                .catch(() => {
+                    validationTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">Kesalahan koneksi internet.</td></tr>`;
+                });
+        }
+
+        // Render Table dengan warna baris berdasarkan status
+        function renderTable(items) {
+            validationTableBody.innerHTML = "";
+            if (items.length === 0) {
+                validationTableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Belum ada data pemeriksaan validasi perkuliahan. Silakan klik tombol "Jalankan Validasi" di atas.</td></tr>';
+                return;
+            }
+
+            // Urutkan berdasarkan nomor pertemuan
+            items.sort((a, b) => a.meeting_number - b.meeting_number);
+
+            let totalSesuai = 0;
+            let totalMeetings = items.length;
+
+            items.forEach(item => {
+                let rowClass = "tr-pending";
+                let statusLabel = '<span class="badge bg-secondary">BELUM DIISI</span>';
+                
+                if (item.status === "SESUAI") {
+                    rowClass = "tr-sesuai";
+                    statusLabel = '<span class="badge bg-success">SESUAI</span>';
+                    totalSesuai++;
+                } else if (item.status === "TIDAK_SESUAI") {
+                    rowClass = "tr-tidak-sesuai";
+                    statusLabel = '<span class="badge bg-warning text-dark">TIDAK SESUAI</span>';
+                } else if (item.status === "TIDAK_DITEMUKAN") {
+                    rowClass = "tr-tidak-ditemukan";
+                    statusLabel = '<span class="badge bg-danger">TIDAK DITEMUKAN</span>';
+                }
+
+                const tr = document.createElement("tr");
+                tr.className = rowClass;
+                tr.innerHTML = `
+                    <td class="font-weight-bold">Pertemuan ${item.meeting_number}</td>
+                    <td class="font-weight-semibold text-wrap" style="max-width: 250px;">${escapeHtml(item.topic)}</td>
+                    <td class="text-wrap" style="max-width: 250px;">${escapeHtml(item.material_taught)}</td>
+                    <td class="font-weight-bold">${item.similarity_score}%</td>
+                    <td>${statusLabel}</td>
+                    <td class="small text-muted text-wrap" style="max-width: 200px;">${escapeHtml(item.notes)}</td>
+                `;
+                validationTableBody.appendChild(tr);
+            });
+
+            // Update Ringkasan Stat
+            if (totalMeetings > 0) {
+                statsContainer.classList.remove("d-none");
+                valProgressText.textContent = `Kepatuhan Terhitung: ${totalSesuai} dari ${totalMeetings} Pertemuan Rencana Sesuai`;
+                const pct = Math.round((totalSesuai / totalMeetings) * 100);
+                valProgressBar.style.width = pct + "%";
+                valPctText.textContent = pct + "%";
+            }
+        }
+
+        // Jalankan Validasi via AJAX
+        btnRunValidation.addEventListener("click", function () {
+            btnRunValidation.disabled = true;
+            loadingContainer.classList.remove("d-none");
+            statsContainer.classList.add("d-none");
+
+            fetch("{{ url_for('validation.run_validation') }}", {
+                method: "POST"
+            })
+            .then(res => res.json())
+            .then(data => {
+                btnRunValidation.disabled = false;
+                loadingContainer.classList.add("d-none");
+
+                if (data.success) {
+                    loadValidationData();
+                } else {
+                    alert("Gagal menjalankan validasi: " + data.message);
+                }
+            })
+            .catch(() => {
+                btnRunValidation.disabled = false;
+                loadingContainer.classList.add("d-none");
+                alert("Kesalahan koneksi internet.");
+            });
+        });
+
+        // Helper escape HTML
+        function escapeHtml(text) {
+            if (!text) return "";
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    });
+</script>
+{% endblock %}

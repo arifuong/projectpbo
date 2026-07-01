@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Laporan Kesesuaian RPS & BAP - Sistem Validasi RPS & BAP{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-7">
+        <h2 class="h3 font-weight-bold text-dark mb-1">Laporan Hasil Evaluasi Pembelajaran</h2>
+        <p class="text-muted">Ringkasan audit kepatuhan materi silabus pembelajaran akademik terhadap realisasi riil tatap muka.</p>
+    </div>
+    <div class="col-md-5 text-md-end d-flex gap-2 justify-content-md-end">
+        <a href="{{ url_for('report.export_pdf') }}" class="btn btn-outline-danger px-3 py-2 font-weight-semibold rounded">
+            <i class="fa-solid fa-file-pdf me-2"></i> Ekspor PDF
+        </a>
+        <a href="{{ url_for('report.export_excel') }}" class="btn btn-outline-success px-3 py-2 font-weight-semibold rounded">
+            <i class="fa-solid fa-file-excel me-2"></i> Ekspor Excel
+        </a>
+    </div>
+</div>
+
+<!-- Row 1: Compliance Metric Progress -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card-stats text-center py-4 bg-white border h-100 d-flex flex-column justify-content-center">
+            <small class="text-muted text-uppercase font-weight-bold tracking-wide" style="font-size: 10px;">Nilai Kepatuhan (Compliance Score)</small>
+            <h1 class="display-3 font-weight-bold text-success my-3" id="lblCompliancePct">0%</h1>
+            <div class="px-4">
+                <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-success" role="progressbar" id="reportProgressBar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card-stats bg-white border h-100">
+            <h5 class="font-weight-bold text-dark mb-4 border-bottom pb-2">Metrik Kepatuhan Kuantitatif</h5>
+            <div class="row text-center my-2">
+                <div class="col-3 border-end">
+                    <small class="text-muted d-block mb-1">Rencana Pertemuan</small>
+                    <h3 class="font-weight-bold text-dark" id="lblTotalMeetings">0</h3>
+                </div>
+                <div class="col-3 border-end">
+                    <small class="text-muted d-block mb-1">Materi Sesuai</small>
+                    <h3 class="font-weight-bold text-success" id="lblMatchedCount">0</h3>
+                </div>
+                <div class="col-3 border-end">
+                    <small class="text-muted d-block mb-1">Materi Tidak Sesuai</small>
+                    <h3 class="font-weight-bold text-warning" id="lblMismatchedCount">0</h3>
+                </div>
+                <div class="col-3">
+                    <small class="text-muted d-block mb-1">Belum Terlaksana</small>
+                    <h3 class="font-weight-bold text-secondary" id="lblMissingCount">0</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 2: Detail Penyimpangan & Belum Diajarkan -->
+<div class="row mb-4">
+    <!-- Kolom Kiri: Materi Tidak Sesuai -->
+    <div class="col-md-6 mb-3">
+        <div class="card-stats bg-white border h-100">
+            <h5 class="font-weight-bold text-warning mb-3 border-bottom pb-2">
+                <i class="fa-solid fa-circle-exclamation me-2"></i> Daftar Materi Tidak Sesuai (Shuffled)
+            </h5>
+            <ul class="list-group list-group-flush" id="listMismatched">
+                <li class="list-group-item text-muted small text-center py-4">Memuat data...</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Kolom Kanan: Materi Belum Diajarkan -->
+    <div class="col-md-6 mb-3">
+        <div class="card-stats bg-white border h-100">
+            <h5 class="font-weight-bold text-secondary mb-3 border-bottom pb-2">
+                <i class="fa-solid fa-clock me-2"></i> Daftar Rencana Belum Terlaksana
+            </h5>
+            <ul class="list-group list-group-flush" id="listMissing">
+                <li class="list-group-item text-muted small text-center py-4">Memuat data...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Row 3: Audit Log History -->
+<div class="row">
+    <div class="col-12">
+        <div class="card-stats bg-white border">
+            <h5 class="font-weight-bold text-dark mb-4 border-bottom pb-2">
+                <i class="fa-solid fa-clock-rotate-left me-2"></i> Log Audit Riwayat Pengunggahan RPS
+            </h5>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr class="table-light">
+                            <th>Tanggal & Waktu Unggah</th>
+                            <th>Nama Berkas RPS</th>
+                            <th>Ukuran Berkas</th>
+                            <th>Status Unggahan</th>
+                            <th>Pesan Kesalahan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">Memuat riwayat...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const lblCompliancePct = document.getElementById("lblCompliancePct");
+        const reportProgressBar = document.getElementById("reportProgressBar");
+        const lblTotalMeetings = document.getElementById("lblTotalMeetings");
+        const lblMatchedCount = document.getElementById("lblMatchedCount");
+        const lblMismatchedCount = document.getElementById("lblMismatchedCount");
+        const lblMissingCount = document.getElementById("lblMissingCount");
+        
+        const listMismatched = document.getElementById("listMismatched");
+        const listMissing = document.getElementById("listMissing");
+        const historyTableBody = document.getElementById("historyTableBody");
+
+        // Muat Data Laporan Kepatuhan
+        fetch("{{ url_for('report.get_report_data') }}")
+            .then(res => res.json())
+            .then(res => {
+                if (res.success && res.data) {
+                    const data = res.data;
+                    
+                    // Render Kuantitatif Metrics
+                    const pct = Math.round(data.compliance_percentage);
+                    lblCompliancePct.textContent = pct + "%";
+                    reportProgressBar.style.width = pct + "%";
+                    
+                    lblTotalMeetings.textContent = data.total_meetings;
+                    lblMatchedCount.textContent = data.matched_count;
+                    
+                    // Render List Mismatched
+                    listMismatched.innerHTML = "";
+                    if (!data.mismatched_list || data.mismatched_list.length === 0) {
+                        listMismatched.innerHTML = '<li class="list-group-item text-success text-center py-3"><i class="fa-solid fa-check-circle me-1"></i> Seluruh materi diajarkan sesuai urutan.</li>';
+                        lblMismatchedCount.textContent = "0";
+                    } else {
+                        lblMismatchedCount.textContent = data.mismatched_list.length;
+                        data.mismatched_list.forEach(item => {
+                            const li = document.createElement("li");
+                            li.className = "list-group-item d-flex justify-content-between align-items-center py-2";
+                            li.innerHTML = `
+                                <div>
+                                    <span class="font-weight-bold text-dark">Pertemuan ${item.meeting_number}</span>
+                                    <small class="text-muted d-block text-truncate" style="max-width: 300px;">Materi: ${escapeHtml(item.material_taught)}</small>
+                                </div>
+                                <span class="badge bg-warning text-dark rounded-pill">Diacak</span>
+                            `;
+                            listMismatched.appendChild(li);
+                        });
+                    }
+
+                    // Render List Missing
+                    listMissing.innerHTML = "";
+                    if (!data.missing_list || data.missing_list.length === 0) {
+                        listMissing.innerHTML = '<li class="list-group-item text-success text-center py-3"><i class="fa-solid fa-check-circle me-1"></i> Tidak ada rencana pertemuan yang tertinggal.</li>';
+                        lblMissingCount.textContent = "0";
+                    } else {
+                        lblMissingCount.textContent = data.missing_list.length;
+                        data.missing_list.forEach(item => {
+                            const li = document.createElement("li");
+                            li.className = "list-group-item d-flex justify-content-between align-items-center py-2";
+                            li.innerHTML = `
+                                <div>
+                                    <span class="font-weight-bold text-dark">Pertemuan ${item.meeting_number}</span>
+                                    <small class="text-muted d-block text-truncate" style="max-width: 300px;">Rencana Topik: ${escapeHtml(item.topic)}</small>
+                                </div>
+                                <span class="badge bg-secondary rounded-pill">Belum Diajar</span>
+                            `;
+                            listMissing.appendChild(li);
+                        });
+                    }
+                }
+            })
+            .catch(err => console.error("Gagal memuat detail data laporan:", err));
+
+        // Muat Riwayat Unggahan
+        fetch("{{ url_for('report.get_upload_history') }}")
+            .then(res => res.json())
+            .then(res => {
+                if (res.success && res.data) {
+                    historyTableBody.innerHTML = "";
+                    const items = res.data;
+                    if (items.length === 0) {
+                        historyTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Belum ada riwayat berkas RPS yang diunggah.</td></tr>';
+                        return;
+                    }
+
+                    items.forEach(item => {
+                        // Formatting date
+                        let dateStr = item.created_at || item.upload_date;
+                        if (dateStr) {
+                            const d = new Date(dateStr);
+                            dateStr = d.toLocaleDateString("id-ID") + " " + String(d.getHours()).padStart(2, '0') + ":" + String(d.getMinutes()).padStart(2, '0');
+                        }
+
+                        const statusBadge = item.upload_status === "SUCCESS" 
+                            ? '<span class="badge bg-success">SUKSES</span>' 
+                            : '<span class="badge bg-danger">GAGAL</span>';
+
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td class="font-weight-semibold text-secondary">${dateStr}</td>
+                            <td class="font-weight-semibold text-dark">${escapeHtml(item.file_name)}</td>
+                            <td>${item.file_size_kb} KB</td>
+                            <td>${statusBadge}</td>
+                            <td class="small text-danger" style="max-width: 200px; word-wrap: break-word;">${escapeHtml(item.error_message || "-")}</td>
+                        `;
+                        historyTableBody.appendChild(tr);
+                    });
+                }
+            })
+            .catch(err => console.error("Gagal memuat log audit unggah:", err));
+
+        // Helper escape HTML
+        function escapeHtml(text) {
+            if (!text) return "";
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    });
+</script>
+{% endblock %}

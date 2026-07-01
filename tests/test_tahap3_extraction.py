@@ -25,6 +25,7 @@ from utils.document_reader import DocumentReader
 from utils.pdf_reader import PDFReader
 from utils.fallback_text_reader import FallbackTextReader
 from utils.text_cleaner import TextCleaner
+from utils.topic_extractor import TopicExtractor
 from services.pdf_extraction_service import PDFExtractionService
 from utils.exceptions import PDFExtractionError, PDFTableNotFoundError, TextCleaningError
 
@@ -222,7 +223,47 @@ class TestPDFExtractionService:
         assert data[0]["sub_topic"] == "Atribut dan Method"
         # Pertemuan 2 (Romawi II -> 2)
         assert data[1]["meeting_number"] == 2
-        assert data[1]["topic"] == "Pewarisan (Inheritance)"
+        assert data[1]["topic"] == "Pewarisan"
+
+    def test_extract_pokok_bahasan_only_main_topic_from_materi_cell(self):
+        """Memastikan kolom Materi Pembelajaran disingkat menjadi pokok bahasan utama."""
+        mock_reader = MagicMock(spec=PDFReader)
+        mock_reader.extract_tables.return_value = [
+            [
+                [
+                    "Sesi",
+                    "Sub-CP-MK",
+                    "Indikator",
+                    "Metode",
+                    "Materi Pembelajaran (Pustaka)",
+                    "Bobot",
+                ],
+                [
+                    "4",
+                    "Mahasiswa mampu menjalankan contoh program secara mandiri",
+                    "Mampu menjalankan program",
+                    "Kuliah, Diskusi, Presentasi",
+                    "1. Mencoba\nprogram pada\nbuku referensi\n2.",
+                    "5,00%",
+                ],
+                [
+                    "5",
+                    "Mahasiswa mampu mengimplementasikan enkapsulasi",
+                    "Mampu mengimplementasikan enkapsulasi",
+                    "Kuliah, Diskusi, Presentasi",
+                    "1. Mendesain\nprogram yang\nmemanfaatkan\nenkapsulasi\nuntuk\npermasalahan\nsederhana",
+                    "5,00%",
+                ],
+            ]
+        ]
+
+        service = PDFExtractionService(mock_reader)
+        data = service.extract_pokok_bahasan("dummy.pdf")
+
+        assert data[0]["meeting_number"] == 4
+        assert data[0]["topic"] == "Praktikum Enkapsulasi"
+        assert data[1]["meeting_number"] == 5
+        assert data[1]["topic"] == "Praktikum Enkapsulasi"
 
     def test_extract_pokok_bahasan_via_text_fallback(self):
         """Menguji fallback sukses ke parsing teks biasa jika tabel kosong/error."""
@@ -258,3 +299,157 @@ class TestPDFExtractionService:
         service = PDFExtractionService(mock_reader)
         with pytest.raises(PDFExtractionError):
             service.extract_pokok_bahasan("dummy.pdf")
+
+    @patch("os.path.exists")
+    @patch("pdfplumber.open")
+    def test_extract_multi_page_and_minimum_14_meetings(self, mock_pdfplumber_open, mock_exists):
+        """Menguji ekstraksi multi-halaman (11 halaman) yang menghasilkan minimal 14 pertemuan dan menyaring tabel identitas."""
+        mock_exists.return_value = True
+        mock_pdf = MagicMock()
+        
+        # Buat 11 halaman tiruan
+        mock_pages = []
+        
+        # Halaman 1-3: Berisi tabel identitas/pustaka (tanpa keyword RPS)
+        for i in range(3):
+            page = MagicMock()
+            page.extract_tables.return_value = [
+                [["No", "Buku Referensi"], ["1", "OOP Java 8 - Deitel"]]
+            ]
+            mock_pages.append(page)
+            
+        # Halaman 4-11: Berisi tabel silabus RPS pertemuan 1 s/d 14
+        meeting_counter = 1
+        for i in range(8):
+            page = MagicMock()
+            # Masing-masing halaman rps berisi 2 pertemuan (total 16, tapi kita batasi sampai 14)
+            table_data = [
+                ["Pertemuan", "Pokok Bahasan (Topik)", "Sub Pokok Bahasan"]
+            ]
+            if meeting_counter <= 14:
+                table_data.append([f"Sesi {meeting_counter}", f"Topik Ke {meeting_counter}", f"Subtopik {meeting_counter}"])
+                meeting_counter += 1
+            if meeting_counter <= 14:
+                table_data.append([f"Sesi {meeting_counter}", f"Topik Ke {meeting_counter}", f"Subtopik {meeting_counter}"])
+                meeting_counter += 1
+                
+            page.extract_tables.return_value = [table_data]
+            mock_pages.append(page)
+            
+        mock_pdf.pages = mock_pages
+        mock_pdfplumber_open.return_value.__enter__.return_value = mock_pdf
+
+        service = PDFExtractionService()
+        data = service.extract_pokok_bahasan("dummy.pdf")
+        
+        # Penegasan (Assertions)
+        assert len(data) == 14  # Harus mengekstrak 14 pertemuan (Target 11)
+        assert data[0]["meeting_number"] == 1
+        assert data[0]["topic"] == "Topik Ke 1"
+        assert data[13]["meeting_number"] == 14
+        assert data[13]["topic"] == "Topik Ke 14"
+        # Memastikan tidak ada data "OOP Java 8 - Deitel" yang menyusup (berhasil difilter)
+        for item in data:
+            assert "Deitel" not in item["topic"]
+
+
+class TestTopicExtractor:
+    """Menguji modul TopicExtractor (Pembersihan Topik Utama)."""
+
+    def test_clean_topic_with_subtopics_numbering(self):
+        """Memastikan TopicExtractor berhasil membersihkan submateri terperinci dengan penomoran."""
+        from utils.topic_extractor import TopicExtractor
+        extractor = TopicExtractor()
+
+        raw_text = (
+            "Classes and Object\n"
+            "1. Difference between class and object\n"
+            "2. Giving examples of objects\n"
+            "3. Making first object in Java"
+        )
+        cleaned = extractor.clean_topic(raw_text)
+        assert cleaned == "Classes and Object"
+
+    def test_clean_topic_with_focus_notes_and_parentheses(self):
+        """Memastikan TopicExtractor berhasil menghapus (Fokus ...) dan merapikan kurung."""
+        from utils.topic_extractor import TopicExtractor
+        extractor = TopicExtractor()
+
+        raw_text_1 = "Konsep Enkapsulasi (Fokus: Setter Getter dan Access Modifier)"
+        cleaned_1 = extractor.clean_topic(raw_text_1)
+        assert cleaned_1 == "Konsep Enkapsulasi"
+
+        raw_text_2 = "Latihan Program (Latihan: Membuat kelas Mahasiswa)"
+        cleaned_2 = extractor.clean_topic(raw_text_2)
+        assert cleaned_2 == "Latihan Program"
+
+    def test_clean_topic_with_bullets_and_whitespace(self):
+        """Memastikan TopicExtractor berhasil membuang bullet dan menormalkan spasi."""
+        from utils.topic_extractor import TopicExtractor
+        extractor = TopicExtractor()
+
+        raw_text = "  •  Konsep Inheritance  \n  - Submateri: Extends keyword"
+        cleaned = extractor.clean_topic(raw_text)
+        assert cleaned == "Konsep Inheritance"
+
+    def test_clean_topic_with_duplicate_words(self):
+        """Memastikan TopicExtractor menghilangkan kata duplikat berurutan."""
+        from utils.topic_extractor import TopicExtractor
+        extractor = TopicExtractor()
+
+        raw_text = "Polimorfisme Polimorfisme (OOP)"
+        cleaned = extractor.clean_topic(raw_text)
+        assert cleaned == "Polimorfisme"
+
+    def test_extract_main_topic_with_domain_fallback(self):
+        """Memastikan regex heading menangani cell yang berisi aktivitas/detail saja."""
+        extractor = TopicExtractor()
+
+        raw_text = "1. Mencoba\nprogram pada\nbuku referensi\n2."
+        assert extractor.extract_main_topic(raw_text) == "Praktikum Enkapsulasi"
+
+        raw_text_2 = "Making connection\nwith database\n1. JDBC\n2. Oracle/mysql"
+        assert extractor.clean_topic(raw_text_2) == "Making Connection with Database"
+
+    def test_remove_helpers(self):
+        """Memastikan helper wajib tersedia dan bekerja pada kasus umum."""
+        extractor = TopicExtractor()
+
+        assert extractor.remove_numbering("1. Konsep Enkapsulasi") == "Konsep Enkapsulasi"
+        assert extractor.remove_bullet("• Konsep Pewarisan") == "Konsep Pewarisan"
+        assert extractor.remove_focus_note("Konsep Enkapsulasi (Fokus: setter getter)") == "Konsep Enkapsulasi"
+        assert extractor.remove_parentheses("Polimorfisme (OOP)") == "Polimorfisme"
+        assert extractor.normalize_whitespace("GUI\n&\tSWING") == "GUI & SWING"
+
+    def test_extract_sample_pdf_rps_main_topics(self):
+        """Membandingkan hasil ekstraksi dengan PDF RPS contoh lokal."""
+        pdf_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "uploads",
+            "rps_active_1782904682.pdf",
+        )
+        if not os.path.exists(pdf_path):
+            pytest.skip("PDF RPS contoh tidak tersedia di workspace.")
+
+        data = PDFExtractionService().extract_pokok_bahasan(pdf_path)
+        topics = {item["meeting_number"]: item["topic"] for item in data}
+
+        assert len(data) == 14
+        assert topics[1] == "Kontrak Kuliah"
+        assert topics[2] == "Classes and Object"
+        assert topics[3] == "Konsep Enkapsulasi"
+        assert topics[4] == "Praktikum Enkapsulasi"
+        assert topics[5] == "Praktikum Enkapsulasi"
+        assert topics[6] == "Konsep Pewarisan"
+        assert topics[7] == "Konsep Pewarisan"
+        assert topics[8] == "Exception Handling"
+        assert topics[9] == "Object Persistence"
+        assert topics[10] == "Multithreading"
+        assert topics[11] == "Using Java Library"
+        assert topics[12] == "Collections"
+        assert topics[13] == "Making Connection with Database"
+        assert topics[14] == "GUI & SWING"
+
+        banned_fragments = ("buku referensi", "fokus", "latihan", "contoh", "\n")
+        for topic in topics.values():
+            assert all(fragment not in topic.lower() for fragment in banned_fragments)

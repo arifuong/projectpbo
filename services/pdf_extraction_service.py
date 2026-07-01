@@ -11,6 +11,7 @@ import re
 from typing import List, Dict, Any, Optional, Tuple
 
 from utils.pdf_reader import PDFReader
+from utils.topic_extractor import TopicExtractor
 from utils.logger import setup_logger
 from utils.exceptions import PDFExtractionError, PDFTableNotFoundError
 
@@ -38,6 +39,7 @@ class PDFExtractionService:
         """
         # Composition: has-a PDFReader
         self._reader: Optional[PDFReader] = reader
+        self._topic_extractor = TopicExtractor()
         logger.info("PDFExtractionService diinisialisasi.")
 
     def extract_pokok_bahasan(self, file_path: str) -> List[Dict[str, Any]]:
@@ -72,7 +74,14 @@ class PDFExtractionService:
             if tables:
                 parsed_data = self._parse_table_data(tables)
                 if parsed_data:
-                    logger.info(f"Ekstraksi tabel sukses. Berhasil mengekstrak {len(parsed_data)} pertemuan.")
+                    # Validasi jumlah pertemuan hasil ekstraksi (Target 10)
+                    if len(parsed_data) < 10:
+                        logger.warning(
+                            f"WARNING: Hasil ekstraksi tabel hanya menemukan {len(parsed_data)} pertemuan (kurang dari 10)! "
+                            "Harap periksa format dokumen PDF secara manual."
+                        )
+                    
+                    logger.info(f"Pertemuan berhasil diekstrak: {len(parsed_data)}")
                     return parsed_data
         except (PDFTableNotFoundError, PDFExtractionError) as e:
             logger.warning(f"Ekstraksi tabel gagal atau tidak ditemukan. Alasan: {e}. Mengaktifkan fallback ke teks mentah...")
@@ -87,6 +96,9 @@ class PDFExtractionService:
             if raw_text:
                 parsed_data = self._parse_text_data(raw_text)
                 if parsed_data:
+                    if len(parsed_data) < 10:
+                        logger.warning(f"WARNING: Hasil ekstraksi fallback hanya menemukan {len(parsed_data)} pertemuan (kurang dari 10)!")
+                        
                     logger.info(f"Ekstraksi teks mentah sukses. Berhasil mengekstrak {len(parsed_data)} pertemuan.")
                     return parsed_data
             
@@ -114,7 +126,7 @@ class PDFExtractionService:
             if len(table) < 2:
                 continue
                 
-            # Deteksi kolom header
+            # Deteksi kolom header secara dinamis (Target 7)
             col_mapping = self._detect_columns(table)
             meeting_col, topic_col, sub_topic_col = col_mapping
             
@@ -123,9 +135,8 @@ class PDFExtractionService:
                 f"meeting={meeting_col}, topic={topic_col}, sub_topic={sub_topic_col}"
             )
             
-            # Jika kolom minimal (meeting & topic) tidak terdeteksi, lewati atau gunakan fallback default
+            # Jika kolom minimal (meeting & topic) tidak terdeteksi, gunakan fallback default
             if meeting_col == -1 or topic_col == -1:
-                # Fallback default kolom jika tabel minimal lebar 2
                 if len(table[0]) >= 2:
                     meeting_col = 0
                     topic_col = 1
@@ -133,10 +144,8 @@ class PDFExtractionService:
                 else:
                     continue
 
-            # Iterasi baris tabel (mulai dari baris setelah header)
-            # Menghindari baris yang merupakan header itu sendiri
-            start_row = 1
-            for row in table[start_row:]:
+            # Iterasi baris tabel
+            for row in table:
                 if len(row) <= max(meeting_col, topic_col):
                     continue
                     
@@ -148,19 +157,27 @@ class PDFExtractionService:
                 if sub_topic_col != -1 and len(row) > sub_topic_col:
                     sub_topic_val = row[sub_topic_col].strip()
                 
-                # Ekstrak nomor pertemuan angka dari string (misal: "Pertemuan 1" -> 1)
+                # Normalisasi nomor pertemuan, tetapi pertahankan newline topik
+                # karena newline dipakai TopicExtractor untuk mendeteksi heading.
+                meeting_val = re.sub(r'\s+', ' ', meeting_val).strip()
+                sub_topic_val = self._topic_extractor.normalize_whitespace(sub_topic_val)
+
+                if not meeting_val or not topic_val:
+                    continue
+
+                # Ekstrak nomor pertemuan angka dari string
                 meeting_num = self._extract_meeting_number(meeting_val)
                 if meeting_num is None:
-                    continue  # Lewati baris yang bukan record pertemuan
+                    continue  # Lewati baris header/identitas yang bukan record pertemuan
                     
-                # Pastikan topik tidak kosong
-                if not topic_val:
-                    continue
-                    
-                # Masukkan hasil
+                context_values = [
+                    cell for idx, cell in enumerate(row)
+                    if idx != topic_col and isinstance(cell, str) and cell.strip()
+                ]
+
                 results.append({
                     "meeting_number": meeting_num,
-                    "topic": topic_val,
+                    "topic": self._topic_extractor.clean_topic(topic_val, context=context_values),
                     "sub_topic": sub_topic_val
                 })
                 
@@ -172,42 +189,48 @@ class PDFExtractionService:
             if m_num not in unique_results or len(item["topic"]) > len(unique_results[m_num]["topic"]):
                 unique_results[m_num] = item
                 
-        return sorted(unique_results.values(), key=lambda x: x["meeting_number"])
+        final_list = []
+        for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
+            item["topic"] = self._topic_extractor.clean_topic(item["topic"])
+            if item.get("sub_topic"):
+                item["sub_topic"] = self._topic_extractor.normalize_whitespace(item["sub_topic"])
+            final_list.append(item)
+            
+        return final_list
 
     def _detect_columns(self, table: List[List[str]]) -> Tuple[int, int, int]:
         """
-        Mendeteksi indeks kolom untuk Pertemuan, Topik/Pokok Bahasan, dan Sub Topik.
+        Mendeteksi indeks kolom untuk Pertemuan, Topik, dan Sub Topik secara dinamis.
 
         Args:
             table: Baris-baris tabel.
 
         Returns:
             Tuple[int, int, int]: Indeks kolom (meeting_col, topic_col, sub_topic_col).
-                                  Kembalian -1 jika kolom tidak terdeteksi.
         """
         meeting_col = -1
         topic_col = -1
         sub_topic_col = -1
         
-        # Cari header di 2 baris pertama
-        for row_idx in range(min(2, len(table))):
+        # Cari header di 3 baris pertama
+        for row_idx in range(min(3, len(table))):
             row = [cell.lower() for cell in table[row_idx]]
             
             for col_idx, cell in enumerate(row):
-                # Deteksi nomor pertemuan
-                if any(k in cell for k in ["minggu", "pertemuan", "ke-", "ke ", "mng", "pert", "no"]):
+                # 1. Deteksi nomor pertemuan / sesi
+                if any(k in cell for k in ["minggu", "pertemuan", "ke-", "ke ", "mng", "pert", "no", "sesi"]):
                     if meeting_col == -1:
                         meeting_col = col_idx
-                # Deteksi sub pokok bahasan (harus diletakkan sebelum pokok bahasan)
-                elif any(k in cell for k in ["sub pokok", "sub bahasan", "sub-topik", "sub topik", "rincian materi"]):
+                # 2. Deteksi sub pokok bahasan (harus diletakkan sebelum pokok bahasan utama)
+                elif any(k in cell for k in ["sub pokok", "sub bahasan", "sub-topik", "sub topik", "sub-cp-mk", "sub cpmk", "rincian materi"]):
                     if sub_topic_col == -1:
                         sub_topic_col = col_idx
-                # Deteksi pokok bahasan / topik
+                # 3. Deteksi pokok bahasan / topik utama
                 elif any(k in cell for k in ["pokok bahasan", "materi", "topik", "bahan kajian", "kemampuan akhir"]):
                     if topic_col == -1:
                         topic_col = col_idx
                         
-            # Jika sudah menemukan setidaknya meeting dan topic, sudahi pencarian header
+            # Jika sudah menemukan setidaknya meeting dan topic, stop pencarian
             if meeting_col != -1 and topic_col != -1:
                 break
                 
@@ -229,7 +252,7 @@ class PDFExtractionService:
         # Bersihkan spasi
         val_clean = val.strip().lower()
         
-        # 1. Cari angka langsung
+        # 1. Cari angka desimal langsung
         match = re.search(r'\b(\d+)\b', val_clean)
         if match:
             return int(match.group(1))
@@ -251,8 +274,6 @@ class PDFExtractionService:
         """
         Memparse teks mentah (raw text) jika ekstraksi tabel gagal.
 
-        Mencari pola baris seperti "Pertemuan 1: Pengenalan OOP", dsb.
-
         Args:
             raw_text: Teks mentah dokumen.
 
@@ -262,10 +283,8 @@ class PDFExtractionService:
         results: List[Dict[str, Any]] = []
         lines = raw_text.split("\n")
         
-        # Pola regex pencarian pertemuan dan materi
-        # Mencari string seperti "Pertemuan 1: Pengenalan Class" atau "Minggu 2 - Objek"
         pattern = re.compile(
-            r'\b(?:pertemuan|minggu|ke)\s*[-:]?\s*(\d+)\s*[-:]?\s*(.*)', 
+            r'\b(?:pertemuan|minggu|ke|sesi)\s*[-:]?\s*(\d+)\s*[-:]?\s*(.*)', 
             re.IGNORECASE
         )
         
@@ -279,11 +298,9 @@ class PDFExtractionService:
                 meeting_num = int(match.group(1))
                 content = match.group(2).strip()
                 
-                # Jika konten memuat sub pokok bahasan ditandai titik koma atau kurung
                 topic = content
                 sub_topic = ""
                 
-                # Pemecahan sederhana sub_topic dari topik (misal: "Topik utama (sub topik detail)")
                 sub_match = re.search(r'\((.*?)\)', content)
                 if sub_match:
                     sub_topic = sub_match.group(1)
@@ -303,17 +320,21 @@ class PDFExtractionService:
             if m_num not in unique_results or len(item["topic"]) > len(unique_results[m_num]["topic"]):
                 unique_results[m_num] = item
                 
-        return sorted(unique_results.values(), key=lambda x: x["meeting_number"])
+        final_list = []
+        for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
+            item["topic"] = self._topic_extractor.clean_topic(item["topic"])
+            if item.get("sub_topic"):
+                item["sub_topic"] = self._topic_extractor.normalize_whitespace(item["sub_topic"])
+            final_list.append(item)
+            
+        return final_list
 
     def handle_extraction_failure(self, error_info: Dict[str, Any]) -> None:
         """
-        Mencatat dan menangani informasi kegagalan ekstraksi PDF.
-
-        Sesuai PRD:
-        Logging kegagalan ekstraksi untuk ditinjau ulang secara manual.
+        Mencatat informasi kegagalan ekstraksi PDF.
 
         Args:
-            error_info: Info kesalahan berupa dictionary (keys: file_path, reason).
+            error_info: Info kesalahan.
         """
         logger.warning(
             f"KEGAGALAN EKSTRAKSI DOKUMEN: file={error_info.get('file_path')}, "

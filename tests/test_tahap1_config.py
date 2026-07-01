@@ -64,7 +64,6 @@ from utils.exceptions import (
     ReportGenerationError,
     FileUploadError,
     FileValidationError,
-    CourseNotFoundError,
     DuplicateMeetingError,
     MeetingNumberExceededError,
 )
@@ -216,7 +215,7 @@ class TestAppSettings:
         """Memastikan base_dir mengarah ke root project."""
         settings = AppSettings()
 
-        # base_dir harus berisi main.py (root project)
+        # base_dir harus berisi app.py (root project)
         assert os.path.isdir(settings.base_dir)
 
     def test_repr_output(self):
@@ -396,7 +395,6 @@ class TestCustomExceptions:
         assert issubclass(ValidationError, AppBaseException)
         assert issubclass(ReportGenerationError, AppBaseException)
         assert issubclass(FileUploadError, AppBaseException)
-        assert issubclass(CourseNotFoundError, AppBaseException)
         assert issubclass(DuplicateMeetingError, AppBaseException)
         assert issubclass(MeetingNumberExceededError, AppBaseException)
 
@@ -487,10 +485,10 @@ class TestProjectStructure:
         root = self._get_project_root()
         assert os.path.isdir(os.path.join(root, "utils"))
 
-    def test_gui_directory_exists(self):
-        """Memastikan direktori gui/ tersedia."""
+    def test_app_directory_exists(self):
+        """Memastikan direktori app/ tersedia."""
         root = self._get_project_root()
-        assert os.path.isdir(os.path.join(root, "gui"))
+        assert os.path.isdir(os.path.join(root, "app"))
 
     def test_sql_directory_exists(self):
         """Memastikan direktori sql/ tersedia."""
@@ -518,16 +516,17 @@ class TestProjectStructure:
 
         # Memeriksa keberadaan semua tabel sesuai PRD Section 7
         assert "create table" in content
-        assert "courses" in content
+        assert "courses" not in content
+        assert "course_id" not in content
         assert "rps" in content
         assert "bap" in content
         assert "validation_results" in content
         assert "upload_history" in content
 
-    def test_main_py_exists(self):
-        """Memastikan file main.py tersedia."""
+    def test_app_py_exists(self):
+        """Memastikan file app.py tersedia."""
         root = self._get_project_root()
-        assert os.path.isfile(os.path.join(root, "main.py"))
+        assert os.path.isfile(os.path.join(root, "app.py"))
 
     def test_requirements_txt_exists(self):
         """Memastikan file requirements.txt tersedia."""

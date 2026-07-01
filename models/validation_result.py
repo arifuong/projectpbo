@@ -14,7 +14,6 @@ class ValidationResult:
     Class yang merepresentasikan entitas Hasil Validasi (ValidationResult).
 
     Attributes:
-        course_id (int): ID mata kuliah yang divalidasi.
         meeting_number (int): Nomor pertemuan ke-.
         similarity_score (float): Skor kemiripan antara RPS dan BAP (0.0 - 100.0).
         status (str): Status hasil validasi ('SESUAI', 'TIDAK_SESUAI', 'TIDAK_DITEMUKAN', 'PENDING').
@@ -27,7 +26,6 @@ class ValidationResult:
 
     def __init__(
         self,
-        course_id: int,
         meeting_number: int,
         similarity_score: float,
         status: str,
@@ -41,7 +39,6 @@ class ValidationResult:
         Inisialisasi objek ValidationResult.
 
         Args:
-            course_id: ID mata kuliah.
             meeting_number: Nomor pertemuan.
             similarity_score: Skor kemiripan (0.0 - 100.0).
             status: Status hasil validasi.
@@ -52,7 +49,6 @@ class ValidationResult:
             validated_at: Tanggal validasi.
         """
         self.validation_id: Optional[int] = validation_id
-        self.course_id: int = course_id
         self.rps_id: Optional[int] = rps_id
         self.bap_id: Optional[int] = bap_id
         self.meeting_number: int = meeting_number
@@ -70,7 +66,6 @@ class ValidationResult:
         """
         return {
             "validation_id": self.validation_id,
-            "course_id": self.course_id,
             "rps_id": self.rps_id,
             "bap_id": self.bap_id,
             "meeting_number": self.meeting_number,
@@ -93,7 +88,6 @@ class ValidationResult:
         """
         return cls(
             validation_id=data.get("validation_id"),
-            course_id=data.get("course_id", 0),
             rps_id=data.get("rps_id"),
             bap_id=data.get("bap_id"),
             meeting_number=data.get("meeting_number", 0),
@@ -111,7 +105,7 @@ class ValidationResult:
             str: Representasi string.
         """
         return (
-            f"ValidationResult(validation_id={self.validation_id}, course_id={self.course_id}, "
+            f"ValidationResult(validation_id={self.validation_id}, "
             f"meeting_number={self.meeting_number}, status='{self.status}', "
             f"similarity_score={self.similarity_score})"
         )

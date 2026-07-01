@@ -14,7 +14,6 @@ from services.validator import Validator
 from services.report_generator import ReportGenerator
 from services.dashboard_service import DashboardService
 from services.file_upload_handler import FileUploadHandler
-from services.course_service import CourseService
 
 __all__ = [
     "PDFExtractionService",
@@ -24,6 +23,5 @@ __all__ = [
     "Validator",
     "ReportGenerator",
     "DashboardService",
-    "FileUploadHandler",
-    "CourseService"
+    "FileUploadHandler"
 ]

@@ -14,8 +14,6 @@ class Report:
     Class yang merepresentasikan entitas Laporan Kesesuaian (Report).
 
     Attributes:
-        course_id (int): ID mata kuliah yang dilaporkan.
-        course_name (str): Nama mata kuliah.
         compliance_percentage (float): Persentase kesesuaian (0.0 - 100.0).
         total_meetings (int): Jumlah pertemuan RPS yang terdaftar.
         matched_count (int): Jumlah pertemuan yang statusnya 'SESUAI'.
@@ -27,8 +25,6 @@ class Report:
 
     def __init__(
         self,
-        course_id: int,
-        course_name: str,
         compliance_percentage: float,
         total_meetings: int,
         matched_count: int,
@@ -41,8 +37,6 @@ class Report:
         Inisialisasi objek Report.
 
         Args:
-            course_id: ID mata kuliah.
-            course_name: Nama mata kuliah.
             compliance_percentage: Persentase kesesuaian.
             total_meetings: Total pertemuan.
             matched_count: Jumlah pertemuan sesuai.
@@ -51,8 +45,6 @@ class Report:
             results: Daftar seluruh baris hasil validasi.
             generated_at: Waktu pembuatan laporan.
         """
-        self.course_id: int = course_id
-        self.course_name: str = course_name
         self.compliance_percentage: float = float(compliance_percentage)
         self.total_meetings: int = total_meetings
         self.matched_count: int = matched_count
@@ -69,8 +61,6 @@ class Report:
             Dict[str, Any]: Representasi dictionary.
         """
         return {
-            "course_id": self.course_id,
-            "course_name": self.course_name,
             "compliance_percentage": self.compliance_percentage,
             "total_meetings": self.total_meetings,
             "matched_count": self.matched_count,
@@ -88,7 +78,7 @@ class Report:
             str: Ringkasan teks laporan.
         """
         return (
-            f"Laporan Mata Kuliah: {self.course_name} (ID: {self.course_id})\n"
+            f"Laporan Hasil Evaluasi Pembelajaran Aktif\n"
             f"Tingkat Kesesuaian: {self.compliance_percentage:.2f}%\n"
             f"Total Pertemuan RPS: {self.total_meetings}\n"
             f"Sesuai Rencana BAP: {self.matched_count}\n"
@@ -105,6 +95,5 @@ class Report:
             str: Representasi string.
         """
         return (
-            f"Report(course_id={self.course_id}, course_name='{self.course_name}', "
-            f"compliance_percentage={self.compliance_percentage:.2f}%)"
+            f"Report(compliance_percentage={self.compliance_percentage:.2f}%)"
         )

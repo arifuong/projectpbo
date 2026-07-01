@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistem Validasi RPS & BAP{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar Kiri -->
+        <nav id="sidebar" class="bg-dark text-white">
+            <div class="sidebar-header border-bottom border-secondary py-4 px-3 text-center">
+                <i class="fa-solid fa-graduation-cap fa-2x text-primary mb-2"></i>
+                <h5 class="m-0 font-weight-bold tracking-wide text-uppercase">Validator</h5>
+                <small class="text-muted">RPS & BAP v2.0</small>
+            </div>
+            
+            <ul class="list-unstyled components px-2 py-3">
+                <li class="{% if active_page == 'dashboard' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('dashboard.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-chart-pie me-3 fs-5"></i>
+                        <span>Dashboard Overview</span>
+                    </a>
+                </li>
+                <li class="{% if active_page == 'upload' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('upload.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-file-arrow-up me-3 fs-5"></i>
+                        <span>Unggah PDF RPS</span>
+                    </a>
+                </li>
+                <li class="{% if active_page == 'rps' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('rps.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-list-check me-3 fs-5"></i>
+                        <span>Data Rencana RPS</span>
+                    </a>
+                </li>
+                <li class="{% if active_page == 'bap' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('bap.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-calendar-check me-3 fs-5"></i>
+                        <span>Realisasi BAP</span>
+                    </a>
+                </li>
+                <li class="{% if active_page == 'validation' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('validation.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-shield-halved me-3 fs-5"></i>
+                        <span>Pemeriksaan Validasi</span>
+                    </a>
+                </li>
+                <li class="{% if active_page == 'report' %}active{% endif %} mb-1">
+                    <a href="{{ url_for('report.index') }}" class="nav-link py-3 px-3 d-flex align-items-center rounded">
+                        <i class="fa-solid fa-file-invoice me-3 fs-5"></i>
+                        <span>Laporan Hasil</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer text-center py-4 border-top border-secondary mt-auto text-muted">
+                <small>&copy; 2026 Universitas Indonesia</small>
+            </div>
+        </nav>
+
+        <!-- Area Konten Utama -->
+        <div id="content" class="w-100 min-vh-100 d-flex flex-column">
+            <!-- Header Atas (Top Navbar) -->
+            <header class="navbar navbar-expand navbar-light bg-white shadow-sm px-4 py-3 border-bottom">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-outline-secondary me-3">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <span class="navbar-brand m-0 font-weight-semibold">Sistem Evaluasi Kepatuhan Silabus Akademik</span>
+                    
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <span class="badge bg-success py-2 px-3 rounded-pill">
+                                <i class="fa-solid fa-server me-1"></i> MySQL Connected
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <!-- Halaman Konten Utama -->
+            <main class="flex-grow-1 p-4 bg-light">
+                <div class="container-fluid">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("sidebar");
+            const sidebarCollapse = document.getElementById("sidebarCollapse");
+            
+            if (sidebarCollapse && sidebar) {
+                sidebarCollapse.addEventListener("click", function () {
+                    sidebar.classList.toggle("active");
+                });
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

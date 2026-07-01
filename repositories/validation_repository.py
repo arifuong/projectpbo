@@ -6,11 +6,9 @@ untuk melakukan operasi penyimpanan dan pembacaan hasil validasi kesesuaian ke d
 """
 
 from typing import List, Optional, Dict, Any, Tuple
-from decimal import Decimal
 from models.validation_result import ValidationResult
 from database.connection import DatabaseConnection
 from utils.logger import setup_logger
-from utils.exceptions import DatabaseQueryError, DatabaseTransactionError
 
 # Inisialisasi logger untuk repository validation
 logger = setup_logger(__name__)
@@ -45,11 +43,10 @@ class ValidationRepository:
         """
         query = """
         -- Menyimpan data hasil validasi baru
-        INSERT INTO validation_results (course_id, rps_id, bap_id, meeting_number, similarity_score, status, notes)
-        VALUES (%s, %s, %s, %s, %s, %s, %s);
+        INSERT INTO validation_results (rps_id, bap_id, meeting_number, similarity_score, status, notes)
+        VALUES (%s, %s, %s, %s, %s, %s);
         """
         params = (
-            result.course_id,
             result.rps_id,
             result.bap_id,
             result.meeting_number,
@@ -62,16 +59,14 @@ class ValidationRepository:
         result.validation_id = last_id
         return last_id
 
-    def save_batch(self, results: List[ValidationResult], course_id: int) -> bool:
+    def save_batch(self, results: List[ValidationResult]) -> bool:
         """
         Menyimpan sekumpulan data hasil validasi di dalam satu transaksi database.
 
-        Menghapus semua data validasi yang lama untuk course_id terlebih dahulu untuk
-        mencegah duplikasi data.
+        Menghapus semua data validasi yang lama terlebih dahulu untuk mencegah duplikasi.
 
         Args:
             results: List dari objek ValidationResult.
-            course_id: ID mata kuliah.
 
         Returns:
             bool: True jika transaksi sukses dieksekusi.
@@ -80,21 +75,19 @@ class ValidationRepository:
         
         # 1. Hapus data validasi yang lama
         delete_query = """
-        -- Menghapus hasil validasi lama untuk mata kuliah tertentu sebelum menyimpan yang baru
-        DELETE FROM validation_results
-        WHERE course_id = %s;
+        -- Menghapus hasil validasi lama sebelum menyimpan yang baru
+        DELETE FROM validation_results;
         """
-        queries_with_params.append((delete_query, (course_id,)))
+        queries_with_params.append((delete_query, ()))
         
         # 2. Masukkan data validasi baru
         for result in results:
             insert_query = """
             -- Menyimpan data hasil validasi baru (Batch)
-            INSERT INTO validation_results (course_id, rps_id, bap_id, meeting_number, similarity_score, status, notes)
-            VALUES (%s, %s, %s, %s, %s, %s, %s);
+            INSERT INTO validation_results (rps_id, bap_id, meeting_number, similarity_score, status, notes)
+            VALUES (%s, %s, %s, %s, %s, %s);
             """
             params = (
-                result.course_id,
                 result.rps_id,
                 result.bap_id,
                 result.meeting_number,
@@ -104,28 +97,24 @@ class ValidationRepository:
             )
             queries_with_params.append((insert_query, params))
             
-        logger.info(f"Menjalankan batch transaksi validasi untuk course_id={course_id} sebanyak {len(results)} item.")
+        logger.info(f"Menjalankan batch transaksi validasi sebanyak {len(results)} item.")
         return self._db.execute_transaction(queries_with_params)
 
-    def get_by_course(self, course_id: int) -> List[ValidationResult]:
+    def get_all(self) -> List[ValidationResult]:
         """
-        Mengambil hasil validasi untuk satu mata kuliah, terurut berdasarkan nomor pertemuan.
-
-        Args:
-            course_id: ID mata kuliah.
+        Mengambil hasil validasi terurut berdasarkan nomor pertemuan.
 
         Returns:
             List[ValidationResult]: Daftar objek hasil validasi terurut.
         """
         query = """
-        -- Mengambil seluruh hasil validasi berdasarkan course_id terurut meeting_number
-        SELECT validation_id, course_id, rps_id, bap_id, meeting_number, similarity_score, status, notes, validated_at
+        -- Mengambil seluruh hasil validasi terurut meeting_number
+        SELECT validation_id, rps_id, bap_id, meeting_number, similarity_score, status, notes, validated_at
         FROM validation_results
-        WHERE course_id = %s
         ORDER BY meeting_number ASC;
         """
-        logger.debug(f"Mengambil data hasil validasi untuk course: {course_id}")
-        results = self._db.execute_query(query, (course_id,))
+        logger.debug("Mengambil seluruh data hasil validasi")
+        results = self._db.execute_query(query)
         return [ValidationResult.from_dict(row) for row in results]
 
     def get_by_id(self, validation_id: int) -> Optional[ValidationResult]:
@@ -140,7 +129,7 @@ class ValidationRepository:
         """
         query = """
         -- Mengambil data hasil validasi berdasarkan validation_id
-        SELECT validation_id, course_id, rps_id, bap_id, meeting_number, similarity_score, status, notes, validated_at
+        SELECT validation_id, rps_id, bap_id, meeting_number, similarity_score, status, notes, validated_at
         FROM validation_results
         WHERE validation_id = %s;
         """
@@ -150,35 +139,24 @@ class ValidationRepository:
             return None
         return ValidationResult.from_dict(results[0])
 
-    def delete_by_course(self, course_id: int) -> bool:
+    def delete_all(self) -> bool:
         """
-        Menghapus hasil validasi berdasarkan mata kuliah.
-
-        Args:
-            course_id: ID mata kuliah.
+        Menghapus seluruh hasil validasi.
 
         Returns:
             bool: True jika berhasil.
         """
         query = """
-        -- Menghapus seluruh data hasil validasi berdasarkan course_id
-        DELETE FROM validation_results
-        WHERE course_id = %s;
+        -- Menghapus seluruh data hasil validasi
+        DELETE FROM validation_results;
         """
-        logger.info(f"Menghapus hasil validasi untuk course: {course_id}")
-        self._db.execute_non_query(query, (course_id,))
+        logger.info("Menghapus seluruh hasil validasi")
+        self._db.execute_non_query(query)
         return True
 
-    def get_compliance_stats(self, course_id: int) -> Dict[str, Any]:
+    def get_compliance_stats(self) -> Dict[str, Any]:
         """
-        Mendapatkan statistik kesesuaian pembelajaran untuk satu mata kuliah.
-
-        Sesuai PRD BR-09:
-        Mengembalikan total pertemuan divalidasi, jumlah pertemuan status 'SESUAI',
-        dan persentase kesesuaian.
-
-        Args:
-            course_id: ID mata kuliah.
+        Mendapatkan statistik kesesuaian pembelajaran.
 
         Returns:
             Dict[str, Any]: Dictionary dengan key:
@@ -187,20 +165,19 @@ class ValidationRepository:
                 "percentage": persentase kesesuaian (float).
         """
         query_total = """
-        -- Menghitung total data hasil validasi untuk course_id tertentu
+        -- Menghitung total data hasil validasi
         SELECT COUNT(*) as total
-        FROM validation_results
-        WHERE course_id = %s;
+        FROM validation_results;
         """
         query_sesuai = """
-        -- Menghitung jumlah pertemuan berstatus SESUAI untuk course_id tertentu
+        -- Menghitung jumlah pertemuan berstatus SESUAI
         SELECT COUNT(*) as sesuai_count
         FROM validation_results
-        WHERE course_id = %s AND status = 'SESUAI';
+        WHERE status = 'SESUAI';
         """
         
-        res_total = self._db.execute_query(query_total, (course_id,))
-        res_sesuai = self._db.execute_query(query_sesuai, (course_id,))
+        res_total = self._db.execute_query(query_total)
+        res_sesuai = self._db.execute_query(query_sesuai)
         
         total = res_total[0]["total"] if res_total else 0
         sesuai_count = res_sesuai[0]["sesuai_count"] if res_sesuai else 0
@@ -214,4 +191,3 @@ class ValidationRepository:
             "sesuai_count": sesuai_count,
             "percentage": round(percentage, 2)
         }
-class_name = "ValidationRepository"

@@ -223,21 +223,6 @@ class FileValidationError(FileUploadError):
 
 
 # ============================================================
-# Exception Domain: Data Mata Kuliah
-# Digunakan oleh modul repositories dan services
-# ============================================================
-
-class CourseNotFoundError(AppBaseException):
-    """
-    Exception ketika mata kuliah tidak ditemukan di database.
-
-    Dilemparkan ketika operasi memerlukan data mata kuliah
-    yang tidak ada dalam tabel courses.
-    """
-    pass
-
-
-# ============================================================
 # Exception Domain: Nomor Pertemuan
 # Digunakan oleh modul services/rps_manager.py dan
 # services/bap_manager.py
@@ -248,8 +233,7 @@ class DuplicateMeetingError(AppBaseException):
     Exception untuk nomor pertemuan yang duplikat.
 
     Dilemparkan ketika user mencoba menyimpan data RPS atau BAP
-    dengan nomor pertemuan yang sudah ada pada mata kuliah
-    yang sama.
+    dengan nomor pertemuan yang sudah ada.
 
     Sesuai PRD BR-01 (RPS) dan BR-02 (BAP).
     """
@@ -261,8 +245,7 @@ class MeetingNumberExceededError(AppBaseException):
     Exception ketika nomor pertemuan BAP melebihi batas RPS.
 
     Dilemparkan ketika nomor pertemuan pada data BAP melebihi
-    total pertemuan yang tercantum pada RPS untuk mata kuliah
-    yang bersangkutan.
+    total pertemuan yang tercantum pada RPS aktif.
 
     Sesuai PRD BR-02.
     """

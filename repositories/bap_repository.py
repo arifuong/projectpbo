@@ -5,11 +5,10 @@ Modul ini mengimplementasikan class BAPRepository yang bertanggung jawab
 untuk melakukan operasi CRUD data BAP (Berita Acara Perkuliahan) ke database MySQL.
 """
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from models.bap import BAP
 from database.connection import DatabaseConnection
 from utils.logger import setup_logger
-from utils.exceptions import DatabaseQueryError
 
 # Inisialisasi logger untuk repository bap
 logger = setup_logger(__name__)
@@ -44,17 +43,16 @@ class BAPRepository:
         """
         query = """
         -- Menyimpan data BAP baru
-        INSERT INTO bap (course_id, meeting_number, meeting_date, material_taught, cleaned_material)
-        VALUES (%s, %s, %s, %s, %s);
+        INSERT INTO bap (meeting_number, meeting_date, material_taught, cleaned_material)
+        VALUES (%s, %s, %s, %s);
         """
         params = (
-            bap.course_id,
             bap.meeting_number,
             bap.meeting_date,
             bap.material_taught,
             bap.cleaned_material
         )
-        logger.info(f"Menyimpan BAP pertemuan ke-{bap.meeting_number} untuk course_id={bap.course_id}")
+        logger.info(f"Menyimpan BAP pertemuan ke-{bap.meeting_number}")
         last_id = self._db.execute_non_query(query, params)
         bap.bap_id = last_id
         return last_id
@@ -71,7 +69,7 @@ class BAPRepository:
         """
         query = """
         -- Mengambil data BAP berdasarkan bap_id
-        SELECT bap_id, course_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
+        SELECT bap_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
         FROM bap
         WHERE bap_id = %s;
         """
@@ -81,46 +79,41 @@ class BAPRepository:
             return None
         return BAP.from_dict(results[0])
 
-    def get_by_course(self, course_id: int) -> List[BAP]:
+    def get_all(self) -> List[BAP]:
         """
-        Mengambil semua data BAP untuk satu mata kuliah, terurut berdasarkan nomor pertemuan.
-
-        Args:
-            course_id: ID mata kuliah.
+        Mengambil semua data BAP terurut berdasarkan nomor pertemuan.
 
         Returns:
             List[BAP]: Daftar objek BAP terurut.
         """
         query = """
-        -- Mengambil seluruh data BAP berdasarkan course_id terurut meeting_number
-        SELECT bap_id, course_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
+        -- Mengambil seluruh data BAP terurut meeting_number
+        SELECT bap_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
         FROM bap
-        WHERE course_id = %s
         ORDER BY meeting_number ASC;
         """
-        logger.debug(f"Mengambil data BAP untuk course: {course_id}")
-        results = self._db.execute_query(query, (course_id,))
+        logger.debug("Mengambil seluruh data BAP")
+        results = self._db.execute_query(query)
         return [BAP.from_dict(row) for row in results]
 
-    def get_by_course_and_meeting(self, course_id: int, meeting_number: int) -> Optional[BAP]:
+    def get_by_meeting(self, meeting_number: int) -> Optional[BAP]:
         """
-        Mengambil data BAP berdasarkan mata kuliah dan nomor pertemuan.
+        Mengambil data BAP berdasarkan nomor pertemuan.
 
         Args:
-            course_id: ID mata kuliah.
             meeting_number: Nomor pertemuan.
 
         Returns:
             Optional[BAP]: Objek BAP jika ditemukan, None jika tidak.
         """
         query = """
-        -- Mengambil data BAP berdasarkan course_id dan meeting_number
-        SELECT bap_id, course_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
+        -- Mengambil data BAP berdasarkan meeting_number
+        SELECT bap_id, meeting_number, meeting_date, material_taught, cleaned_material, created_at, updated_at
         FROM bap
-        WHERE course_id = %s AND meeting_number = %s;
+        WHERE meeting_number = %s;
         """
-        logger.debug(f"Mengambil BAP untuk course: {course_id}, pertemuan: {meeting_number}")
-        results = self._db.execute_query(query, (course_id, meeting_number))
+        logger.debug(f"Mengambil BAP untuk pertemuan: {meeting_number}")
+        results = self._db.execute_query(query, (meeting_number,))
         if not results:
             return None
         return BAP.from_dict(results[0])
@@ -175,43 +168,53 @@ class BAPRepository:
         affected_rows = self._db.execute_non_query(query, (bap_id,))
         return affected_rows > 0
 
-    def count_by_course(self, course_id: int) -> int:
+    def delete_all(self) -> bool:
         """
-        Mendapatkan total jumlah pertemuan BAP yang terdaftar pada mata kuliah tertentu.
+        Menghapus seluruh data BAP.
 
-        Args:
-            course_id: ID mata kuliah.
+        Returns:
+            bool: True jika query berjalan sukses.
+        """
+        query = """
+        -- Menghapus seluruh data BAP
+        DELETE FROM bap;
+        """
+        logger.info("Menghapus seluruh data bap")
+        self._db.execute_non_query(query)
+        return True
+
+    def count_all(self) -> int:
+        """
+        Mendapatkan total jumlah pertemuan BAP yang terdaftar.
 
         Returns:
             int: Jumlah pertemuan BAP.
         """
         query = """
-        -- Menghitung total pertemuan BAP untuk course_id tertentu
+        -- Menghitung total pertemuan BAP
         SELECT COUNT(*) as total
-        FROM bap
-        WHERE course_id = %s;
+        FROM bap;
         """
-        results = self._db.execute_query(query, (course_id,))
+        results = self._db.execute_query(query)
         if not results:
             return 0
         return results[0]["total"]
 
-    def exists(self, course_id: int, meeting_number: int) -> bool:
+    def exists(self, meeting_number: int) -> bool:
         """
         Memeriksa apakah data BAP untuk pertemuan tertentu sudah ada di database.
 
         Args:
-            course_id: ID mata kuliah.
             meeting_number: Nomor pertemuan.
 
         Returns:
             bool: True jika data ada.
         """
         query = """
-        -- Memeriksa keberadaan bap berdasarkan course_id dan meeting_number
+        -- Memeriksa keberadaan bap berdasarkan meeting_number
         SELECT 1
         FROM bap
-        WHERE course_id = %s AND meeting_number = %s;
+        WHERE meeting_number = %s;
         """
-        results = self._db.execute_query(query, (course_id, meeting_number))
+        results = self._db.execute_query(query, (meeting_number,))
         return len(results) > 0

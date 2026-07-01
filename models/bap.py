@@ -16,7 +16,6 @@ class BAP:
     Setiap instansi merepresentasikan catatan pelaksanaan perkuliahan untuk satu pertemuan.
 
     Attributes:
-        course_id (int): ID mata kuliah yang berasosiasi dengan BAP ini.
         meeting_number (int): Nomor pertemuan (ke-).
         meeting_date (date): Tanggal pelaksanaan perkuliahan.
         material_taught (str): Materi yang benar-benar diajarkan.
@@ -28,7 +27,6 @@ class BAP:
 
     def __init__(
         self,
-        course_id: int,
         meeting_number: int,
         meeting_date: Union[date, str],
         material_taught: str,
@@ -41,7 +39,6 @@ class BAP:
         Inisialisasi objek BAP.
 
         Args:
-            course_id: ID mata kuliah terkait.
             meeting_number: Nomor pertemuan.
             meeting_date: Tanggal pertemuan. Bisa bertipe date atau string (YYYY-MM-DD).
             material_taught: Materi yang diajarkan.
@@ -51,7 +48,6 @@ class BAP:
             updated_at: Waktu data diperbarui.
         """
         self.bap_id: Optional[int] = bap_id
-        self.course_id: int = course_id
         self.meeting_number: int = meeting_number
         
         # Konversi string tanggal jika inputnya adalah string
@@ -74,7 +70,6 @@ class BAP:
         """
         return {
             "bap_id": self.bap_id,
-            "course_id": self.course_id,
             "meeting_number": self.meeting_number,
             "meeting_date": self.meeting_date.strftime("%Y-%m-%d") if self.meeting_date else None,
             "material_taught": self.material_taught,
@@ -105,7 +100,6 @@ class BAP:
 
         return cls(
             bap_id=data.get("bap_id"),
-            course_id=data.get("course_id", 0),
             meeting_number=data.get("meeting_number", 0),
             meeting_date=meeting_date_val,
             material_taught=data.get("material_taught", ""),
@@ -122,6 +116,6 @@ class BAP:
             str: Representasi string.
         """
         return (
-            f"BAP(bap_id={self.bap_id}, course_id={self.course_id}, "
+            f"BAP(bap_id={self.bap_id}, "
             f"meeting_number={self.meeting_number}, meeting_date='{self.meeting_date}')"
         )

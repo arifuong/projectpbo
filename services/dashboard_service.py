@@ -1,11 +1,7 @@
 """
 Modul DashboardService untuk Sistem Validasi RPS-BAP.
 
-Modul ini mengimplementasikan Service Layer untuk halaman Dashboard.
-Bertanggung jawab untuk menyediakan ringkasan statistik agregat sistem
-untuk visualisasi GUI.
-
-Sesuai PRD Section 4.1 - Modul Dashboard.
+Modul ini mengimplementasikan Service Layer untuk halaman Dashboard (Single Active Mode).
 """
 
 from typing import List, Dict, Any, Optional
@@ -19,11 +15,6 @@ logger = setup_logger(__name__)
 class DashboardService:
     """
     Service class untuk mengelola data visualisasi Dashboard.
-
-    Menerapkan design pattern Service Layer dan Composition (has-a DashboardRepository).
-
-    Attributes:
-        _dashboard_repo (DashboardRepository): Repository untuk kueri dashboard.
     """
 
     def __init__(self, dashboard_repo: DashboardRepository) -> None:
@@ -36,44 +27,26 @@ class DashboardService:
         self._dashboard_repo: DashboardRepository = dashboard_repo
         logger.info("DashboardService berhasil diinisialisasi.")
 
-    def get_summary_statistics(self, filter_params: Optional[dict] = None) -> Dict[str, Any]:
+    def get_summary_statistics(self) -> Dict[str, Any]:
         """
-        Mengambil statistik ringkasan agregat sistem.
-
-        Args:
-            filter_params: Parameter filter semester/tahun akademik (opsional).
+        Mengambil statistik ringkasan agregat aktif.
 
         Returns:
             Dict[str, Any]: Statistik jumlah record dan rata-rata persentase kesesuaian.
         """
         logger.info("Mengambil statistik ringkasan dashboard.")
-        # Filter params dapat diperluas jika database mendukung filter dinamis
         return self._dashboard_repo.get_aggregate_stats()
 
-    def get_top_mismatched_courses(self, limit: int = 5) -> List[Dict[str, Any]]:
+    def get_top_mismatched_meetings(self, limit: int = 5) -> List[Dict[str, Any]]:
         """
-        Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi.
-
-        Sesuai PRD Section 4.1 & 10.1.
-
-        Args:
-            limit: Jumlah record maksimal.
-
-        Returns:
-            List[Dict[str, Any]]: List data mata kuliah tidak sesuai.
+        Mengambil daftar pertemuan dengan tingkat ketidaksesuaian aktif.
         """
-        logger.info(f"Mengambil top {limit} mismatched courses.")
+        logger.info(f"Mengambil top {limit} mismatched meetings.")
         return self._dashboard_repo.get_top_mismatched(limit)
 
-    def get_compliance_chart_data(self, semester: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_compliance_chart_data(self) -> List[Dict[str, Any]]:
         """
-        Mengambil data persentase kesesuaian per mata kuliah untuk diagram.
-
-        Args:
-            semester: Filter semester (misal: "Ganjil", "Genap").
-
-        Returns:
-            List[Dict[str, Any]]: List data koordinat diagram.
+        Mengambil data persentase kesesuaian/status validasi diagram.
         """
-        logger.info(f"Mengambil compliance chart data untuk semester: {semester}")
-        return self._dashboard_repo.get_compliance_chart(semester)
+        logger.info("Mengambil compliance chart data.")
+        return self._dashboard_repo.get_compliance_chart()

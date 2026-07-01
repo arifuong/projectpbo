@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Realisasi Pembelajaran (BAP) - Sistem Validasi RPS & BAP{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="h3 font-weight-bold text-dark mb-1">Berita Acara Perkuliahan (BAP)</h2>
+        <p class="text-muted">Kelola berkas materi realisasi pengajaran tatap muka yang telah terlaksana.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <button type="button" class="btn btn-primary px-4 py-2 font-weight-semibold rounded" id="btnOpenAddModal">
+            <i class="fa-solid fa-circle-plus me-2"></i> Tambah Realisasi (BAP)
+        </button>
+    </div>
+</div>
+
+<!-- Progress Realisasi Banner -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card-stats p-3 bg-white d-flex align-items-center justify-content-between border">
+            <div class="d-flex align-items-center w-75">
+                <i class="fa-solid fa-chart-line text-success fs-3 me-3"></i>
+                <div class="w-100 me-4">
+                    <span class="font-weight-semibold text-dark d-block mb-1" id="progressText">Progress Pengisian BAP: 0 dari 0 Pertemuan Rencana</span>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar" id="progressBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="badge bg-light text-success border fs-6 py-2 px-3" id="pctText">0%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Container -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="bapTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Pertemuan</th>
+                            <th style="width: 150px;">Tanggal Tatap Muka</th>
+                            <th>Materi yang Diajarkan</th>
+                            <th style="width: 150px;" class="text-end">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bapTableBody">
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">
+                                <i class="fa-solid fa-spinner fa-spin fs-4 mb-2 d-block"></i> Memuat data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit BAP -->
+<div class="modal fade" id="bapModal" tabindex="-1" aria-labelledby="bapModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-dark" id="bapModalLabel">Tambah Realisasi BAP</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="bapForm">
+                <div class="modal-body">
+                    <input type="hidden" id="field_bap_id" name="bap_id">
+                    
+                    <div class="mb-3" id="meetingNumberGroup">
+                        <label for="field_meeting_number" class="form-label font-weight-semibold text-muted">Nomor Pertemuan</label>
+                        <input type="number" class="form-control" id="field_meeting_number" name="meeting_number" min="1" max="16" required>
+                        <div class="form-text">Aturan: Harus unik dan tidak boleh melebihi jumlah pertemuan RPS silabus yang terdaftar.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="field_meeting_date" class="form-label font-weight-semibold text-muted">Tanggal Tatap Muka</label>
+                        <input type="date" class="form-control" id="field_meeting_date" name="meeting_date" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="field_material_taught" class="form-label font-weight-semibold text-muted">Materi yang Diajarkan (Realisasi)</label>
+                        <textarea class="form-control" id="field_material_taught" name="material_taught" rows="4" required placeholder="Tuliskan detail materi tatap muka secara riil..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary px-3 rounded" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary px-4 rounded" id="btnSubmitForm">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const bapTableBody = document.getElementById("bapTableBody");
+        const progressText = document.getElementById("progressText");
+        const progressBar = document.getElementById("progressBar");
+        const pctText = document.getElementById("pctText");
+        
+        // Modal & Form Elements
+        const bapModalEl = document.getElementById("bapModal");
+        const bapModal = new bootstrap.Modal(bapModalEl);
+        const bapForm = document.getElementById("bapForm");
+        const bapModalLabel = document.getElementById("bapModalLabel");
+        
+        const fieldBapId = document.getElementById("field_bap_id");
+        const fieldMeetingNumber = document.getElementById("field_meeting_number");
+        const fieldMeetingDate = document.getElementById("field_meeting_date");
+        const fieldMaterialTaught = document.getElementById("field_material_taught");
+        const meetingNumberGroup = document.getElementById("meetingNumberGroup");
+        const btnOpenAddModal = document.getElementById("btnOpenAddModal");
+
+        let allBapData = [];
+
+        // Set default date input ke hari ini
+        const today = new Date().toISOString().split('T')[0];
+        fieldMeetingDate.value = today;
+
+        loadBapData();
+
+        function loadBapData() {
+            fetch("{{ url_for('bap.get_bap_data') }}")
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success && res.data) {
+                        allBapData = res.data.items;
+                        renderTable(allBapData);
+                        updateProgressBar(res.data.total_rps, res.data.total_bap);
+                    } else {
+                        bapTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger py-4">Gagal memuat data: ${res.message}</td></tr>`;
+                    }
+                })
+                .catch(() => {
+                    bapTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger py-4">Kesalahan koneksi internet.</td></tr>`;
+                });
+        }
+
+        // Render Table
+        function renderTable(items) {
+            bapTableBody.innerHTML = "";
+            if (items.length === 0) {
+                bapTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">Belum ada realisasi tatap muka (BAP) yang diinputkan.</td></tr>';
+                return;
+            }
+
+            // Urutkan berdasarkan pertemuan
+            items.sort((a, b) => a.meeting_number - b.meeting_number);
+
+            items.forEach(item => {
+                // Parsing format tanggal
+                let formattedDate = item.meeting_date;
+                if (formattedDate) {
+                    const d = new Date(formattedDate);
+                    formattedDate = d.toLocaleDateString("id-ID", { year: 'numeric', month: 'long', day: 'numeric' });
+                }
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="font-weight-bold text-primary">Pertemuan ${item.meeting_number}</td>
+                    <td class="font-weight-semibold text-secondary">${formattedDate}</td>
+                    <td class="text-dark">${escapeHtml(item.material_taught)}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-secondary me-1 btn-edit" data-id="${item.bap_id}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${item.bap_id}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                bapTableBody.appendChild(tr);
+            });
+
+            attachActionEvents();
+        }
+
+        // Hitung persentase realisasi silabus
+        function updateProgressBar(totalRps, totalBap) {
+            progressText.textContent = `Progress Pengisian BAP: ${totalBap} dari ${totalRps} Pertemuan Rencana`;
+            const pct = totalRps > 0 ? Math.round((totalBap / totalRps) * 100) : 0;
+            progressBar.style.width = pct + "%";
+            pctText.textContent = pct + "%";
+        }
+
+        // Open Add Modal
+        btnOpenAddModal.addEventListener("click", function () {
+            bapForm.reset();
+            fieldBapId.value = "";
+            fieldMeetingDate.value = today;
+            bapModalLabel.textContent = "Tambah Realisasi BAP";
+            meetingNumberGroup.classList.remove("d-none");
+            fieldMeetingNumber.required = true;
+            bapModal.show();
+        });
+
+        // Edit/Delete Action events
+        function attachActionEvents() {
+            document.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const id = parseInt(this.getAttribute("data-id"));
+                    const item = allBapData.find(x => x.bap_id === id);
+                    if (item) {
+                        fieldBapId.value = item.bap_id;
+                        fieldMeetingNumber.value = item.meeting_number;
+                        
+                        // Formatting date untuk input type="date" (YYYY-MM-DD)
+                        if (item.meeting_date) {
+                            const d = new Date(item.meeting_date);
+                            const year = d.getFullYear();
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const day = String(d.getDate()).padStart(2, '0');
+                            fieldMeetingDate.value = `${year}-${month}-${day}`;
+                        }
+
+                        fieldMaterialTaught.value = item.material_taught;
+                        
+                        bapModalLabel.textContent = "Ubah Realisasi BAP";
+                        meetingNumberGroup.classList.add("d-none"); // Sembunyikan nomor pertemuan agar tetap konsisten
+                        fieldMeetingNumber.required = false;
+                        bapModal.show();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const id = this.getAttribute("data-id");
+                    if (confirm("Apakah Anda yakin ingin menghapus data realisasi kuliah ini?")) {
+                        fetch(`/api/bap/delete/${id}`, { method: "DELETE" })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    loadBapData();
+                                } else {
+                                    alert("Gagal menghapus: " + data.message);
+                                }
+                            })
+                            .catch(() => alert("Koneksi gagal."));
+                    }
+                });
+            });
+        }
+
+        // Submit Form
+        bapForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const bap_id = fieldBapId.value;
+            const isEdit = bap_id !== "";
+            
+            const payload = {
+                meeting_date: fieldMeetingDate.value,
+                material_taught: fieldMaterialTaught.value
+            };
+
+            let url = "{{ url_for('bap.add_bap_meeting') }}";
+            let method = "POST";
+
+            if (isEdit) {
+                url = "{{ url_for('bap.update_bap_meeting') }}";
+                method = "PUT";
+                payload.bap_id = bap_id;
+            } else {
+                payload.meeting_number = parseInt(fieldMeetingNumber.value);
+            }
+
+            fetch(url, {
+                method: method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    bapModal.hide();
+                    loadBapData();
+                } else {
+                    // Tampilkan pesan error bisnis (misal: duplikat pertemuan / melampaui silabus)
+                    alert("Validasi Gagal: " + data.message);
+                }
+            })
+            .catch(() => alert("Kesalahan koneksi internet saat menyimpan."));
+        });
+
+        // Helper escape HTML
+        function escapeHtml(text) {
+            if (!text) return "";
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    });
+</script>
+{% endblock %}

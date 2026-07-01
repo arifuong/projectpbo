@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}Unggah PDF RPS - Sistem Validasi RPS & BAP{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="h3 font-weight-bold text-dark mb-1">Unggah Dokumen RPS</h2>
+        <p class="text-muted">Ekstrak secara otomatis rencana tatap muka perkuliahan dari berkas PDF RPS silabus.</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Form Upload (Kiri) -->
+    <div class="col-lg-5 mb-4">
+        <div class="card-stats">
+            <h5 class="font-weight-bold text-dark mb-4 border-bottom pb-2">Pilih File PDF RPS</h5>
+            
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="pdfFile" class="form-label text-muted">Berkas PDF (Maksimal 10 MB)</label>
+                    <input class="form-control" type="file" id="pdfFile" name="file" accept=".pdf" required>
+                    <div class="form-text">Pastikan dokumen PDF memiliki tabel dengan kolom Pertemuan dan Pokok Bahasan/Topik.</div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress mb-4 d-none" id="uploadProgressContainer" style="height: 10px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="uploadProgressBar" style="width: 0%;"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 py-2 font-weight-semibold rounded" id="btnUpload">
+                    <i class="fa-solid fa-file-pdf me-2"></i> Mulai Ekstraksi PDF
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pratinjau Ekstraksi (Kanan) -->
+    <div class="col-lg-7 mb-4">
+        <div class="card-stats d-none" id="previewContainer">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                <h5 class="font-weight-bold text-dark m-0">Pratinjau Hasil Ekstraksi</h5>
+                <span class="badge bg-secondary" id="previewFileName">rps.pdf</span>
+            </div>
+            
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">Pertemuan</th>
+                            <th>Topik Utama</th>
+                            <th>Sub Topik</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewTableBody">
+                        <!-- Data hasil ekstraksi diisi via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                <button type="button" class="btn btn-outline-danger px-4 rounded" id="btnCancel">
+                    <i class="fa-solid fa-xmark me-2"></i> Batalkan
+                </button>
+                <button type="button" class="btn btn-success px-4 rounded" id="btnSave">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> Simpan ke Database
+                </button>
+            </div>
+        </div>
+
+        <!-- Placeholder awal saat data belum diunggah -->
+        <div class="card-stats text-center py-5 text-muted" id="placeholderContainer">
+            <i class="fa-solid fa-file-import fa-4x text-light mb-3"></i>
+            <h5 class="font-weight-bold">Belum Ada Berkas</h5>
+            <p class="small">Silakan pilih file PDF di sebelah kiri dan jalankan ekstraksi untuk melihat pratinjau silabus di sini.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const uploadForm = document.getElementById("uploadForm");
+        const pdfFile = document.getElementById("pdfFile");
+        const btnUpload = document.getElementById("btnUpload");
+        const uploadProgressContainer = document.getElementById("uploadProgressContainer");
+        const uploadProgressBar = document.getElementById("uploadProgressBar");
+        
+        const previewContainer = document.getElementById("previewContainer");
+        const placeholderContainer = document.getElementById("placeholderContainer");
+        const previewFileName = document.getElementById("previewFileName");
+        const previewTableBody = document.getElementById("previewTableBody");
+        
+        const btnCancel = document.getElementById("btnCancel");
+        const btnSave = document.getElementById("btnSave");
+
+        let currentExtractedData = null;
+        let currentSourceFile = "";
+
+        // Penanganan Submit Form Upload via AJAX
+        uploadForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const file = pdfFile.files[0];
+            if (!file) return;
+
+            // Bersihkan UI pratinjau sebelumnya
+            previewContainer.classList.add("d-none");
+            placeholderContainer.classList.remove("d-none");
+            currentExtractedData = null;
+
+            // Inisialisasi FormData payload
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // Tampilkan progress bar
+            uploadProgressContainer.classList.remove("d-none");
+            uploadProgressBar.style.width = "0%";
+            btnUpload.disabled = true;
+            btnUpload.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Memproses PDF...';
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "{{ url_for('upload.upload_file') }}", true);
+
+            // Monitor Progress Upload
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    const percentage = Math.round((e.loaded / e.total) * 100);
+                    // Kita batasi progress upload sampai 80%, sisa 20% adalah parsing server
+                    const barProgress = Math.min(percentage, 80);
+                    uploadProgressBar.style.width = barProgress + "%";
+                }
+            };
+
+            xhr.onload = function () {
+                uploadProgressBar.style.width = "100%";
+                btnUpload.disabled = false;
+                btnUpload.innerHTML = '<i class="fa-solid fa-file-pdf me-2"></i> Mulai Ekstraksi PDF';
+                
+                // Beri jeda sedikit agar animasi 100% progress bar terlihat
+                setTimeout(() => {
+                    uploadProgressContainer.classList.add("d-none");
+                }, 800);
+
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success && response.data) {
+                        currentExtractedData = response.data.items;
+                        currentSourceFile = response.data.source_file;
+                        
+                        showPreview(currentSourceFile, currentExtractedData);
+                    } else {
+                        alert("Gagal mengekstrak berkas: " + (response.message || "Kesalahan tidak diketahui."));
+                    }
+                } else {
+                    alert("Kesalahan Server: Status " + xhr.status);
+                }
+            };
+
+            xhr.onerror = function () {
+                uploadProgressContainer.classList.add("d-none");
+                btnUpload.disabled = false;
+                btnUpload.innerHTML = '<i class="fa-solid fa-file-pdf me-2"></i> Mulai Ekstraksi PDF';
+                alert("Koneksi jaringan terputus.");
+            };
+
+            xhr.send(formData);
+        });
+
+        // Tampilkan Pratinjau Tabel
+        function showPreview(filename, items) {
+            previewFileName.textContent = filename;
+            previewTableBody.innerHTML = "";
+
+            if (items.length === 0) {
+                previewTableBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Tidak ada pertemuan atau tabel materi terdeteksi di dokumen ini.</td></tr>';
+            } else {
+                items.forEach(item => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td class="font-weight-bold text-primary">Pertemuan ${item.meeting_number}</td>
+                        <td class="font-weight-semibold text-dark">${escapeHtml(item.topic)}</td>
+                        <td class="text-muted">${escapeHtml(item.sub_topic || "-")}</td>
+                    `;
+                    previewTableBody.appendChild(tr);
+                });
+            }
+
+            placeholderContainer.classList.add("d-none");
+            previewContainer.classList.remove("d-none");
+        }
+
+        // Simpan Permanen ke Database
+        btnSave.addEventListener("click", function () {
+            if (!currentExtractedData || !currentSourceFile) return;
+
+            // Konfirmasi simpan dengan pesan sesuai Business Rule baru
+            const message = "Data RPS sebelumnya akan diganti.\nSeluruh data BAP, hasil validasi, dan laporan lama juga akan dihapus.\nApakah Anda yakin ingin melanjutkan?";
+            if (!confirm(message)) {
+                return;
+            }
+
+            btnSave.disabled = true;
+            btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...';
+
+            fetch("{{ url_for('upload.save_extracted_rps') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    source_file: currentSourceFile,
+                    items: currentExtractedData
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btnSave.disabled = false;
+                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk me-2"></i> Simpan ke Database';
+
+                if (data.success) {
+                    alert(data.message || "RPS berhasil disimpan ke database!");
+                    // Redirect ke halaman kelola data RPS
+                    window.location.href = "{{ url_for('rps.index') }}";
+                } else {
+                    alert("Gagal menyimpan: " + data.message);
+                }
+            })
+            .catch(err => {
+                btnSave.disabled = false;
+                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk me-2"></i> Simpan ke Database';
+                alert("Kesalahan koneksi saat menyimpan data.");
+            });
+        });
+
+        // Batal Ekstraksi
+        btnCancel.addEventListener("click", function () {
+            uploadForm.reset();
+            previewContainer.classList.add("d-none");
+            placeholderContainer.classList.remove("d-none");
+            currentExtractedData = null;
+            currentSourceFile = "";
+        });
+
+        // Helper escape HTML mencegah XSS
+        function escapeHtml(text) {
+            if (!text) return "";
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    });
+</script>
+{% endblock %}

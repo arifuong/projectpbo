@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Rencana Pembelajaran (RPS) - Sistem Validasi RPS & BAP{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="h3 font-weight-bold text-dark mb-1">Rencana Pembelajaran Semester (RPS)</h2>
+        <p class="text-muted">Kelola silabus, topik utama, dan sub-topik pertemuan perkuliahan terencana.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <button type="button" class="btn btn-primary px-4 py-2 font-weight-semibold rounded" id="btnOpenAddModal">
+            <i class="fa-solid fa-circle-plus me-2"></i> Tambah Pertemuan
+        </button>
+    </div>
+</div>
+
+<!-- Search Input -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" class="form-control border-start-0" id="searchBox" placeholder="Cari topik atau sub-topik...">
+        </div>
+    </div>
+</div>
+
+<!-- Table Container -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="rpsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Pertemuan</th>
+                            <th>Topik Utama</th>
+                            <th>Sub Pokok Bahasan</th>
+                            <th>File Sumber</th>
+                            <th style="width: 150px;" class="text-end">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rpsTableBody">
+                        <!-- Diisi via AJAX -->
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                <i class="fa-solid fa-spinner fa-spin fs-4 mb-2 d-block"></i> Memuat data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit RPS -->
+<div class="modal fade" id="rpsModal" tabindex="-1" aria-labelledby="rpsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-dark" id="rpsModalLabel">Tambah Rencana Pertemuan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="rpsForm">
+                <div class="modal-body">
+                    <input type="hidden" id="field_rps_id" name="rps_id">
+                    
+                    <div class="mb-3" id="meetingNumberGroup">
+                        <label for="field_meeting_number" class="form-label font-weight-semibold text-muted">Nomor Pertemuan</label>
+                        <input type="number" class="form-control" id="field_meeting_number" name="meeting_number" min="1" max="16" required>
+                        <div class="form-text">Rentang angka pertemuan pembelajaran (1 - 16).</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="field_topic" class="form-label font-weight-semibold text-muted">Topik Utama (Pokok Bahasan)</label>
+                        <input type="text" class="form-control" id="field_topic" name="topic" required placeholder="Contoh: Pengenalan Object-Oriented">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="field_sub_topic" class="form-label font-weight-semibold text-muted">Sub Pokok Bahasan (Opsional)</label>
+                        <textarea class="form-control" id="field_sub_topic" name="sub_topic" rows="3" placeholder="Contoh: Pengenalan class, instansiasi objek, atribut, dan method."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary px-3 rounded" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary px-4 rounded" id="btnSubmitForm">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rpsTableBody = document.getElementById("rpsTableBody");
+        const searchBox = document.getElementById("searchBox");
+        
+        // Modal & Form Elements
+        const rpsModalEl = document.getElementById("rpsModal");
+        const rpsModal = new bootstrap.Modal(rpsModalEl);
+        const rpsForm = document.getElementById("rpsForm");
+        const rpsModalLabel = document.getElementById("rpsModalLabel");
+        
+        const fieldRpsId = document.getElementById("field_rps_id");
+        const fieldMeetingNumber = document.getElementById("field_meeting_number");
+        const fieldTopic = document.getElementById("field_topic");
+        const fieldSubTopic = document.getElementById("field_sub_topic");
+        const meetingNumberGroup = document.getElementById("meetingNumberGroup");
+        const btnOpenAddModal = document.getElementById("btnOpenAddModal");
+
+        let allRpsData = []; // Tampung data RPS lokal untuk search filter
+
+        // Muat Data Awal
+        loadRpsData();
+
+        function loadRpsData() {
+            fetch("{{ url_for('rps.get_rps_data') }}")
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success && res.data) {
+                        allRpsData = res.data;
+                        renderTable(allRpsData);
+                    } else {
+                        rpsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-4">Gagal memuat data: ${res.message}</td></tr>`;
+                    }
+                })
+                .catch(err => {
+                    rpsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-4">Kesalahan koneksi internet.</td></tr>`;
+                });
+        }
+
+        // Render data ke dalam baris tabel
+        function renderTable(items) {
+            rpsTableBody.innerHTML = "";
+            if (items.length === 0) {
+                rpsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Tidak ada data silabus rencana pembelajaran. Silakan unggah PDF RPS terlebih dahulu.</td></tr>';
+                return;
+            }
+
+            // Urutkan berdasarkan nomor pertemuan
+            items.sort((a, b) => a.meeting_number - b.meeting_number);
+
+            items.forEach(item => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="font-weight-bold text-primary">Pertemuan ${item.meeting_number}</td>
+                    <td class="font-weight-semibold text-dark">${escapeHtml(item.topic)}</td>
+                    <td class="text-muted" style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        ${escapeHtml(item.sub_topic || "-")}
+                    </td>
+                    <td><span class="badge bg-light text-muted border">${escapeHtml(item.source_file)}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-secondary me-1 btn-edit" data-id="${item.rps_id}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${item.rps_id}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                rpsTableBody.appendChild(tr);
+            });
+
+            // Re-attach event listeners
+            attachActionEvents();
+        }
+
+        // Live Search Filter
+        searchBox.addEventListener("input", function (e) {
+            const query = e.target.value.toLowerCase();
+            const filtered = allRpsData.filter(item => 
+                item.topic.toLowerCase().includes(query) || 
+                (item.sub_topic && item.sub_topic.toLowerCase().includes(query))
+            );
+            renderTable(filtered);
+        });
+
+        // Event listener Tambah
+        btnOpenAddModal.addEventListener("click", function () {
+            rpsForm.reset();
+            fieldRpsId.value = "";
+            rpsModalLabel.textContent = "Tambah Rencana Pertemuan";
+            meetingNumberGroup.classList.remove("d-none"); // Tampilkan input nomor pertemuan
+            fieldMeetingNumber.required = true;
+            rpsModal.show();
+        });
+
+        // Binding tombol edit & hapus
+        function attachActionEvents() {
+            document.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const id = parseInt(this.getAttribute("data-id"));
+                    const item = allRpsData.find(x => x.rps_id === id);
+                    if (item) {
+                        fieldRpsId.value = item.rps_id;
+                        fieldMeetingNumber.value = item.meeting_number;
+                        fieldTopic.value = item.topic;
+                        fieldSubTopic.value = item.sub_topic || "";
+                        
+                        rpsModalLabel.textContent = "Ubah Rencana Pertemuan";
+                        meetingNumberGroup.classList.add("d-none"); // Sembunyikan nomor pertemuan agar tidak bisa diubah (menjaga integritas)
+                        fieldMeetingNumber.required = false;
+                        rpsModal.show();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const id = this.getAttribute("data-id");
+                    if (confirm("Apakah Anda yakin ingin menghapus data rencana pertemuan ini secara permanen?")) {
+                        fetch(`/api/rps/delete/${id}`, { method: "DELETE" })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    loadRpsData();
+                                } else {
+                                    alert("Gagal menghapus: " + data.message);
+                                }
+                            })
+                            .catch(() => alert("Koneksi gagal."));
+                    }
+                });
+            });
+        }
+
+        // Submit Form
+        rpsForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const rps_id = fieldRpsId.value;
+            const isEdit = rps_id !== "";
+            
+            const payload = {
+                topic: fieldTopic.value,
+                sub_topic: fieldSubTopic.value
+            };
+
+            let url = "{{ url_for('rps.add_rps_meeting') }}";
+            let method = "POST";
+
+            if (isEdit) {
+                url = "{{ url_for('rps.update_rps_meeting') }}";
+                method = "PUT";
+                payload.rps_id = rps_id;
+            } else {
+                payload.meeting_number = parseInt(fieldMeetingNumber.value);
+            }
+
+            fetch(url, {
+                method: method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    rpsModal.hide();
+                    loadRpsData();
+                } else {
+                    alert("Gagal menyimpan: " + data.message);
+                }
+            })
+            .catch(() => alert("Kesalahan koneksi internet."));
+        });
+
+        // Helper escape HTML
+        function escapeHtml(text) {
+            if (!text) return "";
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    });
+</script>
+{% endblock %}

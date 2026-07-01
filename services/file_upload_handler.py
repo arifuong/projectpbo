@@ -4,13 +4,14 @@ Modul FileUploadHandler untuk Sistem Validasi RPS-BAP.
 Modul ini menangani validasi file PDF yang diunggah, penyimpanan file fisik
 ke folder lokal 'uploads/', dan pencatatan riwayat unggahan ke database.
 
-Sesuai PRD Section 4.2 - Modul Upload PDF RPS.
+Sesuai PRD - Modul Upload PDF RPS.
 """
 
 import os
 import shutil
-from typing import Tuple, Optional
-from config.constants import ALLOWED_FILE_EXTENSIONS, MAX_UPLOAD_SIZE_BYTES
+import time
+from typing import Tuple, Optional, List, Dict, Any
+from config.constants import ALLOWED_FILE_EXTENSIONS
 from repositories.upload_repository import UploadRepository
 from utils.logger import setup_logger
 from utils.exceptions import FileValidationError, FileUploadError
@@ -55,9 +56,6 @@ class FileUploadHandler:
         """
         Memvalidasi ekstensi dan ukuran file sebelum diproses.
 
-        Sesuai PRD BR-11:
-        File yang diunggah hanya boleh berformat .pdf dengan ukuran maksimum 10 MB.
-
         Args:
             file_path: Path file yang akan divalidasi.
 
@@ -90,16 +88,12 @@ class FileUploadHandler:
 
         return True
 
-    def save_file(self, src_file_path: str, course_id: int) -> str:
+    def save_file(self, src_file_path: str) -> str:
         """
         Menyimpan file ke folder penyimpanan lokal dan mencatat riwayat unggahan.
 
-        Sesuai PRD BR-15:
-        Semua aktivitas unggah, sukses maupun gagal, harus tercatat di database (upload_history).
-
         Args:
             src_file_path: Path file asal di komputer lokal.
-            course_id: ID mata kuliah terkait.
 
         Returns:
             str: Path absolut file yang berhasil disimpan.
@@ -114,12 +108,12 @@ class FileUploadHandler:
         try:
             self.validate_file(src_file_path)
         except FileValidationError as e:
-            # Catat riwayat gagal ke database (BR-15)
-            self.log_upload_history(course_id, file_name, "", size_kb, "FAILED", str(e))
+            # Catat riwayat gagal ke database
+            self.log_upload_history(file_name, "", size_kb, "FAILED", str(e))
             raise
 
-        # Generate nama file unik agar tidak bertabrakan (misal: rps_course_123.pdf)
-        unique_file_name = f"rps_course_{course_id}_{int(os.path.getctime(src_file_path))}.pdf"
+        # Generate nama file unik agar tidak bertabrakan
+        unique_file_name = f"rps_active_{int(time.time())}.pdf"
         dest_file_path = os.path.join(self.storage_path, unique_file_name)
 
         try:
@@ -127,17 +121,17 @@ class FileUploadHandler:
             logger.info(f"Menyalin file dari '{src_file_path}' ke '{dest_file_path}'")
             shutil.copy2(src_file_path, dest_file_path)
             
-            # Catat riwayat sukses ke database (BR-15)
-            self.log_upload_history(course_id, file_name, dest_file_path, size_kb, "SUCCESS")
+            # Catat riwayat sukses ke database (SUCCESS)
+            # Catatan: Ini dipanggil untuk log upload awal (sebelum user menekan simpan)
+            self.log_upload_history(file_name, dest_file_path, size_kb, "SUCCESS")
             return os.path.abspath(dest_file_path)
         except Exception as e:
             logger.exception(f"Gagal memindahkan file upload: {e}")
-            self.log_upload_history(course_id, file_name, "", size_kb, "FAILED", str(e))
+            self.log_upload_history(file_name, "", size_kb, "FAILED", str(e))
             raise FileUploadError(f"Gagal mengunggah file dokumen: {e}")
 
     def log_upload_history(
         self,
-        course_id: int,
         file_name: str,
         file_path: str,
         file_size_kb: int,
@@ -146,21 +140,9 @@ class FileUploadHandler:
     ) -> int:
         """
         Pencatat riwayat unggahan langsung ke repository database.
-
-        Args:
-            course_id: ID mata kuliah.
-            file_name: Nama asli file.
-            file_path: Path penyimpanan file.
-            file_size_kb: Ukuran file dalam KB.
-            status: Status unggahan ('SUCCESS' / 'FAILED').
-            error_message: Pesan error jika gagal.
-
-        Returns:
-            int: ID baris riwayat unggahan.
         """
         try:
             return self._upload_repo.create(
-                course_id=course_id,
                 file_name=file_name,
                 file_path=file_path,
                 file_size_kb=file_size_kb,
@@ -170,3 +152,9 @@ class FileUploadHandler:
         except Exception as e:
             logger.error(f"Gagal mencatat riwayat unggahan di database: {e}")
             return 0
+
+    def get_upload_history(self) -> List[Dict[str, Any]]:
+        """
+        Mengambil seluruh riwayat unggahan sebagai audit log.
+        """
+        return self._upload_repo.get_all()

@@ -16,7 +16,6 @@ class RPS:
     Setiap instansi merepresentasikan rencana pembelajaran untuk satu pertemuan tertentu.
 
     Attributes:
-        course_id (int): ID mata kuliah yang berasosiasi dengan RPS ini.
         meeting_number (int): Nomor pertemuan (ke-).
         topic (str): Pokok bahasan/topik utama pembelajaran.
         sub_topic (Optional[str]): Sub pokok bahasan/topik detail.
@@ -29,7 +28,6 @@ class RPS:
 
     def __init__(
         self,
-        course_id: int,
         meeting_number: int,
         topic: str,
         sub_topic: Optional[str] = None,
@@ -43,7 +41,6 @@ class RPS:
         Inisialisasi objek RPS.
 
         Args:
-            course_id: ID mata kuliah terkait.
             meeting_number: Nomor pertemuan.
             topic: Topik/pokok bahasan.
             sub_topic: Sub topik/sub pokok bahasan.
@@ -54,7 +51,6 @@ class RPS:
             updated_at: Waktu data diperbarui.
         """
         self.rps_id: Optional[int] = rps_id
-        self.course_id: int = course_id
         self.meeting_number: int = meeting_number
         self.topic: str = topic
         self.sub_topic: Optional[str] = sub_topic
@@ -72,7 +68,6 @@ class RPS:
         """
         return {
             "rps_id": self.rps_id,
-            "course_id": self.course_id,
             "meeting_number": self.meeting_number,
             "topic": self.topic,
             "sub_topic": self.sub_topic,
@@ -95,7 +90,6 @@ class RPS:
         """
         return cls(
             rps_id=data.get("rps_id"),
-            course_id=data.get("course_id", 0),
             meeting_number=data.get("meeting_number", 0),
             topic=data.get("topic", ""),
             sub_topic=data.get("sub_topic"),
@@ -113,6 +107,6 @@ class RPS:
             str: Representasi string.
         """
         return (
-            f"RPS(rps_id={self.rps_id}, course_id={self.course_id}, "
+            f"RPS(rps_id={self.rps_id}, "
             f"meeting_number={self.meeting_number}, topic='{self.topic}')"
         )

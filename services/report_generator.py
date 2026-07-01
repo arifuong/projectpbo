@@ -2,19 +2,13 @@
 Modul Report Generator untuk Sistem Validasi RPS-BAP.
 
 Modul ini menyusun dan mengekspor laporan hasil validasi
-kesesuaian RPS-BAP dalam format PDF dan Excel.
+kesesuaian RPS-BAP dalam format PDF and Excel.
 
-Sesuai PRD Section 4.9 - Modul Report Generator.
-
-Fitur:
-    - Generate laporan kesesuaian per mata kuliah
-    - Ekspor laporan ke format PDF (menggunakan reportlab)
-    - Ekspor laporan ke format Excel (menggunakan openpyxl/pandas)
-    - Riwayat laporan yang pernah digenerate
+Sesuai PRD - Modul Report Generator.
 """
 
 import os
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 
 from models.report import Report
@@ -22,14 +16,12 @@ from models.validation_result import ValidationResult
 from repositories.rps_repository import RPSRepository
 from repositories.bap_repository import BAPRepository
 from repositories.validation_repository import ValidationRepository
-from repositories.course_repository import CourseRepository
 from utils.logger import setup_logger
 from utils.exceptions import ReportGenerationError
 from config.constants import (
     STATUS_SESUAI,
     STATUS_TIDAK_SESUAI,
     STATUS_TIDAK_DITEMUKAN,
-    STATUS_PENDING,
     DATETIME_FORMAT,
     MSG_REPORT_FAILED,
 )
@@ -41,29 +33,13 @@ logger = setup_logger(__name__)
 class ReportGenerator:
     """
     Class untuk membuat dan mengekspor laporan validasi.
-
-    Mengambil data hasil validasi dari database, menyusunnya
-    menjadi objek Report, dan menyediakan ekspor ke PDF/Excel.
-
-    Sesuai PRD Section 4.9 dan Acceptance Criteria:
-        - AC-13: Perhitungan persentase kesesuaian
-        - AC-14: Daftar materi tidak sesuai
-        - AC-15: Daftar materi belum diajarkan
-        - AC-16: Ekspor laporan ke PDF dan Excel
-
-    Attributes:
-        _rps_repo (RPSRepository): Repository data RPS.
-        _bap_repo (BAPRepository): Repository data BAP.
-        _validation_repo (ValidationRepository): Repository hasil validasi.
-        _course_repo (CourseRepository): Repository data mata kuliah.
     """
 
     def __init__(
         self,
         rps_repo: RPSRepository,
         bap_repo: BAPRepository,
-        validation_repo: ValidationRepository,
-        course_repo: CourseRepository
+        validation_repo: ValidationRepository
     ):
         """
         Inisialisasi ReportGenerator dengan dependency injection.
@@ -72,24 +48,15 @@ class ReportGenerator:
             rps_repo: Repository untuk akses data RPS.
             bap_repo: Repository untuk akses data BAP.
             validation_repo: Repository untuk akses hasil validasi.
-            course_repo: Repository untuk akses data mata kuliah.
         """
         self._rps_repo: RPSRepository = rps_repo
         self._bap_repo: BAPRepository = bap_repo
         self._validation_repo: ValidationRepository = validation_repo
-        self._course_repo: CourseRepository = course_repo
         logger.info("ReportGenerator berhasil diinisialisasi")
 
-    def generate_report(self, course_id: int) -> Report:
+    def generate_report(self) -> Report:
         """
-        Membuat laporan kesesuaian untuk satu mata kuliah.
-
-        Mengambil data validasi, menghitung persentase kesesuaian,
-        dan menyusun daftar materi tidak sesuai serta materi
-        yang belum diajarkan.
-
-        Args:
-            course_id: ID mata kuliah.
+        Membuat laporan kesesuaian pembelajaran aktif.
 
         Returns:
             Report: Objek laporan yang berisi seluruh hasil analisis.
@@ -97,30 +64,23 @@ class ReportGenerator:
         Raises:
             ReportGenerationError: Jika data validasi belum tersedia.
         """
-        logger.info(f"Membuat laporan untuk course_id={course_id}")
-
-        # Mengambil data mata kuliah
-        course = self._course_repo.get_by_id(course_id)
-        course_name = course.course_name if course else "Tidak diketahui"
+        logger.info("Membuat laporan kesesuaian pembelajaran")
 
         # Mengambil hasil validasi dari database
-        validation_results = self._validation_repo.get_by_course(course_id)
+        validation_results = self._validation_repo.get_all()
         if not validation_results:
-            logger.warning(
-                f"Belum ada hasil validasi untuk course_id={course_id}"
-            )
+            logger.warning("Belum ada hasil validasi aktif")
             raise ReportGenerationError(
                 MSG_REPORT_FAILED,
                 details={
-                    "course_id": course_id,
                     "reason": "Hasil validasi belum tersedia. "
                               "Jalankan validasi terlebih dahulu."
                 }
             )
 
         # Mengambil data RPS dan BAP untuk konteks laporan
-        rps_list = self._rps_repo.get_by_course(course_id)
-        bap_list = self._bap_repo.get_by_course(course_id)
+        rps_list = self._rps_repo.get_all()
+        bap_list = self._bap_repo.get_all()
 
         # Menghitung statistik kesesuaian (BR-09)
         total_meetings = len(rps_list)
@@ -151,8 +111,6 @@ class ReportGenerator:
 
         # Menyusun objek Report
         report = Report(
-            course_id=course_id,
-            course_name=course_name,
             compliance_percentage=round(compliance_percentage, 2),
             total_meetings=total_meetings,
             matched_count=sesuai_count,
@@ -163,8 +121,7 @@ class ReportGenerator:
         )
 
         logger.info(
-            f"Laporan berhasil dibuat. "
-            f"Kesesuaian: {compliance_percentage:.2f}%"
+            f"Laporan berhasil dibuat. Kesesuaian: {compliance_percentage:.2f}%"
         )
         return report
 
@@ -173,22 +130,10 @@ class ReportGenerator:
         validation_results: List[ValidationResult],
         rps_list: list,
         bap_list: list
-    ) -> List[Dict]:
+    ) -> List[Dict[str, Any]]:
         """
         Menyusun daftar materi yang tidak sesuai atau tidak ditemukan.
-
-        Mengumpulkan semua pertemuan dengan status TIDAK_SESUAI
-        atau TIDAK_DITEMUKAN beserta informasi detail.
-
-        Args:
-            validation_results: Daftar hasil validasi.
-            rps_list: Daftar data RPS.
-            bap_list: Daftar data BAP.
-
-        Returns:
-            List[Dict]: Daftar materi tidak sesuai dengan keterangan.
         """
-        # Membangun mapping untuk akses cepat
         rps_map = {rps.meeting_number: rps for rps in rps_list}
         bap_map = {bap.meeting_number: bap for bap in bap_list}
 
@@ -212,19 +157,6 @@ class ReportGenerator:
     def export_to_pdf(self, report: Report, output_path: str) -> str:
         """
         Mengekspor laporan ke format PDF menggunakan reportlab.
-
-        Sesuai AC-16: Sistem mampu mengekspor laporan kesesuaian
-        ke format PDF tanpa kehilangan data.
-
-        Args:
-            report: Objek Report yang akan diekspor.
-            output_path: Path file PDF keluaran.
-
-        Returns:
-            str: Path absolut file PDF yang dihasilkan.
-
-        Raises:
-            ReportGenerationError: Jika ekspor gagal.
         """
         try:
             from reportlab.lib.pagesizes import A4
@@ -238,10 +170,8 @@ class ReportGenerator:
 
             logger.info(f"Mengekspor laporan ke PDF: {output_path}")
 
-            # Memastikan direktori output ada
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-            # Membuat dokumen PDF
             doc = SimpleDocTemplate(
                 output_path,
                 pagesize=A4,
@@ -251,14 +181,13 @@ class ReportGenerator:
                 bottomMargin=2 * cm
             )
 
-            # Menyiapkan style untuk dokumen
             styles = getSampleStyleSheet()
             title_style = ParagraphStyle(
                 'CustomTitle',
                 parent=styles['Heading1'],
                 fontSize=16,
                 spaceAfter=12,
-                alignment=1  # Tengah
+                alignment=1
             )
             subtitle_style = ParagraphStyle(
                 'CustomSubtitle',
@@ -268,19 +197,13 @@ class ReportGenerator:
             )
             normal_style = styles['Normal']
 
-            # Menyusun konten dokumen
             elements = []
 
-            # Judul laporan
             elements.append(
-                Paragraph("Laporan Kesesuaian RPS dan BAP", title_style)
+                Paragraph("Laporan Kesesuaian RPS dan BAP (Single Active Mode)", title_style)
             )
             elements.append(Spacer(1, 12))
 
-            # Informasi mata kuliah
-            elements.append(
-                Paragraph(f"Mata Kuliah: {report.course_name}", normal_style)
-            )
             elements.append(
                 Paragraph(
                     f"Tanggal Generate: "
@@ -290,7 +213,6 @@ class ReportGenerator:
             )
             elements.append(Spacer(1, 12))
 
-            # Ringkasan kesesuaian
             elements.append(
                 Paragraph("Ringkasan Kesesuaian", subtitle_style)
             )
@@ -360,7 +282,6 @@ class ReportGenerator:
             elements.append(detail_table)
             elements.append(Spacer(1, 20))
 
-            # Tabel materi tidak sesuai (jika ada)
             if report.mismatched_list:
                 elements.append(
                     Paragraph("Daftar Materi Tidak Sesuai", subtitle_style)
@@ -388,7 +309,6 @@ class ReportGenerator:
                 elements.append(mm_table)
                 elements.append(Spacer(1, 20))
 
-            # Tabel materi belum diajarkan (jika ada)
             if report.missing_list:
                 elements.append(
                     Paragraph("Daftar Materi Belum Diajarkan", subtitle_style)
@@ -415,9 +335,7 @@ class ReportGenerator:
                 ]))
                 elements.append(ms_table)
 
-            # Membangun dokumen PDF
             doc.build(elements)
-
             logger.info(f"Laporan PDF berhasil diekspor ke {output_path}")
             return os.path.abspath(output_path)
 
@@ -437,40 +355,24 @@ class ReportGenerator:
     def export_to_excel(self, report: Report, output_path: str) -> str:
         """
         Mengekspor laporan ke format Excel menggunakan pandas dan openpyxl.
-
-        Sesuai AC-16: Sistem mampu mengekspor laporan ke Excel.
-
-        Args:
-            report: Objek Report yang akan diekspor.
-            output_path: Path file Excel keluaran.
-
-        Returns:
-            str: Path absolut file Excel yang dihasilkan.
-
-        Raises:
-            ReportGenerationError: Jika ekspor gagal.
         """
         try:
             import pandas as pd
 
             logger.info(f"Mengekspor laporan ke Excel: {output_path}")
 
-            # Memastikan direktori output ada
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-            # Membuat Excel writer dengan openpyxl engine
             with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
-
                 # Sheet 1: Ringkasan
                 summary_data = {
                     "Metrik": [
-                        "Mata Kuliah", "Total Pertemuan",
+                        "Total Pertemuan",
                         "Pertemuan Sesuai", "Persentase Kesesuaian (%)",
                         "Materi Tidak Sesuai", "Materi Belum Diajarkan",
                         "Tanggal Generate"
                     ],
                     "Nilai": [
-                        report.course_name,
                         report.total_meetings,
                         report.matched_count,
                         f"{report.compliance_percentage:.2f}",
@@ -547,19 +449,3 @@ class ReportGenerator:
                 MSG_REPORT_FAILED,
                 details={"format": "Excel", "error": str(e)}
             )
-
-    def save_report_history(self, report: Report) -> None:
-        """
-        Menyimpan riwayat laporan yang telah digenerate.
-
-        Catatan: Pada implementasi ini, riwayat disimpan sebagai
-        bagian dari validation_results di database. Setiap kali
-        validasi dijalankan ulang, hasil validasi diperbarui.
-
-        Args:
-            report: Objek Report yang akan dicatat riwayatnya.
-        """
-        logger.info(
-            f"Riwayat laporan dicatat untuk course_id={report.course_id} "
-            f"pada {report.generated_at.strftime(DATETIME_FORMAT)}"
-        )
