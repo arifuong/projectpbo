@@ -11,7 +11,7 @@ import re
 from typing import List, Dict, Any, Optional, Tuple
 
 from utils.pdf_reader import PDFReader
-from utils.topic_extractor import TopicExtractor
+from utils.rps_parser import RPSParser
 from utils.logger import setup_logger
 from utils.exceptions import PDFExtractionError, PDFTableNotFoundError
 
@@ -39,7 +39,7 @@ class PDFExtractionService:
         """
         # Composition: has-a PDFReader
         self._reader: Optional[PDFReader] = reader
-        self._topic_extractor = TopicExtractor()
+        self._rps_parser = RPSParser()
         logger.info("PDFExtractionService diinisialisasi.")
 
     def extract_pokok_bahasan(self, file_path: str) -> List[Dict[str, Any]]:
@@ -74,14 +74,7 @@ class PDFExtractionService:
             if tables:
                 parsed_data = self._parse_table_data(tables)
                 if parsed_data:
-                    # Validasi jumlah pertemuan hasil ekstraksi (Target 10)
-                    if len(parsed_data) < 10:
-                        logger.warning(
-                            f"WARNING: Hasil ekstraksi tabel hanya menemukan {len(parsed_data)} pertemuan (kurang dari 10)! "
-                            "Harap periksa format dokumen PDF secara manual."
-                        )
-                    
-                    logger.info(f"Pertemuan berhasil diekstrak: {len(parsed_data)}")
+                    self._log_extraction_summary(parsed_data)
                     return parsed_data
         except (PDFTableNotFoundError, PDFExtractionError) as e:
             logger.warning(f"Ekstraksi tabel gagal atau tidak ditemukan. Alasan: {e}. Mengaktifkan fallback ke teks mentah...")
@@ -90,16 +83,23 @@ class PDFExtractionService:
             logger.error(f"Gagal saat mencoba ekstraksi tabel: {e}. Mengaktifkan fallback ke teks mentah...")
             self.handle_extraction_failure({"file_path": file_path, "reason": str(e)})
 
-        # 2. Fallback: Ekstraksi teks biasa dan parsing regex (pypdf/pdfplumber text)
+        # 2. Fallback: words + regex untuk PDF tanpa garis tabel.
+        try:
+            pages_words = reader.extract_words_by_page()
+            parsed_data = self._parse_words_data(pages_words)
+            if parsed_data:
+                self._log_extraction_summary(parsed_data)
+                return parsed_data
+        except Exception as e:
+            logger.warning(f"Fallback extract_words gagal. Alasan: {e}. Mengaktifkan fallback pypdf...")
+
+        # 3. Fallback akhir: Ekstraksi teks biasa dan parsing regex (pypdf/pdfplumber text)
         try:
             raw_text = reader.extract_raw_text()
             if raw_text:
                 parsed_data = self._parse_text_data(raw_text)
                 if parsed_data:
-                    if len(parsed_data) < 10:
-                        logger.warning(f"WARNING: Hasil ekstraksi fallback hanya menemukan {len(parsed_data)} pertemuan (kurang dari 10)!")
-                        
-                    logger.info(f"Ekstraksi teks mentah sukses. Berhasil mengekstrak {len(parsed_data)} pertemuan.")
+                    self._log_extraction_summary(parsed_data)
                     return parsed_data
             
             # Jika semua metode gagal mengembalikan data
@@ -126,7 +126,6 @@ class PDFExtractionService:
             if len(table) < 2:
                 continue
                 
-            # Deteksi kolom header secara dinamis (Target 7)
             col_mapping = self._detect_columns(table)
             meeting_col, topic_col, sub_topic_col = col_mapping
             
@@ -135,65 +134,36 @@ class PDFExtractionService:
                 f"meeting={meeting_col}, topic={topic_col}, sub_topic={sub_topic_col}"
             )
             
-            # Jika kolom minimal (meeting & topic) tidak terdeteksi, gunakan fallback default
             if meeting_col == -1 or topic_col == -1:
-                if len(table[0]) >= 2:
-                    meeting_col = 0
-                    topic_col = 1
-                    sub_topic_col = 2 if len(table[0]) >= 3 else -1
-                else:
-                    continue
+                continue
 
-            # Iterasi baris tabel
-            for row in table:
-                if len(row) <= max(meeting_col, topic_col):
-                    continue
-                    
-                meeting_val = row[meeting_col].strip()
-                topic_val = row[topic_col].strip()
-                
-                # sub_topic bersifat opsional
-                sub_topic_val = ""
-                if sub_topic_col != -1 and len(row) > sub_topic_col:
-                    sub_topic_val = row[sub_topic_col].strip()
-                
-                # Normalisasi nomor pertemuan, tetapi pertahankan newline topik
-                # karena newline dipakai TopicExtractor untuk mendeteksi heading.
-                meeting_val = re.sub(r'\s+', ' ', meeting_val).strip()
-                sub_topic_val = self._topic_extractor.normalize_whitespace(sub_topic_val)
-
-                if not meeting_val or not topic_val:
-                    continue
-
-                # Ekstrak nomor pertemuan angka dari string
-                meeting_num = self._extract_meeting_number(meeting_val)
-                if meeting_num is None:
-                    continue  # Lewati baris header/identitas yang bukan record pertemuan
-                    
-                context_values = [
-                    cell for idx, cell in enumerate(row)
-                    if idx != topic_col and isinstance(cell, str) and cell.strip()
-                ]
-
-                results.append({
-                    "meeting_number": meeting_num,
-                    "topic": self._topic_extractor.clean_topic(topic_val, context=context_values),
-                    "sub_topic": sub_topic_val
-                })
+            table_records = self._rps_parser.rows_to_records(
+                table,
+                meeting_col=meeting_col,
+                topic_col=topic_col,
+                sub_topic_col=sub_topic_col,
+            )
+            results.extend(table_records)
                 
         # Urutkan berdasarkan nomor pertemuan dan hilangkan duplikasi jika ada
         unique_results = {}
         for item in results:
             m_num = item["meeting_number"]
-            # Simpan atau update rincian terpanjang jika ada duplikat nomor pertemuan
-            if m_num not in unique_results or len(item["topic"]) > len(unique_results[m_num]["topic"]):
+            if m_num not in unique_results:
                 unique_results[m_num] = item
+                continue
+
+            existing = unique_results[m_num]
+            if item.get("sub_topic"):
+                existing["sub_topic"] = self._rps_parser.append_sub_topic(
+                    existing.get("sub_topic", ""),
+                    item["sub_topic"],
+                )
                 
         final_list = []
         for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
-            item["topic"] = self._topic_extractor.clean_topic(item["topic"])
-            if item.get("sub_topic"):
-                item["sub_topic"] = self._topic_extractor.normalize_whitespace(item["sub_topic"])
+            item["topic"] = self._rps_parser.normalize_cell(item.get("topic", ""), keep_newline=False)
+            item["sub_topic"] = self._rps_parser.normalize_multiline(item.get("sub_topic", ""))
             final_list.append(item)
             
         return final_list
@@ -208,33 +178,7 @@ class PDFExtractionService:
         Returns:
             Tuple[int, int, int]: Indeks kolom (meeting_col, topic_col, sub_topic_col).
         """
-        meeting_col = -1
-        topic_col = -1
-        sub_topic_col = -1
-        
-        # Cari header di 3 baris pertama
-        for row_idx in range(min(3, len(table))):
-            row = [cell.lower() for cell in table[row_idx]]
-            
-            for col_idx, cell in enumerate(row):
-                # 1. Deteksi nomor pertemuan / sesi
-                if any(k in cell for k in ["minggu", "pertemuan", "ke-", "ke ", "mng", "pert", "no", "sesi"]):
-                    if meeting_col == -1:
-                        meeting_col = col_idx
-                # 2. Deteksi sub pokok bahasan (harus diletakkan sebelum pokok bahasan utama)
-                elif any(k in cell for k in ["sub pokok", "sub bahasan", "sub-topik", "sub topik", "sub-cp-mk", "sub cpmk", "rincian materi"]):
-                    if sub_topic_col == -1:
-                        sub_topic_col = col_idx
-                # 3. Deteksi pokok bahasan / topik utama
-                elif any(k in cell for k in ["pokok bahasan", "materi", "topik", "bahan kajian", "kemampuan akhir"]):
-                    if topic_col == -1:
-                        topic_col = col_idx
-                        
-            # Jika sudah menemukan setidaknya meeting dan topic, stop pencarian
-            if meeting_col != -1 and topic_col != -1:
-                break
-                
-        return meeting_col, topic_col, sub_topic_col
+        return self._rps_parser.detect_columns(table)
 
     def _extract_meeting_number(self, val: str) -> Optional[int]:
         """
@@ -246,29 +190,27 @@ class PDFExtractionService:
         Returns:
             Optional[int]: Nilai integer jika ditemukan, None jika tidak.
         """
-        if not val:
-            return None
-            
-        # Bersihkan spasi
-        val_clean = val.strip().lower()
-        
-        # 1. Cari angka desimal langsung
-        match = re.search(r'\b(\d+)\b', val_clean)
-        if match:
-            return int(match.group(1))
-            
-        # 2. Cari angka romawi jika tidak ada angka biasa (I, II, III, IV, dsb)
-        roman_patterns = [
-            (r'\bxvi\b', 16), (r'\bxv\b', 15), (r'\bxiv\b', 14), (r'\bxiii\b', 13),
-            (r'\bxii\b', 12), (r'\bxi\b', 11), (r'\bx\b', 10), (r'\bix\b', 9),
-            (r'\bviii\b', 8), (r'\bvii\b', 7), (r'\bvi\b', 6), (r'\bv\b', 5),
-            (r'\biv\b', 4), (r'\biii\b', 3), (r'\bii\b', 2), (r'\bi\b', 1)
-        ]
-        for pattern, num in roman_patterns:
-            if re.search(pattern, val_clean):
-                return num
-                
-        return None
+        return self._rps_parser.extract_meeting_number(val)
+
+    def _parse_words_data(self, pages_words: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Fallback untuk PDF tanpa garis tabel: susun teks dari words lalu parse regex.
+        """
+        page_texts = []
+        for page in pages_words:
+            words = page.get("words", [])
+            if not words:
+                continue
+            words_sorted = sorted(words, key=lambda w: (round(float(w.get("top", 0)) / 4), float(w.get("x0", 0))))
+            lines: Dict[int, List[str]] = {}
+            for word in words_sorted:
+                key = round(float(word.get("top", 0)) / 4)
+                lines.setdefault(key, []).append(str(word.get("text", "")))
+            for key in sorted(lines):
+                line = self._rps_parser.normalize_cell(" ".join(lines[key]), keep_newline=False)
+                if line:
+                    page_texts.append(line)
+        return self._parse_text_data("\n".join(page_texts))
 
     def _parse_text_data(self, raw_text: str) -> List[Dict[str, Any]]:
         """
@@ -298,14 +240,7 @@ class PDFExtractionService:
                 meeting_num = int(match.group(1))
                 content = match.group(2).strip()
                 
-                topic = content
-                sub_topic = ""
-                
-                sub_match = re.search(r'\((.*?)\)', content)
-                if sub_match:
-                    sub_topic = sub_match.group(1)
-                    topic = content.replace(f"({sub_topic})", "").strip()
-                
+                topic, sub_topic = self._rps_parser.split_topic_subtopic(content)
                 if topic:
                     results.append({
                         "meeting_number": meeting_num,
@@ -322,9 +257,8 @@ class PDFExtractionService:
                 
         final_list = []
         for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
-            item["topic"] = self._topic_extractor.clean_topic(item["topic"])
-            if item.get("sub_topic"):
-                item["sub_topic"] = self._topic_extractor.normalize_whitespace(item["sub_topic"])
+            item["topic"] = self._rps_parser.normalize_cell(item.get("topic", ""), keep_newline=False)
+            item["sub_topic"] = self._rps_parser.normalize_multiline(item.get("sub_topic", ""))
             final_list.append(item)
             
         return final_list
@@ -340,3 +274,15 @@ class PDFExtractionService:
             f"KEGAGALAN EKSTRAKSI DOKUMEN: file={error_info.get('file_path')}, "
             f"Alasan={error_info.get('reason')}"
         )
+
+    def _log_extraction_summary(self, parsed_data: List[Dict[str, Any]]) -> None:
+        """
+        Logging ringkasan hasil parsing RPS.
+        """
+        if len(parsed_data) < 10:
+            logger.warning(
+                f"WARNING: Hasil ekstraksi hanya menemukan {len(parsed_data)} pertemuan."
+            )
+        logger.info(f"Pertemuan berhasil dibaca: {len(parsed_data)}")
+        topic_count = sum(1 for item in parsed_data if item.get("topic"))
+        logger.info(f"Topik berhasil diekstrak: {topic_count}")

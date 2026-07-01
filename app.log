@@ -9915,3 +9915,102 @@ Exception: System Error Text
 2026-07-01 18:35:57 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
 2026-07-01 18:35:57 - services.pdf_extraction_service - INFO - Pertemuan berhasil diekstrak: 14
 2026-07-01 18:35:57 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-01 18:57:14 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-01 18:57:14 - services.file_upload_handler - INFO - Menyalin file dari 'C:\laragon\www\projectpbo\uploads\temp\RPS-Pemograman_Berorientasi_Objek2025.pdf' ke 'C:\laragon\www\projectpbo\uploads\rps_active_1782907034.pdf'
+2026-07-01 18:57:14 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS-Pemograman_Berorientasi_Objek2025.pdf' status=SUCCESS
+2026-07-01 18:57:14 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: C:\laragon\www\projectpbo\uploads\rps_active_1782907034.pdf
+2026-07-01 18:57:14 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpbo\uploads\rps_active_1782907034.pdf
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 4 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 4 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 5 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 5 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 6 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 6 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 7 ditemukan tabel RPS
+2026-07-01 18:57:15 - utils.pdf_reader - INFO - Halaman 7 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 8 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 8 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 9 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 9 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 10 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 10 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 11 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Halaman 11 ditemukan tabel RPS
+2026-07-01 18:57:16 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-01 18:57:16 - services.pdf_extraction_service - INFO - Pertemuan berhasil diekstrak: 14
+2026-07-01 18:57:16 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-01 19:03:29 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-01 19:03:29 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 19:03:29 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 19:03:29 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 19:03:29 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 19:03:29 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 19:03:29 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 19:03:29 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 19:03:29 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 19:03:29 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 19:03:29 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 19:03:29 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 19:03:29 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-01 19:03:29 - web_main - INFO - Memulai Server Flask di http://127.0.0.1:5000 (debug=True)...
+2026-07-01 19:05:23 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-01 19:05:23 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 19:05:23 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 19:05:23 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 19:05:23 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 19:05:23 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 19:05:23 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 19:05:23 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 19:05:23 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 19:05:23 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 19:05:23 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 19:05:23 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 19:05:23 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-01 19:05:23 - web_main - INFO - Memulai Server Flask di http://127.0.0.1:5000 (debug=True)...
+2026-07-01 19:05:42 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-01 19:05:42 - services.file_upload_handler - INFO - Menyalin file dari 'C:\laragon\www\projectpbo\uploads\temp\RPS-Pemograman_Berorientasi_Objek2025.pdf' ke 'C:\laragon\www\projectpbo\uploads\rps_active_1782907542.pdf'
+2026-07-01 19:05:42 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS-Pemograman_Berorientasi_Objek2025.pdf' status=SUCCESS
+2026-07-01 19:05:42 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: C:\laragon\www\projectpbo\uploads\rps_active_1782907542.pdf
+2026-07-01 19:05:42 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpbo\uploads\rps_active_1782907542.pdf
+2026-07-01 19:05:42 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-01 19:05:42 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-01 19:05:43 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-01 19:05:44 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-01 19:05:44 - services.pdf_extraction_service - INFO - Pertemuan berhasil dibaca: 14
+2026-07-01 19:05:44 - services.pdf_extraction_service - INFO - Topik berhasil diekstrak: 14
+2026-07-01 19:05:44 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-01 19:05:51 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-01 19:05:51 - services.rps_manager - INFO - Menyimpan 14 data RPS secara transaksional REPLACE ALL.
+2026-07-01 19:05:51 - repositories.rps_repository - INFO - Menjalankan transaksi REPLACE ALL dengan 18 query.
+2026-07-01 19:05:51 - database.connection - INFO - Memulai transaksi database dengan 18 query.
+2026-07-01 19:05:51 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 19:05:51 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-01 19:05:51 - app.controllers.upload_controller - INFO - Berhasil menyimpan 14 rps record ke basis data.
+2026-07-01 19:05:52 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-01 19:06:01 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-01 19:06:03 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-01 19:06:04 - services.report_generator - INFO - Membuat laporan kesesuaian pembelajaran
+2026-07-01 19:06:04 - services.report_generator - WARNING - Belum ada hasil validasi aktif
+2026-07-01 19:06:04 - app.controllers.report_controller - ERROR - Gagal menyusun data ringkasan laporan.
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\app\controllers\report_controller.py", line 45, in get_report_data
+    report = report_gen.generate_report()
+  File "C:\laragon\www\projectpbo\services\report_generator.py", line 73, in generate_report
+    raise ReportGenerationError(
+utils.exceptions.ReportGenerationError: Gagal membuat laporan | Detail: {'reason': 'Hasil validasi belum tersedia. Jalankan validasi terlebih dahulu.'}

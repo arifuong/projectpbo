@@ -7,11 +7,12 @@ dan pypdf sebagai fallback.
 """
 
 import os
-from typing import List, Any
+from typing import List, Any, Dict
 import pdfplumber
 from pypdf import PdfReader as PyPdfReader
 
 from utils.document_reader import DocumentReader
+from utils.rps_parser import RPSParser
 from utils.logger import setup_logger
 from utils.exceptions import PDFExtractionError, PDFTableNotFoundError
 
@@ -27,6 +28,10 @@ class PDFReader(DocumentReader):
     Menggunakan library `pdfplumber` untuk mengekstrak tabel secara akurat,
     dan `pypdf` sebagai fallback untuk mengekstrak teks mentah jika pdfplumber gagal.
     """
+
+    def __init__(self, file_path: str) -> None:
+        super().__init__(file_path)
+        self._rps_parser = RPSParser()
 
     def read(self) -> str:
         """
@@ -71,7 +76,7 @@ class PDFReader(DocumentReader):
         try:
             with pdfplumber.open(self.file_path) as pdf:
                 for page_num, page in enumerate(pdf.pages, start=1):
-                    # Ekstrak seluruh tabel di halaman aktif
+                    logger.info(f"Halaman {page_num}: membaca tabel PDF")
                     tables = page.extract_tables()
                     if tables:
                         for t in tables:
@@ -82,9 +87,8 @@ class PDFReader(DocumentReader):
                                 for row in t
                             ]
                             
-                            # Identifikasi apakah tabel ini merupakan tabel RPS silabus utama (Target 3)
                             if self._is_rps_table(cleaned_table):
-                                logger.info(f"Halaman {page_num} ditemukan tabel RPS")
+                                logger.info(f"Halaman {page_num}: tabel RPS ditemukan")
                                 extracted_tables.append(cleaned_table)
             
             logger.info(f"Total tabel ditemukan: {total_tables_found}")
@@ -113,15 +117,36 @@ class PDFReader(DocumentReader):
         if len(table) < 2:
             return False
             
-        # Cari di 3 baris pertama
-        keywords = ["sesi", "pertemuan", "materi pembelajaran", "sub-cp-mk", "pokok bahasan", "bahan kajian", "topik"]
-        
-        for row_idx in range(min(3, len(table))):
-            row_lower = [cell.lower() for cell in table[row_idx]]
-            for cell in row_lower:
-                if any(k in cell for k in keywords):
-                    return True
-        return False
+        return self._rps_parser.is_rps_table(table)
+
+    def extract_words_by_page(self) -> List[Dict[str, Any]]:
+        """
+        Mengekstrak kata beserta koordinat per halaman menggunakan pdfplumber.
+
+        Dipakai sebagai fallback saat PDF tidak memiliki garis tabel yang
+        dapat dibaca `extract_tables`.
+        """
+        logger.info(f"Mengekstrak words dari PDF menggunakan pdfplumber: {self.file_path}")
+        if not os.path.exists(self.file_path):
+            raise PDFExtractionError(f"File PDF tidak ditemukan: {self.file_path}")
+
+        pages_words: List[Dict[str, Any]] = []
+        try:
+            with pdfplumber.open(self.file_path) as pdf:
+                for page_num, page in enumerate(pdf.pages, start=1):
+                    words = page.extract_words(
+                        keep_blank_chars=False,
+                        use_text_flow=True,
+                    )
+                    logger.info(f"Halaman {page_num}: words terbaca {len(words)}")
+                    pages_words.append({
+                        "page_number": page_num,
+                        "words": words,
+                    })
+            return pages_words
+        except Exception as e:
+            logger.exception(f"Gagal mengekstrak words dari PDF: {e}")
+            raise PDFExtractionError(f"Gagal mengekstrak words PDF: {e}")
 
     def extract_raw_text(self) -> str:
         """
