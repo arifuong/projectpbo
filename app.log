@@ -1,0 +1,986 @@
+2026-07-01 15:56:12 - __main__ - INFO - ============================================================
+2026-07-01 15:56:12 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 15:56:12 - __main__ - INFO - ============================================================
+2026-07-01 15:56:12 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 15:56:12 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 15:56:12 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 15:56:12 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 15:56:12 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 15:56:12 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 15:56:12 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 15:56:12 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 15:56:12 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 15:56:12 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 15:56:12 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 15:56:12 - __main__ - INFO -   - Database User : root
+2026-07-01 15:56:12 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 15:56:12 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 15:56:12 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 15:56:12 - __main__ - INFO - ------------------------------------------------------------
+2026-07-01 15:56:12 - __main__ - INFO - Tahap 1 selesai: Struktur project dan konfigurasi.
+2026-07-01 15:56:12 - __main__ - INFO - Tahap 2: DatabaseConnection, Repository, Entity, Model.
+2026-07-01 15:56:12 - __main__ - INFO - ------------------------------------------------------------
+2026-07-01 16:10:48 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:10:48 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:10:48 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:10:48 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:10:48 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:10:48 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:10:48 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:10:48 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:10:48 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:10:48 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:10:48 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:10:48 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:10:48 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:10:48 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:10:48 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:10:48 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:10:48 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:10:48 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:10:48 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:10:48 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:10:48 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:10:48 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:10:48 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:10:48 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:11:06 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:11:06 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:06 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:06 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:06 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:11:06 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-01 16:11:06 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-01 16:11:07 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:11:07 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:11:07 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:11:07 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:11:07 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:11:07 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:11:07 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:11:14 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:11:14 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:11:14 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:11:14 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:11:14 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:11:14 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-01 16:11:14 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-01 16:11:14 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:11:14 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:11:14 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:11:14 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:11:14 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:11:14 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:11:14 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:13:11 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\text_cleaner.py", line 169, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-01 16:13:11 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-2\test_read_success0\test.txt
+2026-07-01 16:13:11 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-2\test_read_success0\test.txt
+2026-07-01 16:13:11 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-2\test_read_success0\test.txt
+2026-07-01 16:13:11 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-01 16:13:11 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:11 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:11 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-01 16:13:11 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:13:11 - utils.pdf_reader - ERROR - Gagal mengekstrak teks mentah dari PDF: [Errno 2] No such file or directory: 'dummy.pdf'
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\pdf_reader.py", line 110, in extract_raw_text
+    reader = PyPdfReader(self.file_path)
+  File "C:\laragon\bin\python\python-3.10\lib\site-packages\pypdf\_reader.py", line 151, in __init__
+    self._initialize_stream(stream)
+  File "C:\laragon\bin\python\python-3.10\lib\site-packages\pypdf\_reader.py", line 172, in _initialize_stream
+    with open(stream, "rb") as fh:
+FileNotFoundError: [Errno 2] No such file or directory: 'dummy.pdf'
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:11 - services.pdf_extraction_service - WARNING - Ekstraksi tabel gagal atau tidak ditemukan. Alasan: No table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:11 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=No table
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - Ekstraksi teks mentah sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:11 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:11 - services.pdf_extraction_service - ERROR - Gagal saat mencoba ekstraksi tabel: System Error Table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:11 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=System Error Table
+2026-07-01 16:13:11 - services.pdf_extraction_service - ERROR - Fallback ekstraksi teks mentah gagal: System Error Text
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\services\pdf_extraction_service.py", line 86, in extract_pokok_bahasan
+    raw_text = reader.extract_raw_text()
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1104, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1108, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1163, in _execute_mock_call
+    raise effect
+Exception: System Error Text
+2026-07-01 16:13:33 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\text_cleaner.py", line 171, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-01 16:13:33 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-3\test_read_success0\test.txt
+2026-07-01 16:13:33 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-3\test_read_success0\test.txt
+2026-07-01 16:13:33 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-3\test_read_success0\test.txt
+2026-07-01 16:13:33 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-01 16:13:33 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:33 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:33 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-01 16:13:33 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:13:33 - utils.pdf_reader - INFO - Membaca file PDF secara keseluruhan: dummy.pdf
+2026-07-01 16:13:33 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:33 - services.pdf_extraction_service - WARNING - Ekstraksi tabel gagal atau tidak ditemukan. Alasan: No table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:33 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=No table
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - Ekstraksi teks mentah sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:33 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:33 - services.pdf_extraction_service - ERROR - Gagal saat mencoba ekstraksi tabel: System Error Table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:33 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=System Error Table
+2026-07-01 16:13:33 - services.pdf_extraction_service - ERROR - Fallback ekstraksi teks mentah gagal: System Error Text
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\services\pdf_extraction_service.py", line 86, in extract_pokok_bahasan
+    raw_text = reader.extract_raw_text()
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1104, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1108, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1163, in _execute_mock_call
+    raise effect
+Exception: System Error Text
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:13:42 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:13:42 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:13:42 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:13:42 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:13:42 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:13:42 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-01 16:13:42 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-01 16:13:42 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:13:42 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:13:42 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:13:42 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:13:42 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:13:42 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:13:42 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:13:42 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\text_cleaner.py", line 171, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-01 16:13:42 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-4\test_read_success0\test.txt
+2026-07-01 16:13:42 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-4\test_read_success0\test.txt
+2026-07-01 16:13:42 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-4\test_read_success0\test.txt
+2026-07-01 16:13:42 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-01 16:13:42 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:42 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:13:42 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-01 16:13:42 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:13:42 - utils.pdf_reader - INFO - Membaca file PDF secara keseluruhan: dummy.pdf
+2026-07-01 16:13:42 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:42 - services.pdf_extraction_service - WARNING - Ekstraksi tabel gagal atau tidak ditemukan. Alasan: No table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:42 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=No table
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - Ekstraksi teks mentah sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:13:42 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:13:42 - services.pdf_extraction_service - ERROR - Gagal saat mencoba ekstraksi tabel: System Error Table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:13:42 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=System Error Table
+2026-07-01 16:13:42 - services.pdf_extraction_service - ERROR - Fallback ekstraksi teks mentah gagal: System Error Text
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\services\pdf_extraction_service.py", line 86, in extract_pokok_bahasan
+    raw_text = reader.extract_raw_text()
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1104, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1108, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1163, in _execute_mock_call
+    raise effect
+Exception: System Error Text
+2026-07-01 16:15:28 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.rps_manager - INFO - Menghapus data RPS lama untuk course_id=1
+2026-07-01 16:15:28 - services.rps_manager - INFO - Menyimpan 1 data RPS untuk course_id=1
+2026-07-01 16:15:28 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-01 16:15:28 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.rps_manager - ERROR - Mata kuliah dengan ID 99 tidak ditemukan
+2026-07-01 16:15:28 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.rps_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:15:28 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:15:28 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.bap_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:15:28 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:28 - services.bap_manager - WARNING - Nomor pertemuan 15 melebihi total RPS (14) untuk course_id=1
+2026-07-01 16:15:28 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:28 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:28 - services.validator - INFO - Pertemuan ke-1: SESUAI (skor=100.00%)
+2026-07-01 16:15:28 - services.validator - INFO - Menyimpan 1 hasil validasi untuk course_id=1
+2026-07-01 16:15:28 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 100.00%
+2026-07-01 16:15:28 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:28 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:28 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-01 16:15:28 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-01 16:15:28 - services.validator - INFO - Menyimpan 2 hasil validasi untuk course_id=1
+2026-07-01 16:15:28 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-01 16:15:28 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:28 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:28 - services.validator - ERROR - Data RPS belum tersedia untuk course_id=1
+2026-07-01 16:15:28 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:15:28 - services.report_generator - INFO - Membuat laporan untuk course_id=1
+2026-07-01 16:15:28 - services.report_generator - INFO - Laporan berhasil dibuat. Kesesuaian: 50.00%
+2026-07-01 16:15:28 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:15:28 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:15:28 - services.dashboard_service - INFO - Mengambil top 5 mismatched courses.
+2026-07-01 16:15:28 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: Ganjil
+2026-07-01 16:15:28 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_validate_file_ok0
+2026-07-01 16:15:28 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_validate_file_invalid_ext0
+2026-07-01 16:15:28 - services.file_upload_handler - WARNING - File ditolak. Ekstensi tidak diizinkan: .txt
+2026-07-01 16:15:28 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_validate_file_too_large0
+2026-07-01 16:15:28 - services.file_upload_handler - WARNING - File ditolak. Ukuran file terlalu besar: 2.00 MB
+2026-07-01 16:15:28 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_save_file_success0\uploads
+2026-07-01 16:15:28 - services.file_upload_handler - INFO - Menyalin file dari 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_save_file_success0\source.pdf' ke 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-5\test_save_file_success0\uploads\rps_course_1_1782897328.pdf'
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:15:35 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:15:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:15:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:15:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:15:35 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:15:35 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-01 16:15:35 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-01 16:15:35 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:15:35 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:15:35 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:15:35 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:15:35 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:15:35 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:15:35 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:15:35 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\text_cleaner.py", line 171, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-01 16:15:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_read_success0\test.txt
+2026-07-01 16:15:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_read_success0\test.txt
+2026-07-01 16:15:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_read_success0\test.txt
+2026-07-01 16:15:35 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-01 16:15:35 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:15:35 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:15:35 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-01 16:15:35 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:15:35 - utils.pdf_reader - INFO - Membaca file PDF secara keseluruhan: dummy.pdf
+2026-07-01 16:15:35 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:15:35 - services.pdf_extraction_service - WARNING - Ekstraksi tabel gagal atau tidak ditemukan. Alasan: No table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:15:35 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=No table
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - Ekstraksi teks mentah sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:15:35 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:15:35 - services.pdf_extraction_service - ERROR - Gagal saat mencoba ekstraksi tabel: System Error Table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:15:35 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=System Error Table
+2026-07-01 16:15:35 - services.pdf_extraction_service - ERROR - Fallback ekstraksi teks mentah gagal: System Error Text
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\services\pdf_extraction_service.py", line 86, in extract_pokok_bahasan
+    raw_text = reader.extract_raw_text()
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1104, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1108, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1163, in _execute_mock_call
+    raise effect
+Exception: System Error Text
+2026-07-01 16:15:35 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.rps_manager - INFO - Menghapus data RPS lama untuk course_id=1
+2026-07-01 16:15:35 - services.rps_manager - INFO - Menyimpan 1 data RPS untuk course_id=1
+2026-07-01 16:15:35 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-01 16:15:35 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.rps_manager - ERROR - Mata kuliah dengan ID 99 tidak ditemukan
+2026-07-01 16:15:35 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.rps_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:15:35 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:15:35 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.bap_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:15:35 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:15:35 - services.bap_manager - WARNING - Nomor pertemuan 15 melebihi total RPS (14) untuk course_id=1
+2026-07-01 16:15:35 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:35 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:35 - services.validator - INFO - Pertemuan ke-1: SESUAI (skor=100.00%)
+2026-07-01 16:15:35 - services.validator - INFO - Menyimpan 1 hasil validasi untuk course_id=1
+2026-07-01 16:15:35 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 100.00%
+2026-07-01 16:15:35 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:35 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:35 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-01 16:15:35 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-01 16:15:35 - services.validator - INFO - Menyimpan 2 hasil validasi untuk course_id=1
+2026-07-01 16:15:35 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-01 16:15:35 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:15:35 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:15:35 - services.validator - ERROR - Data RPS belum tersedia untuk course_id=1
+2026-07-01 16:15:35 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:15:35 - services.report_generator - INFO - Membuat laporan untuk course_id=1
+2026-07-01 16:15:35 - services.report_generator - INFO - Laporan berhasil dibuat. Kesesuaian: 50.00%
+2026-07-01 16:15:35 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:15:35 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:15:35 - services.dashboard_service - INFO - Mengambil top 5 mismatched courses.
+2026-07-01 16:15:35 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: Ganjil
+2026-07-01 16:15:35 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_validate_file_ok0
+2026-07-01 16:15:35 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_validate_file_invalid_ext0
+2026-07-01 16:15:35 - services.file_upload_handler - WARNING - File ditolak. Ekstensi tidak diizinkan: .txt
+2026-07-01 16:15:35 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_validate_file_too_large0
+2026-07-01 16:15:35 - services.file_upload_handler - WARNING - File ditolak. Ukuran file terlalu besar: 2.00 MB
+2026-07-01 16:15:35 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_save_file_success0\uploads
+2026-07-01 16:15:35 - services.file_upload_handler - INFO - Menyalin file dari 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_save_file_success0\source.pdf' ke 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-6\test_save_file_success0\uploads\rps_course_1_1782897335.pdf'
+2026-07-01 16:17:03 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:17:03 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:17:03 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:17:03 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:17:03 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:17:03 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:17:03 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:17:03 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:17:16 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:17:16 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:17:16 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:17:16 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:17:16 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:17:16 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:17:16 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:17:16 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:17:30 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:17:30 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:17:30 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:17:30 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:17:30 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:17:30 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:17:30 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:17:30 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:17:43 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:17:43 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:17:43 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:17:43 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:17:43 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:17:43 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:17:43 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:17:43 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:17:55 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:17:55 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:17:55 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:17:55 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:17:55 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:17:55 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:17:55 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:17:55 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:18:02 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:18:02 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:18:02 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:18:02 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:18:02 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:18:02 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:18:02 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-01 16:18:02 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-01 16:18:02 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-01 16:18:02 - repositories.course_repository - INFO - Menyimpan course baru: IF202
+2026-07-01 16:18:02 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-01 16:18:02 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:18:02 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:18:02 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-01 16:18:02 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi untuk course_id=1 sebanyak 1 item.
+2026-07-01 16:18:02 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:18:02 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\utils\text_cleaner.py", line 171, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-01 16:18:02 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_read_success0\test.txt
+2026-07-01 16:18:02 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_read_success0\test.txt
+2026-07-01 16:18:02 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_read_success0\test.txt
+2026-07-01 16:18:02 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-01 16:18:02 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:18:02 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-01 16:18:02 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-01 16:18:02 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:18:02 - utils.pdf_reader - INFO - Membaca file PDF secara keseluruhan: dummy.pdf
+2026-07-01 16:18:02 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:18:02 - services.pdf_extraction_service - WARNING - Ekstraksi tabel gagal atau tidak ditemukan. Alasan: No table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:18:02 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=No table
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - Ekstraksi teks mentah sukses. Berhasil mengekstrak 2 pertemuan.
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:18:02 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: dummy.pdf
+2026-07-01 16:18:02 - services.pdf_extraction_service - ERROR - Gagal saat mencoba ekstraksi tabel: System Error Table. Mengaktifkan fallback ke teks mentah...
+2026-07-01 16:18:02 - services.pdf_extraction_service - WARNING - KEGAGALAN EKSTRAKSI DOKUMEN: file=dummy.pdf, Alasan=System Error Table
+2026-07-01 16:18:02 - services.pdf_extraction_service - ERROR - Fallback ekstraksi teks mentah gagal: System Error Text
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpbo\services\pdf_extraction_service.py", line 86, in extract_pokok_bahasan
+    raw_text = reader.extract_raw_text()
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1104, in __call__
+    return self._mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1108, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+  File "C:\laragon\bin\python\python-3.10\lib\unittest\mock.py", line 1163, in _execute_mock_call
+    raise effect
+Exception: System Error Text
+2026-07-01 16:18:02 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.rps_manager - INFO - Menghapus data RPS lama untuk course_id=1
+2026-07-01 16:18:02 - services.rps_manager - INFO - Menyimpan 1 data RPS untuk course_id=1
+2026-07-01 16:18:02 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-01 16:18:02 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.rps_manager - ERROR - Mata kuliah dengan ID 99 tidak ditemukan
+2026-07-01 16:18:02 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.rps_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:18:02 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1 untuk course_id=1
+2026-07-01 16:18:02 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.bap_manager - WARNING - Nomor pertemuan 1 sudah ada untuk course_id=1
+2026-07-01 16:18:02 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:18:02 - services.bap_manager - WARNING - Nomor pertemuan 15 melebihi total RPS (14) untuk course_id=1
+2026-07-01 16:18:02 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:18:02 - services.validator - INFO - Pertemuan ke-1: SESUAI (skor=100.00%)
+2026-07-01 16:18:02 - services.validator - INFO - Menyimpan 1 hasil validasi untuk course_id=1
+2026-07-01 16:18:02 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 100.00%
+2026-07-01 16:18:02 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:18:02 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-01 16:18:02 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-01 16:18:02 - services.validator - INFO - Menyimpan 2 hasil validasi untuk course_id=1
+2026-07-01 16:18:02 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-01 16:18:02 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.validator - INFO - Memulai proses validasi untuk course_id=1
+2026-07-01 16:18:02 - services.validator - ERROR - Data RPS belum tersedia untuk course_id=1
+2026-07-01 16:18:02 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:18:02 - services.report_generator - INFO - Membuat laporan untuk course_id=1
+2026-07-01 16:18:02 - services.report_generator - INFO - Laporan berhasil dibuat. Kesesuaian: 50.00%
+2026-07-01 16:18:02 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:18:02 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:18:02 - services.dashboard_service - INFO - Mengambil top 5 mismatched courses.
+2026-07-01 16:18:02 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: Ganjil
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_validate_file_ok0
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_validate_file_invalid_ext0
+2026-07-01 16:18:02 - services.file_upload_handler - WARNING - File ditolak. Ekstensi tidak diizinkan: .txt
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_validate_file_too_large0
+2026-07-01 16:18:02 - services.file_upload_handler - WARNING - File ditolak. Ukuran file terlalu besar: 2.00 MB
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_save_file_success0\uploads
+2026-07-01 16:18:02 - services.file_upload_handler - INFO - Menyalin file dari 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_save_file_success0\source.pdf' ke 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-7\test_save_file_success0\uploads\rps_course_1_1782897482.pdf'
+2026-07-01 16:33:38 - __main__ - INFO - ============================================================
+2026-07-01 16:33:38 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 16:33:38 - __main__ - INFO - ============================================================
+2026-07-01 16:33:38 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 16:33:38 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 16:33:38 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 16:33:38 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:33:38 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 16:33:38 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 16:33:38 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 16:33:38 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 16:33:38 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 16:33:38 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 16:33:38 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 16:33:38 - __main__ - INFO -   - Database User : root
+2026-07-01 16:33:38 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 16:33:38 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 16:33:38 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 16:33:38 - __main__ - INFO - Meluncurkan Antarmuka GUI Desktop...
+2026-07-01 16:33:38 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:33:38 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:33:38 - database.connection - ERROR - Gagal menginisialisasi connection pool: Connection configuration not valid: Unsupported argument 'pool_reset_mode'
+2026-07-01 16:33:38 - __main__ - CRITICAL - Kesalahan fatal peluncuran antarmuka GUI: Gagal menginisialisasi database pool: Connection configuration not valid: Unsupported argument 'pool_reset_mode' | Detail: {'error_code': -1}
+2026-07-01 16:38:01 - __main__ - INFO - ============================================================
+2026-07-01 16:38:01 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 16:38:01 - __main__ - INFO - ============================================================
+2026-07-01 16:38:01 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 16:38:01 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 16:38:01 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 16:38:01 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:38:01 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 16:38:01 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 16:38:01 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 16:38:01 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 16:38:01 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 16:38:01 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 16:38:01 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 16:38:01 - __main__ - INFO -   - Database User : root
+2026-07-01 16:38:01 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 16:38:01 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 16:38:01 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 16:38:01 - __main__ - INFO - Meluncurkan Antarmuka GUI Desktop...
+2026-07-01 16:38:01 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:38:01 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:38:01 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:38:01 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 16:38:01 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:38:01 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:38:01 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:38:01 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:38:01 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:38:01 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:38:01 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:38:01 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:38:01 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:38:01 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: SELECT COUNT(*) as total FROM courses;
+2026-07-01 16:38:01 - repositories.dashboard_repository - ERROR - Gagal mengambil data statistik dashboard: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist | Detail: {'query': 'SELECT COUNT(*) as total FROM courses;', 'params': 'None'}
+2026-07-01 16:38:01 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:38:01 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi
+        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,
+               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        GROUP BY c.course_id
+        HAVING mismatch_count > 0
+        ORDER BY mismatch_count DESC, c.course_code ASC
+        LIMIT %s;
+        
+2026-07-01 16:38:01 - repositories.dashboard_repository - ERROR - Gagal mengambil top mismatched courses: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi\n        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,\n               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        GROUP BY c.course_id\n        HAVING mismatch_count > 0\n        ORDER BY mismatch_count DESC, c.course_code ASC\n        LIMIT %s;\n        ", 'params': '(8,)'}
+2026-07-01 16:38:01 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:38:01 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard
+        SELECT c.course_code, c.course_name,
+               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        
+        GROUP BY c.course_id
+        ORDER BY c.course_code ASC;
+        
+2026-07-01 16:38:01 - repositories.dashboard_repository - ERROR - Gagal mengambil compliance chart data: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard\n        SELECT c.course_code, c.course_name,\n               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        \n        GROUP BY c.course_id\n        ORDER BY c.course_code ASC;\n        ", 'params': '()'}
+2026-07-01 16:38:04 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:05 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:38:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: SELECT COUNT(*) as total FROM courses;
+2026-07-01 16:38:05 - repositories.dashboard_repository - ERROR - Gagal mengambil data statistik dashboard: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist | Detail: {'query': 'SELECT COUNT(*) as total FROM courses;', 'params': 'None'}
+2026-07-01 16:38:05 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:38:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi
+        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,
+               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        GROUP BY c.course_id
+        HAVING mismatch_count > 0
+        ORDER BY mismatch_count DESC, c.course_code ASC
+        LIMIT %s;
+        
+2026-07-01 16:38:05 - repositories.dashboard_repository - ERROR - Gagal mengambil top mismatched courses: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi\n        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,\n               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        GROUP BY c.course_id\n        HAVING mismatch_count > 0\n        ORDER BY mismatch_count DESC, c.course_code ASC\n        LIMIT %s;\n        ", 'params': '(8,)'}
+2026-07-01 16:38:05 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:38:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard
+        SELECT c.course_code, c.course_name,
+               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        
+        GROUP BY c.course_id
+        ORDER BY c.course_code ASC;
+        
+2026-07-01 16:38:05 - repositories.dashboard_repository - ERROR - Gagal mengambil compliance chart data: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard\n        SELECT c.course_code, c.course_name,\n               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        \n        GROUP BY c.course_id\n        ORDER BY c.course_code ASC;\n        ", 'params': '()'}
+2026-07-01 16:38:17 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:18 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:38:18 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: SELECT COUNT(*) as total FROM courses;
+2026-07-01 16:38:18 - repositories.dashboard_repository - ERROR - Gagal mengambil data statistik dashboard: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist | Detail: {'query': 'SELECT COUNT(*) as total FROM courses;', 'params': 'None'}
+2026-07-01 16:38:18 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:38:18 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi
+        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,
+               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        GROUP BY c.course_id
+        HAVING mismatch_count > 0
+        ORDER BY mismatch_count DESC, c.course_code ASC
+        LIMIT %s;
+        
+2026-07-01 16:38:18 - repositories.dashboard_repository - ERROR - Gagal mengambil top mismatched courses: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi\n        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,\n               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        GROUP BY c.course_id\n        HAVING mismatch_count > 0\n        ORDER BY mismatch_count DESC, c.course_code ASC\n        LIMIT %s;\n        ", 'params': '(8,)'}
+2026-07-01 16:38:18 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:38:18 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard
+        SELECT c.course_code, c.course_name,
+               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        
+        GROUP BY c.course_id
+        ORDER BY c.course_code ASC;
+        
+2026-07-01 16:38:18 - repositories.dashboard_repository - ERROR - Gagal mengambil compliance chart data: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard\n        SELECT c.course_code, c.course_name,\n               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        \n        GROUP BY c.course_id\n        ORDER BY c.course_code ASC;\n        ", 'params': '()'}
+2026-07-01 16:38:18 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:23 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:24 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:27 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:34 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:36 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:38 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:53 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:38:53 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: SELECT COUNT(*) as total FROM courses;
+2026-07-01 16:38:53 - repositories.dashboard_repository - ERROR - Gagal mengambil data statistik dashboard: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist | Detail: {'query': 'SELECT COUNT(*) as total FROM courses;', 'params': 'None'}
+2026-07-01 16:38:53 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:38:53 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi
+        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,
+               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        GROUP BY c.course_id
+        HAVING mismatch_count > 0
+        ORDER BY mismatch_count DESC, c.course_code ASC
+        LIMIT %s;
+        
+2026-07-01 16:38:53 - repositories.dashboard_repository - ERROR - Gagal mengambil top mismatched courses: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil daftar mata kuliah dengan tingkat ketidaksesuaian tertinggi\n        SELECT c.course_id, c.course_code, c.course_name, c.semester, c.academic_year,\n               SUM(CASE WHEN vr.status IN ('TIDAK_SESUAI', 'TIDAK_DITEMUKAN') THEN 1 ELSE 0 END) as mismatch_count\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        GROUP BY c.course_id\n        HAVING mismatch_count > 0\n        ORDER BY mismatch_count DESC, c.course_code ASC\n        LIMIT %s;\n        ", 'params': '(8,)'}
+2026-07-01 16:38:53 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:38:53 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist. Query: 
+        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard
+        SELECT c.course_code, c.course_name,
+               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage
+        FROM validation_results vr
+        JOIN courses c ON vr.course_id = c.course_id
+        
+        GROUP BY c.course_id
+        ORDER BY c.course_code ASC;
+        
+2026-07-01 16:38:53 - repositories.dashboard_repository - ERROR - Gagal mengambil compliance chart data: Kesalahan query database: 1146 (42S02): Table 'validasi_rps_bap.validation_results' doesn't exist | Detail: {'query': "\n        -- Mengambil data kesesuaian per mata kuliah untuk diagram dashboard\n        SELECT c.course_code, c.course_name,\n               (SUM(CASE WHEN vr.status = 'SESUAI' THEN 1 ELSE 0 END) / COUNT(*)) * 100 as compliance_percentage\n        FROM validation_results vr\n        JOIN courses c ON vr.course_id = c.course_id\n        \n        GROUP BY c.course_id\n        ORDER BY c.course_code ASC;\n        ", 'params': '()'}
+2026-07-01 16:38:54 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:57 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:57 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:58 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:38:58 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:03 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:04 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:04 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:39:05 - database.connection - ERROR - Kesalahan eksekusi query database: 1146 (42S02): Table 'validasi_rps_bap.courses' doesn't exist. Query: 
+        -- Mengambil seluruh data mata kuliah
+        SELECT course_id, course_code, course_name, semester, academic_year, created_at
+        FROM courses
+        ORDER BY course_code;
+        
+2026-07-01 16:43:38 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:43:38 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:43:38 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:44:58 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:44:58 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:44:58 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:44:59 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:44:59 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:44:59 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:49:22 - __main__ - INFO - Aplikasi dihentikan dengan sukses.
+2026-07-01 16:49:27 - __main__ - INFO - ============================================================
+2026-07-01 16:49:27 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 16:49:27 - __main__ - INFO - ============================================================
+2026-07-01 16:49:27 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 16:49:27 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 16:49:27 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 16:49:27 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:49:27 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 16:49:27 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 16:49:27 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 16:49:27 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 16:49:27 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 16:49:27 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 16:49:27 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 16:49:27 - __main__ - INFO -   - Database User : root
+2026-07-01 16:49:27 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 16:49:27 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 16:49:27 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 16:49:27 - __main__ - INFO - Meluncurkan Antarmuka GUI Desktop...
+2026-07-01 16:49:27 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:49:27 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:49:27 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:49:27 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 16:49:27 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:49:27 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:49:27 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:49:27 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:49:27 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:49:27 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:49:27 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:49:27 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:49:27 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:49:27 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:49:27 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:49:35 - services.file_upload_handler - INFO - Menyalin file dari 'C:/Users/mohamad arifin hasbi/Downloads/RPS-Pemograman Berorientasi Objek(2025).pdf' ke 'C:\laragon\www\projectpbo\uploads\rps_course_1_1782899036.pdf'
+2026-07-01 16:49:35 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS-Pemograman Berorientasi Objek(2025).pdf' status=SUCCESS untuk course_id=1
+2026-07-01 16:49:35 - services.pdf_extraction_service - INFO - Memulai proses ekstraksi Pokok Bahasan dari: C:\laragon\www\projectpbo\uploads\rps_course_1_1782899036.pdf
+2026-07-01 16:49:35 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpbo\uploads\rps_course_1_1782899036.pdf
+2026-07-01 16:49:37 - services.pdf_extraction_service - INFO - Ekstraksi tabel sukses. Berhasil mengekstrak 1 pertemuan.
+2026-07-01 16:49:46 - services.rps_manager - INFO - Menghapus data RPS lama untuk course_id=1
+2026-07-01 16:49:46 - repositories.rps_repository - INFO - Menghapus seluruh rps untuk course_id: 1
+2026-07-01 16:49:46 - services.rps_manager - INFO - Menyimpan 1 data RPS untuk course_id=1
+2026-07-01 16:49:46 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 1 rps record.
+2026-07-01 16:49:46 - database.connection - INFO - Memulai transaksi database dengan 1 query.
+2026-07-01 16:49:46 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-01 16:49:46 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-01 16:49:49 - services.rps_manager - INFO - Mengambil data RPS untuk course_id=1
+2026-07-01 16:49:56 - services.bap_manager - INFO - Mengambil data BAP untuk course_id=1
+2026-07-01 16:50:03 - __main__ - INFO - Aplikasi dihentikan dengan sukses.
+2026-07-01 16:51:30 - __main__ - INFO - ============================================================
+2026-07-01 16:51:30 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 16:51:30 - __main__ - INFO - ============================================================
+2026-07-01 16:51:30 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 16:51:30 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 16:51:30 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 16:51:30 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:51:30 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 16:51:30 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 16:51:30 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 16:51:30 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 16:51:30 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 16:51:30 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 16:51:30 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 16:51:30 - __main__ - INFO -   - Database User : root
+2026-07-01 16:51:30 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 16:51:30 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 16:51:30 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 16:51:30 - __main__ - INFO - Meluncurkan Antarmuka GUI Desktop...
+2026-07-01 16:51:30 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:51:30 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:51:30 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:51:30 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 16:51:30 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:51:30 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:51:30 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:51:30 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:51:30 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:51:30 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:51:30 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:51:30 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:51:30 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:51:30 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:51:30 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 16:55:40 - services.rps_manager - INFO - Mengambil data RPS untuk course_id=1
+2026-07-01 16:55:44 - services.bap_manager - INFO - Mengambil data BAP untuk course_id=1
+2026-07-01 16:56:07 - services.report_generator - INFO - Membuat laporan untuk course_id=1
+2026-07-01 16:56:07 - services.report_generator - WARNING - Belum ada hasil validasi untuk course_id=1
+2026-07-01 16:56:29 - __main__ - INFO - Aplikasi dihentikan dengan sukses.
+2026-07-01 16:59:59 - __main__ - INFO - ============================================================
+2026-07-01 16:59:59 - __main__ - INFO -   Sistem Validasi Kesesuaian RPS dan BAP
+2026-07-01 16:59:59 - __main__ - INFO - ============================================================
+2026-07-01 16:59:59 - __main__ - INFO - Menginisialisasi konfigurasi database...
+2026-07-01 16:59:59 - __main__ - INFO - Konfigurasi database: DatabaseConfig(host='localhost', port=3306, user='root', database='validasi_rps_bap')
+2026-07-01 16:59:59 - __main__ - INFO - Menginisialisasi pengaturan aplikasi...
+2026-07-01 16:59:59 - __main__ - INFO - Direktori upload: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:59:59 - __main__ - INFO - Direktori ekspor: C:\laragon\www\projectpbo\exports
+2026-07-01 16:59:59 - __main__ - INFO - Direktori laporan: C:\laragon\www\projectpbo\reports
+2026-07-01 16:59:59 - __main__ - INFO - Threshold kemiripan: 0.7
+2026-07-01 16:59:59 - __main__ - INFO - Inisialisasi aplikasi berhasil.
+2026-07-01 16:59:59 - __main__ - INFO - Konfigurasi aktif:
+2026-07-01 16:59:59 - __main__ - INFO -   - Database Host : localhost
+2026-07-01 16:59:59 - __main__ - INFO -   - Database Port : 3306
+2026-07-01 16:59:59 - __main__ - INFO -   - Database User : root
+2026-07-01 16:59:59 - __main__ - INFO -   - Database Name : validasi_rps_bap
+2026-07-01 16:59:59 - __main__ - INFO -   - Threshold     : 0.7
+2026-07-01 16:59:59 - __main__ - INFO -   - Max Upload    : 10 MB
+2026-07-01 16:59:59 - __main__ - INFO - Meluncurkan Antarmuka GUI Desktop...
+2026-07-01 16:59:59 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-01 16:59:59 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-01 16:59:59 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-01 16:59:59 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-01 16:59:59 - services.course_service - INFO - CourseService berhasil diinisialisasi.
+2026-07-01 16:59:59 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-01 16:59:59 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-01 16:59:59 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-01 16:59:59 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-01 16:59:59 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-01 16:59:59 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpbo\uploads
+2026-07-01 16:59:59 - services.pdf_extraction_service - INFO - PDFExtractionService diinisialisasi.
+2026-07-01 16:59:59 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-01 16:59:59 - services.dashboard_service - INFO - Mengambil top 8 mismatched courses.
+2026-07-01 16:59:59 - services.dashboard_service - INFO - Mengambil compliance chart data untuk semester: None
+2026-07-01 17:00:33 - __main__ - INFO - Aplikasi dihentikan dengan sukses.
