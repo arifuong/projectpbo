@@ -3,13 +3,11 @@ Modul KeywordMatcher untuk Sistem Validasi RPS-BAP.
 
 Modul ini mengimplementasikan pencocokan kata kunci dan perhitungan
 skor kemiripan (similarity score) antara materi BAP dan Pokok Bahasan RPS.
-Menggunakan kombinasi metode Token Overlap dan difflib SequenceMatcher.
-
-Sesuai PRD Section 4.7 - Modul Keyword Matching.
+Menggunakan RapidFuzz token_set_ratio untuk semantic text matching.
 """
 
-import difflib
-from typing import Set, Dict, Any, List
+import re
+from typing import Set, Dict, Any, List, Optional
 from config.constants import DEFAULT_SIMILARITY_THRESHOLD
 from utils.logger import setup_logger
 
@@ -20,121 +18,131 @@ logger = setup_logger(__name__)
 class KeywordMatcher:
     """
     Class untuk mencocokkan kata kunci dan menghitung kemiripan teks.
-
-    Menerapkan pembandingan string case-insensitive, tokenisasi kata,
-    token overlap, dan pencocokan urutan karakter (difflib).
-
-    Attributes:
-        threshold (float): Ambang batas kemiripan untuk dinyatakan "Sesuai".
+    Menggunakan RapidFuzz fuzzy token_set_ratio.
     """
 
-    def __init__(self, threshold: float = DEFAULT_SIMILARITY_THRESHOLD) -> None:
+    def __init__(self, threshold: float = 0.8) -> None:
         """
         Inisialisasi KeywordMatcher.
 
         Args:
-            threshold: Ambang batas skor kemiripan (0.0 - 1.0).
+            threshold: Ambang batas skor kemiripan (0.0 - 1.0). Default 0.8 (80%).
         """
         self.threshold: float = threshold
         logger.debug(f"KeywordMatcher diinisialisasi dengan threshold: {self.threshold}")
 
+    def _semantic_normalize(self, text: str) -> str:
+        """
+        Melakukan normalisasi teks secara semantik.
+        """
+        if not text:
+            return ""
+        # Gabungkan line break menjadi satu kalimat
+        text = text.replace('\n', ' ').replace('\r', ' ')
+        # Lowercase
+        text = text.lower()
+        # Hilangkan numbering
+        text = re.sub(r'\b\d+[\.\)\-]\s*', ' ', text)
+        # Hilangkan bullets
+        text = re.sub(r'[\u2022\-\*\u25aa\u25ab\u25c6\u25cb\u25cf\u25a0\u25c8\u25ae\u27a2\u2714]', ' ', text)
+        # Hilangkan tanda baca/karakter khusus, sisakan huruf dan angka
+        text = re.sub(r'[^a-z0-9\s]', ' ', text)
+        # Hilangkan multiple whitespace
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
+
+    def _split_subtopics(self, sub_text: str) -> List[str]:
+        """
+        Memisahkan subtopik menjadi list of string jika berbentuk poin-poin.
+        """
+        if not sub_text:
+            return []
+        lines = sub_text.split('\n')
+        items = []
+        for line in lines:
+            cleaned = line.strip()
+            if cleaned:
+                items.append(cleaned)
+        # Dukungan jika numbering di baris tunggal (contoh: 1. A 2. B)
+        if len(items) == 1 and re.search(r'\b\d+[\.\)]\s+', items[0]):
+            parts = re.split(r'\b\d+[\.\)]\s+', items[0])
+            items = [p.strip() for p in parts if p.strip()]
+        return items
+
     def extract_keywords(self, text: str) -> Set[str]:
         """
-        Mengekstrak kata kunci unik (tokens) dari teks yang telah dibersihkan.
-
-        Args:
-            text: Teks yang sudah bersih dari stopwords dan karakter khusus.
-
-        Returns:
-            Set[str]: Set kata kunci unik.
+        Mengekstrak kata kunci unik (tokens) dari teks.
         """
         if not text:
             return set()
-        
-        # Pisahkan kata berdasarkan spasi
         words = text.split()
-        
-        # Filter kata kosong atau sangat pendek
         keywords = {word.strip() for word in words if len(word.strip()) > 1}
         return keywords
 
     def calculate_similarity(self, text_bap: str, text_rps: str) -> float:
         """
-        Menghitung nilai kemiripan (similarity score) gabungan antara BAP dan RPS.
-
-        Kombinasi 2 metode:
-        1. Token Overlap (Jaccard-like): rasio kata yang sama terhadap total kata.
-        2. Sequence Similarity (difflib): kemiripan susunan karakter.
-        Gabungan dihitung dengan bobot: 60% Token Overlap dan 40% Sequence Similarity.
-
-        Args:
-            text_bap: Teks BAP yang bersih.
-            text_rps: Teks RPS yang bersih.
-
-        Returns:
-            float: Nilai kemiripan antara 0.0 sampai 1.0.
+        Menghitung nilai kemiripan menggunakan fuzzy token_set_ratio.
         """
         if not text_bap or not text_rps:
             return 0.0
-
-        # 1. Hitung Token Overlap
-        tokens_bap = self.extract_keywords(text_bap)
-        tokens_rps = self.extract_keywords(text_rps)
-
-        if not tokens_bap or not tokens_rps:
+        norm_bap = self._semantic_normalize(text_bap)
+        norm_rps = self._semantic_normalize(text_rps)
+        if not norm_bap or not norm_rps:
             return 0.0
-
-        intersection = tokens_bap.intersection(tokens_rps)
-        # Formula Jaccard: |A n B| / |A u B|
-        union = tokens_bap.union(tokens_rps)
-        token_overlap_score = len(intersection) / len(union) if union else 0.0
-
-        # 2. Hitung Sequence Similarity (difflib)
-        seq_matcher = difflib.SequenceMatcher(None, text_bap, text_rps)
-        seq_score = seq_matcher.ratio()
-
-        # 3. Gabungan dengan bobot
-        combined_score = (0.6 * token_overlap_score) + (0.4 * seq_score)
-        
-        logger.debug(
-            f"Kalkulasi kemiripan - overlap: {token_overlap_score:.4f}, "
-            f"sequence: {seq_score:.4f}, combined: {combined_score:.4f}"
-        )
-        return combined_score
+        from rapidfuzz import fuzz
+        score = float(fuzz.token_set_ratio(norm_bap, norm_rps))
+        return score / 100.0
 
     def is_match(self, similarity_score: float) -> bool:
         """
         Memeriksa apakah skor kemiripan memenuhi threshold.
-
-        Args:
-            similarity_score: Skor kemiripan (0.0 - 1.0).
-
-        Returns:
-            bool: True jika skor >= threshold, False jika tidak.
         """
         return similarity_score >= self.threshold
 
-    def match(self, text_bap: str, text_rps: str) -> Dict[str, Any]:
+    def match(self, text_bap: str, text_topic: str, text_sub_topic: Optional[str] = None) -> Dict[str, Any]:
         """
-        Menghasilkan detail pencocokan kata kunci lengkap.
-
-        Args:
-            text_bap: Teks BAP.
-            text_rps: Teks RPS.
-
-        Returns:
-            Dict[str, Any]: Detail hasil pencocokan. Keys:
-                "similarity_score" (float): 0.0 - 1.0.
-                "is_match" (bool): True/False.
-                "matched_keywords" (List[str]): Kata-kata yang cocok.
-                "unmatched_keywords" (List[str]): Kata-kata BAP yang tidak ada di RPS.
+        Menghasilkan detail pencocokan menggunakan fuzzy matching.
+        Membandingkan materi BAP dengan pokok bahasan (topic) dan sub-pokok bahasan (sub_topic).
         """
-        similarity_score = self.calculate_similarity(text_bap, text_rps)
+        from rapidfuzz import fuzz
+
+        norm_bap = self._semantic_normalize(text_bap)
+        norm_topic = self._semantic_normalize(text_topic)
+        
+        sub_items = self._split_subtopics(text_sub_topic)
+        norm_subs = [self._semantic_normalize(item) for item in sub_items if item]
+
+        best_score = 0.0
+        best_match_text = text_topic
+
+        # Cek main topic
+        if norm_topic:
+            score = float(fuzz.token_set_ratio(norm_bap, norm_topic))
+            if score > best_score:
+                best_score = score
+                best_match_text = text_topic
+
+        # Cek sub topics
+        for idx, norm_sub in enumerate(norm_subs):
+            score = float(fuzz.token_set_ratio(norm_bap, norm_sub))
+            if score > best_score:
+                best_score = score
+                best_match_text = sub_items[idx]
+
+        similarity_score = best_score / 100.0
         is_match_val = self.is_match(similarity_score)
+        status_str = "MATCH" if is_match_val else "TIDAK_DITEMUKAN"
+
+        # Cetak log sesuai format yang diinginkan user
+        logger.info(
+            f"\nRPS : {best_match_text}\n"
+            f"BAP : {text_bap}\n"
+            f"Similarity : {best_score:.0f}%\n"
+            f"Status : {status_str}\n"
+        )
 
         tokens_bap = self.extract_keywords(text_bap)
-        tokens_rps = self.extract_keywords(text_rps)
-
+        tokens_rps = self.extract_keywords(text_topic)
         matched_keywords = sorted(list(tokens_bap.intersection(tokens_rps)))
         unmatched_keywords = sorted(list(tokens_bap.difference(tokens_rps)))
 

@@ -120,10 +120,11 @@ class Validator:
                 continue
 
             # Melakukan keyword matching antara BAP dan RPS
-            rps_text = rps.cleaned_topic or ""
-            bap_text = bap.cleaned_material or ""
+            rps_topic = rps.topic or ""
+            rps_sub_topic = rps.sub_topic or ""
+            bap_text = bap.cleaned_material or bap.material_taught or ""
 
-            match_result = self._matcher.match(bap_text, rps_text)
+            match_result = self._matcher.match(bap_text, rps_topic, rps_sub_topic)
             similarity_score = match_result["similarity_score"]
             is_matched = match_result["is_match"]
 
@@ -204,11 +205,9 @@ class Validator:
             if rps.meeting_number == exclude_meeting:
                 continue
 
-            rps_text = rps.cleaned_topic or ""
-            if not rps_text:
-                continue
-
-            match_result = self._matcher.match(bap_text, rps_text)
+            rps_topic = rps.topic or ""
+            rps_sub_topic = rps.sub_topic or ""
+            match_result = self._matcher.match(bap_text, rps_topic, rps_sub_topic)
 
             if match_result["is_match"] and match_result["similarity_score"] > best_score:
                 best_score = match_result["similarity_score"]
@@ -235,10 +234,11 @@ class Validator:
                 })
                 continue
 
-            rps_text = rps.cleaned_topic or ""
-            bap_text = bap.cleaned_material or ""
+            rps_topic = rps.topic or ""
+            rps_sub_topic = rps.sub_topic or ""
+            bap_text = bap.cleaned_material or bap.material_taught or ""
 
-            match_result = self._matcher.match(bap_text, rps_text)
+            match_result = self._matcher.match(bap_text, rps_topic, rps_sub_topic)
             status = STATUS_SESUAI if match_result["is_match"] else STATUS_TIDAK_SESUAI
 
             results.append({
@@ -271,7 +271,7 @@ class Validator:
 
             if same_meeting_rps:
                 same_match = self._matcher.match(
-                    bap_text, same_meeting_rps.cleaned_topic or ""
+                    bap_text, same_meeting_rps.topic or "", same_meeting_rps.sub_topic or ""
                 )
                 if same_match["is_match"]:
                     continue

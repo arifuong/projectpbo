@@ -18193,3 +18193,1268 @@ TypeError: object of type 'int' has no len()
 2026-07-02 10:40:59 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
 2026-07-02 10:40:59 - utils.pdf_reader - INFO - Total tabel ditemukan: 6
 2026-07-02 10:40:59 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-02 10:43:26 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-02 10:43:26 - services.file_upload_handler - INFO - Menyalin file dari 'C:\laragon\www\projectpboo\uploads\temp\RPS_Dummy_Analisis_Data.pdf' ke 'C:\laragon\www\projectpboo\uploads\rps_active_1782963806.pdf'
+2026-07-02 10:43:26 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS_Dummy_Analisis_Data.pdf' status=SUCCESS
+2026-07-02 10:43:26 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: C:\laragon\www\projectpboo\uploads\rps_active_1782963806.pdf
+2026-07-02 10:43:26 - utils.pdf_reader - INFO - Halaman 1: words terbaca 169
+2026-07-02 10:43:26 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 13 pertemuan.
+2026-07-02 10:44:14 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-02 10:44:14 - services.file_upload_handler - INFO - Menyalin file dari 'C:\laragon\www\projectpboo\uploads\temp\RPS-Pemograman_Java_Lanjut2026.pdf' ke 'C:\laragon\www\projectpboo\uploads\rps_active_1782963854.pdf'
+2026-07-02 10:44:14 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS-Pemograman_Java_Lanjut2026.pdf' status=SUCCESS
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: C:\laragon\www\projectpboo\uploads\rps_active_1782963854.pdf
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 1: words terbaca 137
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 2: words terbaca 268
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 3: words terbaca 186
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 4: words terbaca 167
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 5: words terbaca 153
+2026-07-02 10:44:14 - utils.pdf_reader - INFO - Halaman 6: words terbaca 114
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpboo\uploads\rps_active_1782963854.pdf
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 3: tabel RPS ditemukan
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:44:15 - utils.pdf_reader - INFO - Total tabel ditemukan: 6
+2026-07-02 10:44:15 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-02 10:44:20 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-02 10:44:20 - services.rps_manager - INFO - Menyimpan 14 data RPS secara transaksional REPLACE ALL.
+2026-07-02 10:44:20 - repositories.rps_repository - INFO - Menjalankan transaksi REPLACE ALL dengan 18 query.
+2026-07-02 10:44:20 - database.connection - INFO - Memulai transaksi database dengan 18 query.
+2026-07-02 10:44:20 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:44:20 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-02 10:44:20 - app.controllers.upload_controller - INFO - Berhasil menyimpan 14 rps record ke basis data.
+2026-07-02 10:44:21 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:44:31 - services.rps_manager - INFO - Memperbarui data RPS id=126
+2026-07-02 10:44:31 - repositories.rps_repository - INFO - Memperbarui rps ID: 126
+2026-07-02 10:44:31 - services.rps_manager - INFO - Data RPS berhasil diperbarui
+2026-07-02 10:44:35 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:44:43 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1
+2026-07-02 10:44:43 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1
+2026-07-02 10:44:43 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-1.
+2026-07-02 10:44:43 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:44:47 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:44:47 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-1: TIDAK_DITEMUKAN (skor tertinggi=2.54%)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-3: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-4: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-5: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-6: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-7: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-8: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-9: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-10: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-11: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-12: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-13: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Pertemuan ke-14: PENDING (BAP belum ada)
+2026-07-02 10:44:47 - services.validator - INFO - Menyimpan 14 hasil validasi ke database.
+2026-07-02 10:44:47 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 14 item.
+2026-07-02 10:44:47 - database.connection - INFO - Memulai transaksi database dengan 15 query.
+2026-07-02 10:44:47 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:44:47 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-02 10:44:47 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 0.0%.
+2026-07-02 10:44:52 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:44:59 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-02 10:44:59 - services.file_upload_handler - INFO - Menyalin file dari 'C:\laragon\www\projectpboo\uploads\temp\RPS-Pemograman_Berorientasi_Objek2025.pdf' ke 'C:\laragon\www\projectpboo\uploads\rps_active_1782963899.pdf'
+2026-07-02 10:44:59 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'RPS-Pemograman_Berorientasi_Objek2025.pdf' status=SUCCESS
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: C:\laragon\www\projectpboo\uploads\rps_active_1782963899.pdf
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Halaman 1: words terbaca 129
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Halaman 2: words terbaca 274
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Halaman 3: words terbaca 187
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Halaman 4: words terbaca 178
+2026-07-02 10:44:59 - utils.pdf_reader - INFO - Halaman 5: words terbaca 150
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 6: words terbaca 146
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 7: words terbaca 153
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 8: words terbaca 141
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 9: words terbaca 138
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 10: words terbaca 154
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 11: words terbaca 159
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpboo\uploads\rps_active_1782963899.pdf
+2026-07-02 10:45:00 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 3: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:45:01 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:45:02 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-02 10:45:02 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 14 pertemuan.
+2026-07-02 10:45:06 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-02 10:45:06 - services.rps_manager - INFO - Menyimpan 14 data RPS secara transaksional REPLACE ALL.
+2026-07-02 10:45:06 - repositories.rps_repository - INFO - Menjalankan transaksi REPLACE ALL dengan 18 query.
+2026-07-02 10:45:06 - database.connection - INFO - Memulai transaksi database dengan 18 query.
+2026-07-02 10:45:06 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:45:06 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-02 10:45:06 - app.controllers.upload_controller - INFO - Berhasil menyimpan 14 rps record ke basis data.
+2026-07-02 10:45:07 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:45:23 - services.rps_manager - INFO - Memperbarui data RPS id=141
+2026-07-02 10:45:23 - repositories.rps_repository - INFO - Memperbarui rps ID: 141
+2026-07-02 10:45:23 - services.rps_manager - INFO - Data RPS berhasil diperbarui
+2026-07-02 10:45:28 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:45:36 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1
+2026-07-02 10:45:36 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1
+2026-07-02 10:45:36 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-1.
+2026-07-02 10:45:36 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:45:39 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:45:39 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-1: TIDAK_DITEMUKAN (skor tertinggi=5.08%)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-3: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-4: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-5: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-6: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-7: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-8: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-9: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-10: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-11: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-12: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-13: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Pertemuan ke-14: PENDING (BAP belum ada)
+2026-07-02 10:45:39 - services.validator - INFO - Menyimpan 14 hasil validasi ke database.
+2026-07-02 10:45:39 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 14 item.
+2026-07-02 10:45:39 - database.connection - INFO - Memulai transaksi database dengan 15 query.
+2026-07-02 10:45:39 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:45:39 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-02 10:45:39 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 0.0%.
+2026-07-02 10:45:56 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-02 10:50:35 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:50:35 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:50:35 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:50:35 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:50:35 - database.connection - INFO - Memulai transaksi database dengan 2 query.
+2026-07-02 10:50:35 - database.connection - WARNING - Transaksi gagal. Rollback berhasil dilakukan.
+2026-07-02 10:50:35 - database.connection - ERROR - Kegagalan transaksi database: SQL Syntax Error
+2026-07-02 10:50:35 - repositories.rps_repository - INFO - Menjalankan batch transaksi untuk 2 rps record.
+2026-07-02 10:50:35 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-1
+2026-07-02 10:50:35 - repositories.validation_repository - INFO - Menyimpan hasil validasi pertemuan ke-1 status=SESUAI
+2026-07-02 10:50:35 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 1 item.
+2026-07-02 10:50:35 - repositories.upload_repository - INFO - Mencatat riwayat upload file 'file.pdf' status=SUCCESS
+2026-07-02 10:50:35 - utils.text_cleaner - ERROR - Gagal melakukan text cleaning: object of type 'int' has no len()
+Traceback (most recent call last):
+  File "C:\laragon\www\projectpboo\utils\text_cleaner.py", line 171, in clean
+    logger.debug(f"Pembersihan teks dimulai untuk text length: {len(text)}")
+TypeError: object of type 'int' has no len()
+2026-07-02 10:50:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_read_success0\test.txt
+2026-07-02 10:50:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_read_success0\test.txt
+2026-07-02 10:50:35 - utils.fallback_text_reader - INFO - Membaca file teks biasa: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_read_success0\test.txt
+2026-07-02 10:50:35 - utils.fallback_text_reader - WARNING - FallbackTextReader tidak mendukung ekstraksi tabel terstruktur.
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 1: tabel RPS ditemukan
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Total tabel ditemukan: 1
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Total tabel ditemukan: 0
+2026-07-02 10:50:35 - utils.pdf_reader - WARNING - Tidak ada tabel terdeteksi di file PDF: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Membaca file PDF secara keseluruhan: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Mengekstrak teks mentah dari PDF menggunakan pypdf: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: dummy.pdf
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 1: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 2: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 3: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 4: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 5: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 6: words terbaca 0
+2026-07-02 10:50:35 - utils.pdf_reader - INFO - Halaman 7: words terbaca 0
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 8: words terbaca 0
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 9: words terbaca 0
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 10: words terbaca 0
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 11: words terbaca 0
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: dummy.pdf
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Total tabel ditemukan: 11
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: C:\laragon\www\projectpboo\uploads\rps_active_1782904682.pdf
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 1: words terbaca 129
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 2: words terbaca 274
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 3: words terbaca 187
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 4: words terbaca 178
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 5: words terbaca 150
+2026-07-02 10:50:36 - utils.pdf_reader - INFO - Halaman 6: words terbaca 146
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 7: words terbaca 153
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 8: words terbaca 141
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 9: words terbaca 138
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 10: words terbaca 154
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 11: words terbaca 159
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpboo\uploads\rps_active_1782904682.pdf
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:50:37 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 3: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:50:38 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:50:39 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.rps_manager - INFO - Menyimpan 1 data RPS secara transaksional REPLACE ALL.
+2026-07-02 10:50:39 - services.rps_manager - INFO - Data RPS berhasil disimpan
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.rps_manager - WARNING - Nomor pertemuan 1 sudah ada di database
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-1
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - WARNING - Nomor pertemuan 1 sudah ada di database
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - WARNING - Nomor pertemuan 15 melebihi total RPS (14)
+2026-07-02 10:50:39 - services.keyword_matcher - INFO - 
+RPS : pemrograman berorientasi objek
+BAP : pemrograman berorientasi objek
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:50:39 - services.keyword_matcher - INFO - 
+RPS : Pengenalan OOP
+BAP : pengenalan oop
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:50:39 - services.validator - INFO - Pertemuan ke-1: SESUAI (skor=100.00%)
+2026-07-02 10:50:39 - services.validator - INFO - Menyimpan 1 hasil validasi ke database.
+2026-07-02 10:50:39 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 100.00%
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:50:39 - services.keyword_matcher - INFO - 
+RPS : Pengenalan OOP
+BAP : inheritance java
+Similarity : 33%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:50:39 - services.keyword_matcher - INFO - 
+RPS : Inheritance Java
+BAP : inheritance java
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:50:39 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-02 10:50:39 - services.validator - INFO - Pertemuan ke-2: PENDING (BAP belum ada)
+2026-07-02 10:50:39 - services.validator - INFO - Menyimpan 2 hasil validasi ke database.
+2026-07-02 10:50:39 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:50:39 - services.validator - ERROR - Data RPS belum tersedia
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - Membuat laporan kesesuaian pembelajaran
+2026-07-02 10:50:39 - services.report_generator - INFO - Laporan berhasil dibuat. Kesesuaian: 50.00%
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.dashboard_service - INFO - Mengambil statistik ringkasan dashboard.
+2026-07-02 10:50:39 - services.dashboard_service - INFO - Mengambil top 5 mismatched meetings.
+2026-07-02 10:50:39 - services.dashboard_service - INFO - Mengambil compliance chart data.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_validate_file_ok0
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_validate_file_invalid_ext0
+2026-07-02 10:50:39 - services.file_upload_handler - WARNING - File ditolak. Ekstensi tidak diizinkan: .txt
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_validate_file_too_large0
+2026-07-02 10:50:39 - services.file_upload_handler - WARNING - File ditolak. Ukuran file terlalu besar: 2.00 MB
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_save_file_success0\uploads
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - Menyalin file dari 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_save_file_success0\source.pdf' ke 'C:\Users\mohamad arifin hasbi\AppData\Local\Temp\pytest-of-mohamad arifin hasbi\pytest-45\test_save_file_success0\uploads\rps_active_1782964239.pdf'
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.upload_controller - INFO - Menerima request upload file RPS PDF...
+2026-07-02 10:50:39 - app.controllers.upload_controller - INFO - Ekstraksi RPS PDF sukses. Berhasil mengekstrak 1 pertemuan.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-02 10:50:39 - app.controllers.upload_controller - INFO - Berhasil menyimpan 1 rps record ke basis data.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.rps_controller - INFO - Berhasil menambahkan pertemuan RPS manual ke-2.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.rps_controller - INFO - Berhasil merapikan topik RPS ID 99.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.rps_controller - INFO - Berhasil menghapus record RPS ID 99.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-1.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.bap_controller - INFO - Berhasil merapikan BAP ID 100.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.bap_controller - INFO - Berhasil menghapus record BAP ID 100.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:50:39 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 87.5%.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:39 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:39 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:39 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:39 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:39 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:39 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:40 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:40 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:40 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:40 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:40 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:40 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:40 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:40 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:40 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:40 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:50:40 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:50:40 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:50:40 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:50:40 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:50:40 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:50:40 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-02 10:50:40 - app.controllers.upload_controller - INFO - Berhasil menyimpan 2 rps record ke basis data.
+2026-07-02 10:50:40 - app.controllers.upload_controller - INFO - Menerima request penyimpanan permanen hasil ekstraksi RPS...
+2026-07-02 10:50:40 - app.controllers.upload_controller - INFO - Berhasil menyimpan 14 rps record ke basis data.
+2026-07-02 10:50:47 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: uploads/rps_active_1782904682.pdf
+2026-07-02 10:50:47 - utils.pdf_reader - INFO - Halaman 1: words terbaca 129
+2026-07-02 10:50:47 - utils.pdf_reader - INFO - Halaman 2: words terbaca 274
+2026-07-02 10:50:47 - utils.pdf_reader - INFO - Halaman 3: words terbaca 187
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 4: words terbaca 178
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 5: words terbaca 150
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 6: words terbaca 146
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 7: words terbaca 153
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 8: words terbaca 141
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 9: words terbaca 138
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 10: words terbaca 154
+2026-07-02 10:50:48 - utils.pdf_reader - INFO - Halaman 11: words terbaca 159
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: uploads/rps_active_1782904682.pdf
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 3: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:50:49 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:50:50 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Mengekstrak words dari PDF menggunakan pdfplumber: C:\laragon\www\projectpboo\uploads\rps_active_1782904682.pdf
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Halaman 1: words terbaca 129
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Halaman 2: words terbaca 274
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Halaman 3: words terbaca 187
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Halaman 4: words terbaca 178
+2026-07-02 10:51:10 - utils.pdf_reader - INFO - Halaman 5: words terbaca 150
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 6: words terbaca 146
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 7: words terbaca 153
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 8: words terbaca 141
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 9: words terbaca 138
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 10: words terbaca 154
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 11: words terbaca 159
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Mengekstrak tabel dari PDF: C:\laragon\www\projectpboo\uploads\rps_active_1782904682.pdf
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 1: membaca tabel PDF
+2026-07-02 10:51:11 - utils.pdf_reader - INFO - Halaman 2: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 3: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 3: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 4: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 4: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 5: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 5: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 6: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 6: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 7: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 7: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 8: membaca tabel PDF
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 8: tabel RPS ditemukan
+2026-07-02 10:51:12 - utils.pdf_reader - INFO - Halaman 9: membaca tabel PDF
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 9: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 10: membaca tabel PDF
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 10: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 11: membaca tabel PDF
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Halaman 11: tabel RPS ditemukan
+2026-07-02 10:51:13 - utils.pdf_reader - INFO - Total tabel ditemukan: 27
+2026-07-02 10:51:51 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:51:51 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:51:51 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:51:51 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:51:51 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-02 10:51:51 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:51:51 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:51:51 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:51:51 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:51:51 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:51:51 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:51:51 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:51:51 - web_main - INFO - Memulai Server Flask di http://127.0.0.1:5000 (debug=True)...
+2026-07-02 10:51:52 - app_factory - INFO - Menginisialisasi koneksi database MySQL...
+2026-07-02 10:51:52 - database.connection - INFO - DatabaseConnection diinisialisasi.
+2026-07-02 10:51:52 - database.connection - INFO - Membuat MySQL Connection Pool...
+2026-07-02 10:51:52 - database.connection - INFO - MySQL Connection Pool berhasil dibuat.
+2026-07-02 10:51:52 - database.connection - INFO - Koneksi ke database terverifikasi aktif.
+2026-07-02 10:51:52 - services.rps_manager - INFO - RPSManager berhasil diinisialisasi
+2026-07-02 10:51:52 - services.bap_manager - INFO - BAPManager berhasil diinisialisasi
+2026-07-02 10:51:52 - services.validator - INFO - Validator berhasil diinisialisasi
+2026-07-02 10:51:52 - services.report_generator - INFO - ReportGenerator berhasil diinisialisasi
+2026-07-02 10:51:52 - services.dashboard_service - INFO - DashboardService berhasil diinisialisasi.
+2026-07-02 10:51:52 - services.file_upload_handler - INFO - FileUploadHandler diaktifkan. Folder penyimpanan: C:\laragon\www\projectpboo\uploads
+2026-07-02 10:51:52 - app_factory - INFO - Aplikasi Flask berhasil dibentuk melalui Factory Pattern.
+2026-07-02 10:51:52 - web_main - INFO - Memulai Server Flask di http://127.0.0.1:5000 (debug=True)...
+2026-07-02 10:51:52 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:52:01 - services.rps_manager - INFO - Memperbarui data RPS id=142
+2026-07-02 10:52:01 - repositories.rps_repository - INFO - Memperbarui rps ID: 142
+2026-07-02 10:52:01 - services.rps_manager - INFO - Data RPS berhasil diperbarui
+2026-07-02 10:52:05 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:11 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-2
+2026-07-02 10:52:11 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-2
+2026-07-02 10:52:11 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-2.
+2026-07-02 10:52:11 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:15 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:52:15 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 1. The difference
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Konsep Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 22%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 3. Object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 1. Launching new
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 60%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : class Collections
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 45%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Making connection
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 52%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 62%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Classes and Object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 28%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 26%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Komponen dalam
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 69%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 5. Try-catch- finally
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : serialized object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 3. Thread' state
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 19%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 24%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : classess for
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : Making Connection with Database
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 39%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-2: TIDAK_SESUAI (cocok dengan pertemuan ke-3)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-3: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-4: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-5: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-6: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-7: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-8: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-9: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-10: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-11: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-12: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-13: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Pertemuan ke-14: PENDING (BAP belum ada)
+2026-07-02 10:52:15 - services.validator - INFO - Menyimpan 14 hasil validasi ke database.
+2026-07-02 10:52:15 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 14 item.
+2026-07-02 10:52:15 - database.connection - INFO - Memulai transaksi database dengan 15 query.
+2026-07-02 10:52:15 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:52:15 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 0.00%
+2026-07-02 10:52:15 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 0.0%.
+2026-07-02 10:52:27 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:36 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-3
+2026-07-02 10:52:36 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-3
+2026-07-02 10:52:36 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-3.
+2026-07-02 10:52:36 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:39 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:52:48 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:54 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-4
+2026-07-02 10:52:54 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-4
+2026-07-02 10:52:54 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-4.
+2026-07-02 10:52:54 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:52:57 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:52:57 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 1. The difference
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Konsep Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 22%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 3. Object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 1. Launching new
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 60%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : class Collections
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 45%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Making connection
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 52%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 62%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Classes and Object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 28%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 26%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Komponen dalam
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 69%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 5. Try-catch- finally
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : serialized object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 3. Thread' state
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 19%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 24%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : classess for
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Making Connection with Database
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 39%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-2: TIDAK_SESUAI (cocok dengan pertemuan ke-3)
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Komponen dalam
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-3: SESUAI (skor=100.00%)
+2026-07-02 10:52:57 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : praktikum enkapsulasi 1 mencoba program buku referensi
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-4: SESUAI (skor=100.00%)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-5: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-6: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-7: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-8: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-9: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-10: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-11: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-12: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-13: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Pertemuan ke-14: PENDING (BAP belum ada)
+2026-07-02 10:52:57 - services.validator - INFO - Menyimpan 14 hasil validasi ke database.
+2026-07-02 10:52:57 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 14 item.
+2026-07-02 10:52:57 - database.connection - INFO - Memulai transaksi database dengan 15 query.
+2026-07-02 10:52:57 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:52:57 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 14.29%
+2026-07-02 10:52:57 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 14.29%.
+2026-07-02 10:53:15 - services.rps_manager - INFO - Mengambil seluruh data RPS aktif
+2026-07-02 10:53:23 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:53:30 - services.bap_manager - INFO - Menambahkan BAP pertemuan ke-14
+2026-07-02 10:53:30 - repositories.bap_repository - INFO - Menyimpan BAP pertemuan ke-14
+2026-07-02 10:53:30 - app.controllers.bap_controller - INFO - Berhasil menambahkan BAP pertemuan ke-14.
+2026-07-02 10:53:30 - services.bap_manager - INFO - Mengambil seluruh data BAP aktif
+2026-07-02 10:53:33 - app.controllers.validation_controller - INFO - Menjalankan validasi kesesuaian RPS-BAP...
+2026-07-02 10:53:33 - services.validator - INFO - Memulai proses validasi aktif
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 1. The difference
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Konsep Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 22%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 17%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 3. Object
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 1. Launching new
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 18%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 60%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : class Collections
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 45%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Making connection
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 52%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : 1 the difference between 2 class and object by giving 3 some examples 4 making a simple first object fokus first
+Similarity : 62%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-1: TIDAK_SESUAI (cocok dengan pertemuan ke-2)
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Classes and Object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 28%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Kontrak Kuliah
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 26%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Komponen dalam
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 69%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : enkapsulasi
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Konsep Pewarisan
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 23%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 5. Try-catch- finally
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : serialized object
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 25%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 3. Thread' state
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 19%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 2. Simple example
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 24%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : classess for
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Making Connection with Database
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 39%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : 4. Inner class
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 27%
+Status : TIDAK_DITEMUKAN
+
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-2: TIDAK_SESUAI (cocok dengan pertemuan ke-3)
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Komponen dalam
+BAP : komponen dalam enkapsulasi 1 modifier 2 constructor 3 property
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-3: SESUAI (skor=100.00%)
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : Praktikum Enkapsulasi
+BAP : praktikum enkapsulasi 1 mencoba program buku referensi
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-4: SESUAI (skor=100.00%)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-5: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-6: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-7: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-8: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-9: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-10: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-11: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-12: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-13: PENDING (BAP belum ada)
+2026-07-02 10:53:33 - services.keyword_matcher - INFO - 
+RPS : GUI & SWING
+BAP : gui swing 1 user event 2 listener interface 3 action event
+Similarity : 100%
+Status : MATCH
+
+2026-07-02 10:53:33 - services.validator - INFO - Pertemuan ke-14: SESUAI (skor=100.00%)
+2026-07-02 10:53:33 - services.validator - INFO - Menyimpan 14 hasil validasi ke database.
+2026-07-02 10:53:33 - repositories.validation_repository - INFO - Menjalankan batch transaksi validasi sebanyak 14 item.
+2026-07-02 10:53:33 - database.connection - INFO - Memulai transaksi database dengan 15 query.
+2026-07-02 10:53:33 - database.connection - INFO - Transaksi database berhasil dicommit.
+2026-07-02 10:53:33 - services.validator - INFO - Validasi selesai. Persentase kesesuaian: 21.43%
+2026-07-02 10:53:33 - app.controllers.validation_controller - INFO - Validasi selesai. Persentase kepatuhan: 21.43%.
