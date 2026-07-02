@@ -1,142 +1,244 @@
 """
-Modul PDFExtractionService untuk Sistem Validasi RPS-BAP.
+Service untuk melakukan ekstraksi Pokok Bahasan dari file PDF RPS.
 
-Modul ini mendefinisikan class PDFExtractionService yang bertugas mengekstraksi
-tabel Pokok Bahasan dari PDF RPS dan menghasilkan data terstruktur.
-
-Sesuai PRD Section 4.3 - Modul PDF Extraction.
+Service ini bertanggung jawab mengoordinasikan proses membaca PDF,
+memparse tabel/teks, menangani fallback ke OCR, dan memvalidasi hasil parsing.
 """
 
+import logging
 import re
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
+from utils.exceptions import PDFExtractionError
+from utils.topic_extractor import TopicExtractor
 from utils.pdf_reader import PDFReader
 from utils.rps_parser import RPSParser
-from utils.logger import setup_logger
-from utils.exceptions import PDFExtractionError, PDFTableNotFoundError
 
-# Inisialisasi logger untuk service
-logger = setup_logger(__name__)
+logger = logging.getLogger("services.pdf_extraction_service")
 
 
 class PDFExtractionService:
     """
-    Service class untuk melakukan ekstraksi pokok bahasan dari file PDF RPS.
-
-    Menerapkan design pattern Composition dengan memiliki (has-a) objek PDFReader.
-    Mendukung fallback otomatis dari pemrosesan tabel (pdfplumber) ke analisis teks mentah (pypdf).
-
-    Attributes:
-        _reader (Optional[PDFReader]): Instansi PDFReader yang diinjeksi atau dibuat secara internal.
+    Service koordinasi ekstraksi PDF dengan pipeline fallback 5-stage dan validation.
     """
 
-    def __init__(self, reader: Optional[PDFReader] = None) -> None:
+    def __init__(self, reader: Optional[PDFReader] = None, rps_parser: Optional[RPSParser] = None):
         """
         Inisialisasi PDFExtractionService.
 
         Args:
-            reader: Instansi PDFReader (Dependency Injection).
+            reader: Instansi PDFReader opsional untuk dependecy injection.
+            rps_parser: Instansi RPSParser opsional untuk dependency injection.
         """
-        # Composition: has-a PDFReader
-        self._reader: Optional[PDFReader] = reader
-        self._rps_parser = RPSParser()
+        self._reader = reader
+        self._rps_parser = rps_parser or RPSParser()
+        self._topic_extractor = TopicExtractor()
         logger.info("PDFExtractionService diinisialisasi.")
 
     def extract_pokok_bahasan(self, file_path: str) -> List[Dict[str, Any]]:
         """
-        Metode utama mengekstrak Pokok Bahasan RPS dari file PDF.
-
-        Sesuai PRD & AC-04:
-        Mengekstrak kolom: Pertemuan ke-, Pokok Bahasan, Sub Pokok Bahasan.
-        Menggunakan ekstraksi tabel sebagai metode utama, dan fallback ke teks mentah jika gagal.
-
-        Args:
-            file_path: Path absolut file PDF.
-
-        Returns:
-            List[Dict[str, Any]]: List dictionary berisi data:
-                                 "meeting_number": int,
-                                 "topic": str,
-                                 "sub_topic": str
-
-        Raises:
-            PDFExtractionError: Jika gagal mengekstrak data baik melalui tabel maupun teks.
+        Metode utama mengekstrak Pokok Bahasan RPS dari file PDF menggunakan multi-stage fallback pipeline.
         """
         logger.info(f"Memulai proses ekstraksi Pokok Bahasan dari: {file_path}")
         
-        # Buat reader baru jika tidak diinjeksi di constructor
         reader = self._reader or PDFReader(file_path)
         reader.file_path = file_path
 
-        # 1. Coba ekstraksi menggunakan metode tabel (pdfplumber)
-        try:
-            tables = reader.extract_tables()
-            if tables:
-                parsed_data = self._parse_table_data(tables)
-                if parsed_data:
-                    self._log_extraction_summary(parsed_data)
-                    return parsed_data
-        except (PDFTableNotFoundError, PDFExtractionError) as e:
-            logger.warning(f"Ekstraksi tabel gagal atau tidak ditemukan. Alasan: {e}. Mengaktifkan fallback ke teks mentah...")
-            self.handle_extraction_failure({"file_path": file_path, "reason": str(e)})
-        except Exception as e:
-            logger.error(f"Gagal saat mencoba ekstraksi tabel: {e}. Mengaktifkan fallback ke teks mentah...")
-            self.handle_extraction_failure({"file_path": file_path, "reason": str(e)})
+        stats = {
+            "method_used": "None",
+            "tables_found": 0,
+            "tables_processed": 0,
+            "records_extracted": 0,
+            "records_failed": 0,
+            "fallbacks_used": [],
+            "ocr_used": False,
+            "failure_reasons": {}
+        }
 
-        # 2. Fallback: words + regex untuk PDF tanpa garis tabel.
+        # Stage 1: Coordinate-Based Extraction (Primary)
         try:
             pages_words = reader.extract_words_by_page()
-            parsed_data = self._parse_words_data(pages_words)
-            if parsed_data:
-                self._log_extraction_summary(parsed_data)
-                return parsed_data
+            if pages_words and isinstance(pages_words, list) and len(pages_words) > 0 and pages_words[0].get("words"):
+                parsed_data = self._parse_coordinate_data(pages_words)
+                if parsed_data:
+                    stats["method_used"] = "Coordinate-Based"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
+                    return parsed_data
+                else:
+                    logger.info("Stage 1 (Coordinate-Based) tidak berhasil mengekstrak record.")
         except Exception as e:
-            logger.warning(f"Fallback extract_words gagal. Alasan: {e}. Mengaktifkan fallback pypdf...")
+            reason = str(e)
+            logger.warning(f"Stage 1 (Coordinate-Based) gagal: {reason}.")
+            stats["failure_reasons"]["Coordinate-Based"] = reason
+            stats["fallbacks_used"].append("Coordinate-Based")
 
-        # 3. Fallback akhir: Ekstraksi teks biasa dan parsing regex (pypdf/pdfplumber text)
+        # Fallback Stage 2: Header-Based Table Extraction
+        try:
+            tables = reader.extract_tables()
+            stats["tables_found"] = len(tables)
+            if tables:
+                parsed_data = self._parse_table_data(tables, stats, use_heuristic=False)
+                if parsed_data:
+                    stats["method_used"] = "Header-Based Table"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
+                    return parsed_data
+                else:
+                    logger.info("Stage 2 (Header-Based Table) tidak berhasil mengekstrak record.")
+        except Exception as e:
+            reason = str(e)
+            logger.warning(f"Stage 2 (Header-Based Table) gagal: {reason}.")
+            stats["failure_reasons"]["Header-Based Table"] = reason
+            stats["fallbacks_used"].append("Header-Based Table")
+
+        # Fallback Stage 3: Semantic Column Detection
+        try:
+            tables = tables if 'tables' in locals() else reader.extract_tables()
+            stats["tables_found"] = len(tables)
+            if tables:
+                parsed_data = self._parse_table_data(tables, stats, use_heuristic=True)
+                if parsed_data:
+                    stats["method_used"] = "Semantic Table"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
+                    return parsed_data
+                else:
+                    logger.info("Stage 3 (Semantic Table) tidak berhasil mengekstrak record.")
+        except Exception as e:
+            reason = str(e)
+            logger.warning(f"Stage 3 (Semantic Table) gagal: {reason}.")
+            stats["failure_reasons"]["Semantic Table"] = reason
+            stats["fallbacks_used"].append("Semantic Table")
+
+        # Fallback Stage 4: Word Position Extraction
+        try:
+            pages_words = pages_words if 'pages_words' in locals() else reader.extract_words_by_page()
+            if pages_words:
+                parsed_data = self._parse_words_data(pages_words)
+                if parsed_data:
+                    stats["method_used"] = "Word Position"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
+                    return parsed_data
+                else:
+                    logger.info("Stage 4 (Word Position) tidak berhasil mengekstrak record.")
+        except Exception as e:
+            reason = str(e)
+            logger.warning(f"Stage 4 (Word Position) gagal: {reason}.")
+            stats["failure_reasons"]["Word Position"] = reason
+            stats["fallbacks_used"].append("Word Position")
+
+        # Fallback Stage 5: Raw Text Parsing
         try:
             raw_text = reader.extract_raw_text()
             if raw_text:
                 parsed_data = self._parse_text_data(raw_text)
                 if parsed_data:
-                    self._log_extraction_summary(parsed_data)
+                    stats["method_used"] = "Raw Text"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
                     return parsed_data
-            
-            # Jika semua metode gagal mengembalikan data
-            raise PDFExtractionError(
-                "Gagal mengekstrak data terstruktur Pokok Bahasan dari PDF baik melalui tabel maupun teks."
-            )
+                else:
+                    logger.info("Stage 5 (Raw Text) tidak berhasil mengekstrak record.")
         except Exception as e:
-            logger.exception(f"Fallback ekstraksi teks mentah gagal: {e}")
-            raise PDFExtractionError(f"Gagal melakukan ekstraksi PDF: {e}")
+            reason = str(e)
+            logger.warning(f"Stage 5 (Raw Text) gagal: {reason}.")
+            stats["failure_reasons"]["Raw Text"] = reason
+            stats["fallbacks_used"].append("Raw Text")
 
-    def _parse_table_data(self, tables: List[List[List[str]]]) -> List[Dict[str, Any]]:
+        # Fallback Stage 6: OCR
+        try:
+            logger.info("Mengaktifkan Stage 6: OCR...")
+            stats["ocr_used"] = True
+            ocr_text = reader.extract_text_via_ocr()
+            if ocr_text:
+                parsed_data = self._parse_text_data(ocr_text)
+                if parsed_data:
+                    stats["method_used"] = "OCR"
+                    stats["records_extracted"] = len(parsed_data)
+                    self._log_and_validate_warnings(parsed_data, stats)
+                    return parsed_data
+                else:
+                    logger.info("Stage 6 (OCR) tidak berhasil mengekstrak record.")
+        except Exception as e:
+            reason = str(e)
+            logger.error(f"Stage 6 (OCR) gagal: {reason}")
+            stats["failure_reasons"]["OCR"] = reason
+            stats["fallbacks_used"].append("OCR")
+
+        raise PDFExtractionError(
+            "Gagal mengekstrak data terstruktur Pokok Bahasan dari PDF melalui semua stage fallback."
+        )
+
+    def _parse_coordinate_data(self, pages_words: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Memparse data koordinat kata menggunakan rps_parser.parse_by_coordinates().
+        """
+        results = self._rps_parser.parse_by_coordinates(pages_words)
+        
+        unique_results = {}
+        for item in results:
+            m_num = item["meeting_number"]
+            if m_num not in unique_results:
+                unique_results[m_num] = item
+            else:
+                existing = unique_results[m_num]
+                if len(item.get("topic", "")) > len(existing.get("topic", "")):
+                    if existing.get("sub_topic"):
+                        item["sub_topic"] = self._rps_parser.append_sub_topic(
+                            existing["sub_topic"],
+                            item.get("sub_topic", "")
+                        )
+                    unique_results[m_num] = item
+                else:
+                    if item.get("sub_topic"):
+                        existing["sub_topic"] = self._rps_parser.append_sub_topic(
+                            existing.get("sub_topic", ""),
+                            item["sub_topic"]
+                        )
+                        
+        final_list = []
+        for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
+            item["topic"] = self._topic_extractor.clean_topic(item.get("topic", ""))
+            item["sub_topic"] = self._rps_parser.normalize_multiline(item.get("sub_topic", ""))
+            final_list.append(item)
+            
+        return final_list
+
+    def _parse_table_data(self, tables: List[List[List[str]]], stats: Optional[Dict[str, Any]] = None, use_heuristic: bool = True) -> List[Dict[str, Any]]:
         """
         Memparse list data tabel mentah 3D menjadi baris data pertemuan terstruktur.
-
-        Args:
-            tables: Representasi tabel dari pdfplumber.
-
-        Returns:
-            List[Dict[str, Any]]: Hasil parsing baris data terstruktur.
         """
+        if stats is None:
+            stats = {"tables_processed": 0, "records_failed": 0}
+
         results: List[Dict[str, Any]] = []
         
         for table_idx, table in enumerate(tables):
             if len(table) < 2:
                 continue
                 
-            col_mapping = self._detect_columns(table)
+            col_mapping = self._rps_parser.detect_columns(table, use_heuristic=use_heuristic)
             meeting_col, topic_col, sub_topic_col = col_mapping
             
-            logger.debug(
+            # Log detected headers
+            detected_headers = []
+            for col_idx in (meeting_col, topic_col, sub_topic_col):
+                if col_idx != -1 and col_idx < len(table[0]):
+                    detected_headers.append(f"col_{col_idx}: '{table[0][col_idx]}'")
+                    
+            logger.info(
                 f"Tabel {table_idx} - Deteksi kolom mapping: "
-                f"meeting={meeting_col}, topic={topic_col}, sub_topic={sub_topic_col}"
+                f"meeting_col={meeting_col}, topic_col={topic_col}, sub_topic_col={sub_topic_col}. "
+                f"Headers: {', '.join(detected_headers)}"
             )
             
             if meeting_col == -1 or topic_col == -1:
+                stats["records_failed"] += len(table)
                 continue
 
+            stats["tables_processed"] += 1
             table_records = self._rps_parser.rows_to_records(
                 table,
                 meeting_col=meeting_col,
@@ -151,46 +253,29 @@ class PDFExtractionService:
             m_num = item["meeting_number"]
             if m_num not in unique_results:
                 unique_results[m_num] = item
-                continue
-
-            existing = unique_results[m_num]
-            if item.get("sub_topic"):
-                existing["sub_topic"] = self._rps_parser.append_sub_topic(
-                    existing.get("sub_topic", ""),
-                    item["sub_topic"],
-                )
+            else:
+                existing = unique_results[m_num]
+                if len(item.get("topic", "")) > len(existing.get("topic", "")):
+                    if existing.get("sub_topic"):
+                        item["sub_topic"] = self._rps_parser.append_sub_topic(
+                            existing["sub_topic"],
+                            item.get("sub_topic", "")
+                        )
+                    unique_results[m_num] = item
+                else:
+                    if item.get("sub_topic"):
+                        existing["sub_topic"] = self._rps_parser.append_sub_topic(
+                            existing.get("sub_topic", ""),
+                            item["sub_topic"]
+                        )
                 
         final_list = []
         for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
-            item["topic"] = self._rps_parser.normalize_cell(item.get("topic", ""), keep_newline=False)
+            item["topic"] = self._topic_extractor.clean_topic(item.get("topic", ""))
             item["sub_topic"] = self._rps_parser.normalize_multiline(item.get("sub_topic", ""))
             final_list.append(item)
             
         return final_list
-
-    def _detect_columns(self, table: List[List[str]]) -> Tuple[int, int, int]:
-        """
-        Mendeteksi indeks kolom untuk Pertemuan, Topik, dan Sub Topik secara dinamis.
-
-        Args:
-            table: Baris-baris tabel.
-
-        Returns:
-            Tuple[int, int, int]: Indeks kolom (meeting_col, topic_col, sub_topic_col).
-        """
-        return self._rps_parser.detect_columns(table)
-
-    def _extract_meeting_number(self, val: str) -> Optional[int]:
-        """
-        Mengekstrak integer nomor pertemuan dari string input secara aman.
-
-        Args:
-            val: String mentah (contoh: "Pertemuan 1", "Minggu Ke - 2", "3").
-
-        Returns:
-            Optional[int]: Nilai integer jika ditemukan, None jika tidak.
-        """
-        return self._rps_parser.extract_meeting_number(val)
 
     def _parse_words_data(self, pages_words: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -215,18 +300,19 @@ class PDFExtractionService:
     def _parse_text_data(self, raw_text: str) -> List[Dict[str, Any]]:
         """
         Memparse teks mentah (raw text) jika ekstraksi tabel gagal.
-
-        Args:
-            raw_text: Teks mentah dokumen.
-
-        Returns:
-            List[Dict[str, Any]]: Daftar record hasil parsing teks.
         """
         results: List[Dict[str, Any]] = []
         lines = raw_text.split("\n")
         
-        pattern = re.compile(
-            r'\b(?:pertemuan|minggu|ke|sesi)\s*[-:]?\s*(\d+)\s*[-:]?\s*(.*)', 
+        # Pattern 1: Mengandung kata kunci (pertemuan, minggu, ke, sesi)
+        pattern_keyword = re.compile(
+            r'\b(?:pertemuan|minggu|ke|sesi|week|session)\s*[-:]?\s*([0-9\s,&\-danivxlc]+)\s*[-:]\s*(.*)', 
+            re.IGNORECASE
+        )
+        
+        # Pattern 2: Angka di awal baris langsung diikuti pemisah
+        pattern_digit = re.compile(
+            r'^\s*([0-9\s,&\-danivxlc]+)\s*[-:\.]\s*(.*)',
             re.IGNORECASE
         )
         
@@ -235,20 +321,32 @@ class PDFExtractionService:
             if not line_stripped:
                 continue
                 
-            match = pattern.search(line_stripped)
+            meeting_group = ""
+            content = ""
+            
+            match = pattern_keyword.search(line_stripped)
             if match:
-                meeting_num = int(match.group(1))
+                meeting_group = match.group(1).strip()
                 content = match.group(2).strip()
-                
-                topic, sub_topic = self._rps_parser.split_topic_subtopic(content)
-                if topic:
-                    results.append({
-                        "meeting_number": meeting_num,
-                        "topic": topic,
-                        "sub_topic": sub_topic
-                    })
-                    
-        # Hilangkan duplikasi
+            else:
+                match = pattern_digit.match(line_stripped)
+                if match:
+                    meeting_group = match.group(1).strip()
+                    content = match.group(2).strip()
+            
+            if meeting_group and content:
+                meeting_numbers = self._rps_parser.extract_meeting_numbers(meeting_group)
+                if meeting_numbers:
+                    topic, sub_topic = self._rps_parser.split_topic_subtopic(content)
+                    if topic:
+                        for num in meeting_numbers:
+                            results.append({
+                                "meeting_number": num,
+                                "topic": topic,
+                                "sub_topic": sub_topic
+                            })
+                            
+        # Hilangkan duplikasi dan urutkan
         unique_results = {}
         for item in results:
             m_num = item["meeting_number"]
@@ -257,32 +355,56 @@ class PDFExtractionService:
                 
         final_list = []
         for item in sorted(unique_results.values(), key=lambda x: x["meeting_number"]):
-            item["topic"] = self._rps_parser.normalize_cell(item.get("topic", ""), keep_newline=False)
+            item["topic"] = self._topic_extractor.clean_topic(item.get("topic", ""))
             item["sub_topic"] = self._rps_parser.normalize_multiline(item.get("sub_topic", ""))
             final_list.append(item)
             
         return final_list
 
-    def handle_extraction_failure(self, error_info: Dict[str, Any]) -> None:
+    def _log_and_validate_warnings(self, parsed_data: List[Dict[str, Any]], stats: Dict[str, Any]) -> None:
         """
-        Mencatat informasi kegagalan ekstraksi PDF.
+        Log warnings untuk meeting yang hilang atau kosong, hitung confidence score, dan print summary.
+        """
+        # Ekstrak nomor pertemuan yang berhasil dibaca
+        found_meetings = {item["meeting_number"] for item in parsed_data}
+        empty_topic_meetings = {item["meeting_number"] for item in parsed_data if not item.get("topic", "").strip()}
+        
+        max_meeting = max(found_meetings) if found_meetings else 16
+        expected_range = range(1, max(17, max_meeting + 1))
+        
+        missing_meetings = []
+        for m in expected_range:
+            if m not in found_meetings:
+                missing_meetings.append(m)
+                logger.warning(f"Warning: Meeting {m} tidak ditemukan.")
+            elif m in empty_topic_meetings:
+                logger.warning(f"Warning: Meeting {m} tidak memiliki Materi Pembelajaran.")
 
-        Args:
-            error_info: Info kesalahan.
-        """
-        logger.warning(
-            f"KEGAGALAN EKSTRAKSI DOKUMEN: file={error_info.get('file_path')}, "
-            f"Alasan={error_info.get('reason')}"
-        )
+        # Hitung Confidence Score
+        method_weights = {
+            "Coordinate-Based": 1.0,
+            "Header-Based Table": 1.0,
+            "Semantic Table": 0.85,
+            "Word Position": 0.70,
+            "Raw Text": 0.55,
+            "OCR": 0.40
+        }
+        weight = method_weights.get(stats["method_used"], 0.5)
+        found_count = len(found_meetings)
+        meetings_ratio = min(1.0, found_count / 16.0)
+        confidence_score = round(weight * meetings_ratio * 100, 2)
+        stats["confidence_score"] = confidence_score
+        stats["missing_meetings"] = missing_meetings
 
-    def _log_extraction_summary(self, parsed_data: List[Dict[str, Any]]) -> None:
-        """
-        Logging ringkasan hasil parsing RPS.
-        """
-        if len(parsed_data) < 10:
-            logger.warning(
-                f"WARNING: Hasil ekstraksi hanya menemukan {len(parsed_data)} pertemuan."
-            )
-        logger.info(f"Pertemuan berhasil dibaca: {len(parsed_data)}")
-        topic_count = sum(1 for item in parsed_data if item.get("topic"))
-        logger.info(f"Topik berhasil diekstrak: {topic_count}")
+        # Print statistics to logs
+        logger.info("================ EXTRACTION SUMMARY ================")
+        logger.info(f"Extraction Method : {stats['method_used']}")
+        logger.info(f"Confidence Score  : {confidence_score}%")
+        logger.info(f"Tables Found      : {stats.get('tables_found', 0)}")
+        logger.info(f"Tables Parsed     : {stats.get('tables_processed', 0)}")
+        logger.info(f"Rows Parsed       : {found_count}")
+        logger.info(f"Missing Meetings  : {missing_meetings}")
+        logger.info(f"OCR Used          : {stats.get('ocr_used', False)}")
+        if stats.get('fallbacks_used'):
+            logger.info(f"Fallbacks Used    : {', '.join(stats['fallbacks_used'])}")
+        logger.info("====================================================")
